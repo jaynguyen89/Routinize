@@ -9,31 +9,52 @@ interface Theme {
 }
 
 const themes : Theme = {
-    day : {
+    light : {
         backgroundColor : palette.white,
-        expressionBackgroundColor : palette.gray,
-        resultBackgroundColor : palette.dark_gray,
-        buttonBackgroundColor : palette.gray,
+        borderColor : palette.dark_gray,
         textColor : palette.black,
-        shadowColor : palette.dark
+        shadowColor : palette.dark,
+        buttonColor : palette.gray,
+        disabledColor : palette.dark_gray,
+        textDisabled : palette.dark
     },
-    night : {
+    dark : {
         backgroundColor : palette.black,
-        expressionBackgroundColor : palette.light_black,
-        resultBackgroundColor : palette.dark,
-        buttonBackgroundColor : palette.dark,
+        borderColor : palette.black_lighten1,
         textColor : palette.white,
-        shadowColor : palette.gray
+        shadowColor : palette.gray,
+        buttonColor : palette.gray,
+        disabledColor : palette.dark_gray,
+        textDisabled : palette.dark
+    },
+    marine : {
+        backgroundColor : palette.hidro,
+        borderColor : palette.hidro_lighten1,
+        textColor : palette.white,
+        shadowColor : palette.hidro_lighten2,
+        buttonColor : palette.orange,
+        disabledColor : palette.orange_lighten1,
+        textDisabled : palette.dark_gray
+    },
+    sky : {
+        backgroundColor : palette.blue,
+        borderColor : palette.blue_lighten1,
+        textColor : palette.white,
+        shadowColor : palette.hidro_lighten2,
+        buttonColor : palette.violet,
+        disabledColor : palette.orange_lighten1,
+        textDisabled : palette.dark_gray
     },
     neutral : {
-        borderColor : palette.dark_gray,
-        alternateColor : palette.blue,
-        alternateLighter : palette.light_blue,
-        alternate : palette.alt_blue,
-        shiftColor : palette.orange,
-        featureColor : palette.green,
-        dangerColor : palette.red,
-        warningColor : palette.pink
+        borderSuccess : palette.green_lighten2,
+        backgroundSuccess : palette.green_lighten1,
+        textSuccess : palette.green,
+        borderWarning : palette.yellow_lighten2,
+        backgroundWarning : palette.yellow_lighten1,
+        textWarning : palette.yellow,
+        borderDanger : palette.pink_lighten2,
+        backgroundDanger : palette.pink_lighten1,
+        textDanger : palette.pink
     }
 }
 

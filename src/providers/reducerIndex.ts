@@ -1,6 +1,7 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
+import appDebugger from "../../root/debugger";
 import settingsReducer from '../features/settings/redux/reducer';
 
 const reducers = combineReducers({
@@ -14,7 +15,8 @@ const rootReducer = (state: any, action: any) => {
 let store = createStore(
     rootReducer,
     compose(
-        applyMiddleware(thunk)
+        applyMiddleware(thunk),
+        appDebugger.createEnhancer!()
     )
 );
 

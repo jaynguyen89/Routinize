@@ -8,5 +8,7 @@ export enum STORAGE_KEYS {
 
 export enum THEMES {
     DAY,
-    NIGHT
+    NIGHT,
+    SEA,
+    SKY
 }

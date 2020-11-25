@@ -8,15 +8,25 @@ const palette : Palette = {
     light_dark : '#616161',
     gray : '#dedede',
     dark_gray : '#b0b0b0',
-    blue : '#005bed',
-    light_blue : '#deebff',
-    alt_blue : '#639fff',
-    green : '#00a806',
-    orange : '#c96800',
-    red : '#eb0000',
+    blue : '#0088ff',
+    blue_lighten2 : '#deebff',
+    blue_lighten1 : '#639fff',
+    green : '#00d639',
+    green_lighten2 : '#e6ffec',
+    green_lighten1 : '#c2ffd2',
+    orange : '#ff8400',
+    orange_lighten1 : '#ffc180',
     black : '#1f1f1f',
-    light_black : '#363636',
-    pink : '#ff00ff'
+    black_lighten1 : '#363636',
+    hidro : '#00cfc8',
+    hidro_lighten1 : '#1cfff7',
+    hidro_lighten2 : '#abfffc',
+    yellow : '#ffc21c',
+    yellow_lighten1 : '#ffeebf',
+    yellow_lighten2 : '#fff6de',
+    pink : '#ff1c91',
+    pink_lighten1 : '#ffd1e9',
+    pink_lighten2 : '#ffdedf'
 }
 
 export default palette;
