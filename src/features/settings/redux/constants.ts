@@ -10,7 +10,7 @@ export const GET_SETTINGS_SUCCESS = 'GET_SETTINGS_SUCCESS';
 export type T_GET_SETTINGS_SUCCESS = typeof GET_SETTINGS_SUCCESS;
 
 export interface ISettings {
-    theme : object,
+    theme : any,
     isPremium : boolean,
     reminderUnlocked : boolean,
     todoUnlocked : boolean,

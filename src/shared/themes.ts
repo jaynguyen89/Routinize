@@ -40,21 +40,23 @@ const themes : Theme = {
         backgroundColor : palette.blue,
         borderColor : palette.blue_lighten1,
         textColor : palette.white,
-        shadowColor : palette.hidro_lighten2,
-        buttonColor : palette.violet,
+        shadowColor : palette.blue_lighten2,
+        buttonColor : palette.dark_blue,
         disabledColor : palette.orange_lighten1,
-        textDisabled : palette.dark_gray
+        textDisabled : palette.dark_gray,
+        textBlack : palette.black
     },
     neutral : {
-        borderSuccess : palette.green_lighten2,
-        backgroundSuccess : palette.green_lighten1,
-        textSuccess : palette.green,
-        borderWarning : palette.yellow_lighten2,
-        backgroundWarning : palette.yellow_lighten1,
-        textWarning : palette.yellow,
-        borderDanger : palette.pink_lighten2,
-        backgroundDanger : palette.pink_lighten1,
-        textDanger : palette.pink
+        borderSuccess : palette.green_lighten1,
+        backgroundSuccess : palette.green,
+        textSuccess : palette.green_lighten2,
+        borderWarning : palette.yellow_lighten1,
+        backgroundWarning : palette.yellow,
+        textWarning : palette.yellow_lighten2,
+        borderDanger : palette.pink_lighten1,
+        backgroundDanger : palette.pink,
+        textDanger : palette.pink_lighten2,
+        indigo : palette.dark_blue,
     }
 }
 

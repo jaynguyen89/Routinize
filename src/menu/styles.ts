@@ -1,39 +1,31 @@
 import { StyleSheet } from "react-native";
-import {BASE_HEIGHT, baseFontSize} from "../shared/typography";
+import { BASE_HEIGHT, baseFontSize } from "../shared/typography";
 import themes from "../shared/themes";
 
 const styles = StyleSheet.create({
     drawerContainer: {
-        paddingTop: BASE_HEIGHT,
         flex: 1
     },
-    navItemStyle: {
-        padding: 10
-    },
-    navSectionStyle: {
-        backgroundColor: 'lightgrey'
-    },
-    sectionHeadingStyle: {
-        paddingVertical: 10,
-        paddingHorizontal: 5
+    scroller : {
+        marginTop : BASE_HEIGHT * 0.1
     },
     footerContainer: {
-        padding: 20,
-        backgroundColor: 'lightgrey'
+        padding: BASE_HEIGHT * 0.5,
+        margin : 0
     },
-    footer : {
-        flex : 12,
-        flexDirection : 'column',
-        paddingTop : 3
+    menuRow : {
+        margin : 0
     },
-    footerText : {
-        textAlign : 'center',
-        backgroundColor : themes.neutral.alternateColor,
-        color : themes.neutral.alternateLighter,
-        fontSize : baseFontSize * 2.5,
-        paddingBottom : 3,
-        borderTopLeftRadius : 4,
-        borderTopRightRadius : 4
+    rowHeader: {
+        paddingVertical: 5,
+        paddingHorizontal: 10
+    },
+    rowMenu: {
+        padding: 0,
+        margin : 0
+    },
+    rowItem: {
+        padding : 10
     }
 });
 

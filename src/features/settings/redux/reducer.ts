@@ -19,24 +19,24 @@ const initialState : ISettingsStore = {
     }
 }
 
-const reducer = produce((draft, action) => {
+const reducer = produce((state, action) => {
     switch (action.type) {
         case settingsConstants.GET_DEFAULT_SETTINGS:
-            draft.appSettings.isRetrieving = true;
-            draft.appSettings.isSuccess = false;
-            draft.appSettings.settings = null;
+            state.appSettings.isRetrieving = true;
+            state.appSettings.isSuccess = false;
+            state.appSettings.settings = null;
             return;
         case settingsConstants.GET_SETTINGS_FAILED:
-            draft.appSettings.isRetrieving = false;
-            draft.appSettings.isSuccess = false;
-            draft.appSettings.settings = action.error;
+            state.appSettings.isRetrieving = false;
+            state.appSettings.isSuccess = false;
+            state.appSettings.settings = action.error;
             return;
         case settingsConstants.GET_SETTINGS_SUCCESS:
-            draft.appSettings.isRetrieving = false;
-            draft.appSettings.isSuccess = true;
-            draft.appSettings.settings = action.payload;
+            state.appSettings.isRetrieving = false;
+            state.appSettings.isSuccess = true;
+            state.appSettings.settings = action.payload;
 
-            draft.appSettings.settings.theme = action.payload === THEMES.DAY ? dayTheme : (
+            state.appSettings.settings.theme = action.payload === THEMES.DAY ? dayTheme : (
                 action.payload === THEMES.NIGHT ? nightTheme : (
                     action.payload === THEMES.SEA ? seaTheme : skyTheme
                 )

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import themes from '../shared/themes';
-import { BASE_HEIGHT } from './typography';
+import {BASE_HEIGHT, baseFontSize, Typography} from './typography';
 
 const shadows = StyleSheet.create({
     lightShadow : {
@@ -49,8 +49,8 @@ export const sharedStyles = StyleSheet.create({
         textAlign : "center"
     },
     btnMini : {
-        borderWidth : 0.5,
-        height : BASE_HEIGHT,
+        borderWidth : 0.2,
+        height : 1.25 * BASE_HEIGHT,
         elevation : 1,
         textAlign : "center"
     },
@@ -101,7 +101,17 @@ export const dayTheme = StyleSheet.create({
         backgroundColor : themes.light.backgroundColor,
         color : themes.light.textColor
     },
-    shadow : shadows.darkShadow
+    shadow : shadows.darkShadow,
+    textFill : {
+        color : themes.light.textColor
+    },
+    invert : {
+        backgroundColor : themes.neutral.disabledColor
+    },
+    border : {
+        borderColor : themes.light.borderColor,
+        borderWidth : 0.5
+    }
 });
 
 export const nightTheme = StyleSheet.create({
@@ -119,7 +129,17 @@ export const nightTheme = StyleSheet.create({
         backgroundColor : themes.dark.backgroundColor,
         color : themes.dark.textColor
     },
-    shadow : shadows.lightShadow
+    shadow : shadows.lightShadow,
+    textFill : {
+        color : themes.dark.textColor
+    },
+    invert : {
+        backgroundColor : themes.neutral.backgroundDanger
+    },
+    border : {
+        borderColor : themes.light.borderColor,
+        borderWidth : 0.5
+    }
 });
 
 export const seaTheme = StyleSheet.create({
@@ -137,7 +157,17 @@ export const seaTheme = StyleSheet.create({
         backgroundColor : themes.marine.backgroundColor,
         color : themes.marine.textColor
     },
-    shadow : shadows.limeShadow
+    shadow : shadows.limeShadow,
+    textFill : {
+        color : themes.marine.textColor
+    },
+    invert : {
+        backgroundColor : themes.neutral.backgroundWarning
+    },
+    border : {
+        borderColor : themes.light.borderColor,
+        borderWidth : 0.5
+    }
 });
 
 export const skyTheme = StyleSheet.create({
@@ -151,9 +181,23 @@ export const skyTheme = StyleSheet.create({
         color : themes.sky.textColor,
         borderColor : themes.sky.borderColor
     },
-    background : {
+    backgroundPrimary : {
         backgroundColor : themes.sky.backgroundColor,
         color : themes.sky.textColor
     },
-    shadow : shadows.blueShadow
+    backgroundSecondary : {
+        backgroundColor : themes.sky.shadowColor,
+        color : themes.sky.textBlack
+    },
+    shadow : shadows.blueShadow,
+    textFill : {
+        color : themes.sky.textColor
+    },
+    invert : {
+        backgroundColor : themes.neutral.indigo
+    },
+    border : {
+        borderColor : themes.light.borderColor,
+        borderWidth : 0.5
+    }
 });
