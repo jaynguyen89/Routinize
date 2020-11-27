@@ -8,7 +8,7 @@ import { IAppDrawer } from "../../shared/interfaces";
 
 import styles from "../styles";
 import { baseFontSize, Typography } from "../../shared/typography";
-import { faBomb, faCheck, faList } from "@fortawesome/free-solid-svg-icons";
+import {faBomb, faCheck, faSun } from "@fortawesome/free-solid-svg-icons";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -28,13 +28,13 @@ const ToDos = (props: IAppDrawer) => {
                 </TouchableRipple>
 
                 <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faCheck } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>Done</Text>
+                    <FontAwesomeIcon icon={ faSun } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                    <Text style={[ styles.rowText, Typography.regular ]}>Important</Text>
                 </View>
 
                 <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faList } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>All Items</Text>
+                    <FontAwesomeIcon icon={ faCheck } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                    <Text style={[ styles.rowText, Typography.regular ]}>Done</Text>
                 </View>
             </View>
         </View>
