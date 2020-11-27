@@ -25,7 +25,15 @@ const styles = StyleSheet.create({
         margin : 0
     },
     rowItem: {
-        padding : 10
+        padding : 10,
+        flexDirection : "row"
+    },
+    rowIcon : {
+        flex : 1,
+        marginRight : BASE_HEIGHT * 0.4
+    },
+    rowText : {
+        flex : 9
     }
 });
 

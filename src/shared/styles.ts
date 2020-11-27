@@ -97,13 +97,17 @@ export const dayTheme = StyleSheet.create({
         color : themes.light.textColor,
         borderColor : themes.light.borderColor
     },
-    background : {
+    backgroundPrimary : {
         backgroundColor : themes.light.backgroundColor,
         color : themes.light.textColor
     },
     shadow : shadows.darkShadow,
     textFill : {
         color : themes.light.textColor
+    },
+    backgroundSecondary : {
+        backgroundColor : themes.sky.shadowColor,
+        color : themes.sky.textBlack
     },
     invert : {
         backgroundColor : themes.neutral.disabledColor
@@ -125,9 +129,13 @@ export const nightTheme = StyleSheet.create({
         color : themes.dark.textColor,
         borderColor : themes.dark.borderColor
     },
-    background : {
+    backgroundPrimary : {
         backgroundColor : themes.dark.backgroundColor,
         color : themes.dark.textColor
+    },
+    backgroundSecondary : {
+        backgroundColor : themes.sky.shadowColor,
+        color : themes.sky.textBlack
     },
     shadow : shadows.lightShadow,
     textFill : {
@@ -153,9 +161,13 @@ export const seaTheme = StyleSheet.create({
         color : themes.marine.textColor,
         borderColor : themes.marine.borderColor
     },
-    background : {
+    backgroundPrimary : {
         backgroundColor : themes.marine.backgroundColor,
         color : themes.marine.textColor
+    },
+    backgroundSecondary : {
+        backgroundColor : themes.sky.shadowColor,
+        color : themes.sky.textBlack
     },
     shadow : shadows.limeShadow,
     textFill : {

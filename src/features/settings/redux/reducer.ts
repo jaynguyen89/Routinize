@@ -36,11 +36,12 @@ const reducer = produce((state, action) => {
             state.appSettings.isSuccess = true;
             state.appSettings.settings = action.payload;
 
-            state.appSettings.settings.theme = action.payload === THEMES.DAY ? dayTheme : (
-                action.payload === THEMES.NIGHT ? nightTheme : (
-                    action.payload === THEMES.SEA ? seaTheme : skyTheme
-                )
-            );
+            state.appSettings.settings.theme =
+                action.payload === THEMES[THEMES.DAY] ? dayTheme : (
+                    action.payload === THEMES[THEMES.NIGHT] ? nightTheme : (
+                        action.payload === THEMES[THEMES.SEA] ? seaTheme : skyTheme
+                    )
+                );
             return;
         default:
             return;
