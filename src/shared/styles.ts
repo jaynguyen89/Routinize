@@ -190,7 +190,7 @@ export const skyTheme = StyleSheet.create({
     },
     btnDisabled : {
         backgroundColor : themes.sky.disabledColor,
-        color : themes.sky.textColor,
+        color : themes.sky.textDisabled,
         borderColor : themes.sky.borderColor
     },
     backgroundPrimary : {
@@ -209,7 +209,7 @@ export const skyTheme = StyleSheet.create({
         backgroundColor : themes.neutral.indigo
     },
     border : {
-        borderColor : themes.light.borderColor,
+        borderColor : themes.sky.borderColor,
         borderWidth : 0.5
     }
 });

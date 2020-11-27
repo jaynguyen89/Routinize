@@ -20,12 +20,12 @@ const Collaborators = (props: IAppDrawer) => {
             <Text style={[ styles.rowHeader, props.settings.theme.invert, props.settings.theme.textFill ]}>Collaborators</Text>
 
             <View style={ styles.rowMenu }>
-                <View style={[ styles.rowItem, props.settings.theme.backgroundSecondary, props.settings.theme.border ]}>
+                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
                     <FontAwesomeIcon icon={ faUserPlus } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                     <Text style={[ styles.rowText, Typography.regular ]}>Invite</Text>
                 </View>
 
-                <View style={[ styles.rowItem, props.settings.theme.backgroundSecondary, props.settings.theme.border ]}>
+                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
                     <FontAwesomeIcon icon={ faUserCog } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                     <Text style={[ styles.rowText, Typography.regular ]}>Manage</Text>
                 </View>

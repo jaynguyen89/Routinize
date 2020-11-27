@@ -19,17 +19,17 @@ const Settings = (props: IAppDrawer) => {
             <Text style={[ styles.rowHeader, props.settings.theme.invert, props.settings.theme.textFill ]}>Settings</Text>
 
             <View style={ styles.rowMenu }>
-                <View style={[ styles.rowItem, props.settings.theme.backgroundSecondary, props.settings.theme.border ]}>
+                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
                     <FontAwesomeIcon icon={ faCogs } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                     <Text style={[ styles.rowText, Typography.regular ]}>App Settings</Text>
                 </View>
 
-                <View style={[ styles.rowItem, props.settings.theme.backgroundSecondary, props.settings.theme.border ]}>
+                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
                     <FontAwesomeIcon icon={ faChild } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                     <Text style={[ styles.rowText, Typography.regular ]}>Personalize</Text>
                 </View>
 
-                <View style={[ styles.rowItem, props.settings.theme.backgroundSecondary, props.settings.theme.border ]}>
+                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
                     <FontAwesomeIcon icon={ faShoppingCart } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                     <Text style={[ styles.rowText, Typography.regular ]}>Shop</Text>
                 </View>

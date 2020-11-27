@@ -25,7 +25,9 @@ const palette : Palette = {
     yellow_lighten2 : '#fff6de',
     pink : '#ff1c91',
     pink_lighten1 : '#ffd1e9',
-    pink_lighten2 : '#ffdedf'
+    pink_lighten2 : '#ffdedf',
+    orange : '#ff9d00',
+    orange_lighten : '#ffdda6'
 }
 
 export default palette;

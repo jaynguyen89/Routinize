@@ -33,16 +33,16 @@ const themes : Theme = {
         textColor : palette.white,
         shadowColor : palette.hidro_lighten2,
         buttonColor : palette.orange,
-        disabledColor : palette.orange_lighten1,
+        disabledColor : palette.orange_lighten,
         textDisabled : palette.dark_gray
     },
     sky : {
         backgroundColor : palette.blue,
         borderColor : palette.blue_lighten1,
         textColor : palette.white,
-        shadowColor : palette.blue_lighten2,
+        shadowColor : palette.blue,
         buttonColor : palette.dark_blue,
-        disabledColor : palette.orange_lighten1,
+        disabledColor : palette.blue_lighten2,
         textDisabled : palette.dark_gray,
         textBlack : palette.black
     },

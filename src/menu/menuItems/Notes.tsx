@@ -20,17 +20,17 @@ const Notes = (props: IAppDrawer) => {
 
             <View style={ styles.rowMenu }>
                 <View style={ styles.rowMenu }>
-                    <View style={[ styles.rowItem, props.settings.theme.backgroundSecondary, props.settings.theme.border ]}>
+                    <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
                         <FontAwesomeIcon icon={ faQuoteLeft } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                         <Text style={[ styles.rowText, Typography.regular ]}>Active Notes</Text>
                     </View>
 
-                    <View style={[ styles.rowItem, props.settings.theme.backgroundSecondary, props.settings.theme.border ]}>
+                    <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
                         <FontAwesomeIcon icon={ faRibbon } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                         <Text style={[ styles.rowText, Typography.regular ]}>Highlighted</Text>
                     </View>
 
-                    <View style={[ styles.rowItem, props.settings.theme.backgroundSecondary, props.settings.theme.border ]}>
+                    <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
                         <FontAwesomeIcon icon={ faArchive } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                         <Text style={[ styles.rowText, Typography.regular ]}>Archived</Text>
                     </View>
