@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import TodoDetail from "../../../features/todo/components/TodoDetail";
-import PersonalActiveTodos from "../../../features/todo/active/PersonalActiveTodos";
+import PersonalActiveNotes from "../../../features/note/active/PersonalActiveNotes";
+import NoteDetail from "../../../features/note/components/NoteDetail";
 import { IAppDrawer } from "../../../shared/interfaces";
 
 import { Typography } from "../../../shared/typography";
@@ -13,10 +13,10 @@ const mapStateToProps = (state: any) => ({
     settings : state.settingsReducer.appSettings.settings
 });
 
-const PersonalActiveTodosStack = (props : IAppDrawer) => {
+const PersonalActiveNotesStack = (props : IAppDrawer) => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name='Active Todos - Personal' component={ PersonalActiveTodos }
+            <Stack.Screen name='Active Notes - Personal' component={ PersonalActiveNotes }
                           options={{
                               headerTitleStyle : Typography.thirdHeader,
                               headerTintColor : props.settings.theme.textFill.color,
@@ -25,16 +25,7 @@ const PersonalActiveTodosStack = (props : IAppDrawer) => {
                               }
                           }} />
 
-            <Stack.Screen name='Todo Details - Personal' component={ TodoDetail }
-                          options={{
-                              headerTitleStyle : Typography.thirdHeader,
-                              headerTintColor : props.settings.theme.textFill.color,
-                              headerStyle : {
-                                  backgroundColor : props.settings.theme.backgroundPrimary.backgroundColor
-                              }
-                          }} />
-
-            <Stack.Screen name='New Todo - Personal' component={ TodoDetail }
+            <Stack.Screen name='New Note - Personal' component={ NoteDetail }
                           options={{
                               headerTitleStyle : Typography.thirdHeader,
                               headerTintColor : props.settings.theme.textFill.color,
@@ -48,4 +39,4 @@ const PersonalActiveTodosStack = (props : IAppDrawer) => {
 
 export default connect(
     mapStateToProps
-)(PersonalActiveTodosStack);
+)(PersonalActiveNotesStack);

@@ -28,7 +28,7 @@ const TodoCard = (props : ITodoCard) => {
 
     const viewTodoDetails = (todo : ITodo) => {
         props.setTodoDetailItem(todo);
-        props.navigation.navigate('Personal Todo Details');
+        props.navigation.navigate('Todo Details - Personal');
     }
 
     return (

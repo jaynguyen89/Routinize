@@ -7,9 +7,8 @@ import store from '../src/providers/reducerIndex';
 
 import { getAppSettings } from '../src/features/settings/redux/actions';
 import AppDrawer from "../src/menu/AppDrawer";
-import HomeStack from "../src/menu/navigators/HomeStack";
-import SettingStack from "../src/menu/navigators/SettingStack";
 import ActiveTodoTab from "../src/menu/navigators/todo/ActiveTodoTab";
+import ActiveNoteTab from "../src/menu/navigators/note/ActiveNoteTab";
 
 import('./debugger').then(() => console.log('Debugger is running.'));
 
@@ -23,9 +22,8 @@ const App: () => React.ReactNode = () => {
         <Provider store={ store }>
             <NavigationContainer>
                 <Drawer.Navigator drawerContent={props => <AppDrawer { ...props } />}>
-                    <Drawer.Screen name='DrawerTodos'  component={ ActiveTodoTab } />
-                    <Drawer.Screen name='DrawerHome' component={ HomeStack } />
-                    <Drawer.Screen name='DrawerSettings' component={ SettingStack } />
+                    <Drawer.Screen name='DrawerTodos' component={ ActiveTodoTab } />
+                    <Drawer.Screen name='DrawerNotes' component={ ActiveNoteTab } />
                 </Drawer.Navigator>
             </NavigationContainer>
         </Provider>

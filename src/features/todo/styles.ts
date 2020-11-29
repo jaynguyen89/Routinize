@@ -2,17 +2,6 @@ import { StyleSheet } from "react-native";
 import { BASE_HEIGHT } from "../../shared/typography";
 
 const styles = StyleSheet.create({
-    scroller : {
-        flex : 1,
-        margin : 0,
-        padding : 0
-    },
-    fab : {
-        position: 'absolute',
-        margin: 15,
-        right: 0,
-        bottom: 0
-    },
     todoCard : {
         marginTop : BASE_HEIGHT * 0.5,
         marginBottom : 0,

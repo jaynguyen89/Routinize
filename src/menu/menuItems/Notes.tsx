@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
+
 import { Text, View } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-
+import { TouchableRipple } from "react-native-paper";
 import { IAppDrawer } from "../../shared/interfaces";
 
 import styles from "../styles";
@@ -19,21 +20,21 @@ const Notes = (props: IAppDrawer) => {
             <Text style={[ styles.rowHeader, props.settings.theme.invert, props.settings.theme.textFill ]}>Notes</Text>
 
             <View style={ styles.rowMenu }>
-                <View style={ styles.rowMenu }>
+                <TouchableRipple onPress={ () => props.navigation.navigate('DrawerNotes', { screen : 'Active Notes - Personal'}) }>
                     <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
                         <FontAwesomeIcon icon={ faQuoteLeft } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                         <Text style={[ styles.rowText, Typography.regular ]}>Active Notes</Text>
                     </View>
+                </TouchableRipple>
 
-                    <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                        <FontAwesomeIcon icon={ faRibbon } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                        <Text style={[ styles.rowText, Typography.regular ]}>Highlighted</Text>
-                    </View>
+                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
+                    <FontAwesomeIcon icon={ faRibbon } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                    <Text style={[ styles.rowText, Typography.regular ]}>Highlighted</Text>
+                </View>
 
-                    <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                        <FontAwesomeIcon icon={ faArchive } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                        <Text style={[ styles.rowText, Typography.regular ]}>Archived</Text>
-                    </View>
+                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
+                    <FontAwesomeIcon icon={ faArchive } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                    <Text style={[ styles.rowText, Typography.regular ]}>Archived</Text>
                 </View>
             </View>
         </View>

@@ -219,6 +219,17 @@ export const sharedStyles = StyleSheet.create({
         color : themes.neutral.textDanger,
         borderColor : themes.neutral.borderDanger
     },
+    scroller : {
+        flex : 1,
+        margin : 0,
+        padding : 0
+    },
+    fab : {
+        position: 'absolute',
+        margin: 15,
+        right: 0,
+        bottom: 0
+    },
     inputWrapper : {
         marginVertical : BASE_HEIGHT * 0.5,
         marginHorizontal : BASE_HEIGHT * 0.75
