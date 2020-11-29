@@ -13,27 +13,31 @@ export const baseFontSize : number = 10 * SCREEN_WIDTH / DEFAULT_WIDTH;
 
 export const Typography = StyleSheet.create({
     firstHeader : {
-        fontSize : baseFontSize * 2.5,
+        fontSize : baseFontSize * 2.7,
         fontWeight : 'bold'
     },
     secondHeader : {
-        fontSize : baseFontSize * 2.2,
+        fontSize : baseFontSize * 2.4,
         fontWeight : 'bold'
     },
-    thirdTitle : {
-        fontSize : baseFontSize * 1.9,
-        fontWeight : 'normal'
+    thirdHeader : {
+        fontSize : baseFontSize * 2.1,
+        fontWeight : 'bold'
     },
-    subtitle : {
-        fontSize : baseFontSize * 1.6,
-        fontWeight : 'normal'
+    fourthHeader : {
+        fontSize : baseFontSize * 1.8,
+        fontWeight : "normal",
     },
     regular : {
-        fontSize : baseFontSize * 1.3,
+        fontSize : baseFontSize * 1.5,
         fontWeight : 'normal'
     },
-    tinyText : {
-        fontSize : baseFontSize,
+    small : {
+        fontSize : baseFontSize * 1.2,
+        fontWeight : 'normal'
+    },
+    tiny : {
+        fontSize : baseFontSize * 0.9,
         fontWeight : '200'
     }
 });

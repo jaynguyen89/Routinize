@@ -3,9 +3,11 @@ import thunk from 'redux-thunk';
 
 import appDebugger from "../../root/debugger";
 import settingsReducer from '../features/settings/redux/reducer';
+import todoReducer from '../features/todo/redux/reducer';
 
 const reducers = combineReducers({
-    settingsReducer
+    settingsReducer,
+    todoReducer
 });
 
 const rootReducer = (state: any, action: any) => {

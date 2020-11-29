@@ -12,3 +12,26 @@ export enum THEMES {
     SEA,
     SKY
 }
+
+export enum ORIGIN {
+    PERSONAL,
+    SHARED
+}
+
+export enum MEDIA_TYPES {
+    PHOTO,
+    VIDEO,
+    AUDIO
+}
+
+export enum FILE_TYPES {
+    PDF,
+    TXT,
+    DOC,
+    PPT,
+    EXCEL,
+    ARCHIVE,
+    CSV,
+    CODE,
+    OTHERS
+}

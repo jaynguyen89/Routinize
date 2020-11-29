@@ -23,6 +23,7 @@ const DrawerAccount = (props : IDrawerAccount) => {
             <View style={[ styles.appHeading, props.settings.theme.invert ]}>
                 <Text style={[ styles.header, props.settings.theme.textFill ]}>Routinize</Text>
             </View>
+
             <View style={[ styles.drawerAccountContainer, props.settings.theme.backgroundPrimary ]}>
                 <View style={ styles.accountContent }>
                     <View style={ styles.avatarWrapper }>
@@ -30,10 +31,10 @@ const DrawerAccount = (props : IDrawerAccount) => {
                     </View>
                     <View style={ styles.accountWrapper }>
                         <View style={ styles.account }>
-                            <Text style={[ props.settings.theme.backgroundPrimary, Typography.secondHeader ]}>
+                            <Text style={[ props.settings.theme.backgroundPrimary, Typography.thirdHeader ]}>
                                 Jay Nguyen
                             </Text>
-                            <Text style={[ props.settings.theme.backgroundPrimary, Typography.tinyText ]}>
+                            <Text style={[ props.settings.theme.backgroundPrimary, Typography.small ]}>
                                 jay.nguyen@jaydeveloper.com
                             </Text>
                         </View>

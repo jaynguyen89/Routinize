@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import themes from '../shared/themes';
-import {BASE_HEIGHT, baseFontSize, Typography} from './typography';
+import { BASE_HEIGHT } from './typography';
 
 const shadows = StyleSheet.create({
     lightShadow : {
@@ -38,51 +38,6 @@ const shadows = StyleSheet.create({
         shadowOpacity : 0.8,
         shadowRadius : 3.84,
         elevation : 5
-    }
-});
-
-export const sharedStyles = StyleSheet.create({
-    btn : {
-        borderWidth : 0.5,
-        height : 1.5 * BASE_HEIGHT,
-        elevation : 1,
-        textAlign : "center"
-    },
-    btnMini : {
-        borderWidth : 0.2,
-        height : 1.25 * BASE_HEIGHT,
-        elevation : 1,
-        textAlign : "center"
-    },
-    btnSuccess : {
-        backgroundColor : themes.neutral.backgroundSuccess,
-        color : themes.neutral.textSuccess,
-        borderColor : themes.neutral.borderSuccess
-    },
-    btnSuccessDisabled : {
-        backgroundColor : themes.neutral.borderColor,
-        color : themes.neutral.textSuccess,
-        borderColor : themes.neutral.borderSuccess
-    },
-    btnWarning : {
-        backgroundColor : themes.neutral.backgroundWarning,
-        color : themes.neutral.textWarning,
-        borderColor : themes.neutral.borderWarning
-    },
-    btnWarningDisabled : {
-        backgroundColor : themes.neutral.borderWarning,
-        color : themes.neutral.textWarning,
-        borderColor : themes.neutral.borderWarning
-    },
-    btnDanger : {
-        backgroundColor : themes.neutral.backgroundDanger,
-        color : themes.neutral.textDanger,
-        borderColor : themes.neutral.borderDanger
-    },
-    btnDangerDisabled : {
-        backgroundColor : themes.neutral.borderDanger,
-        color : themes.neutral.textDanger,
-        borderColor : themes.neutral.borderDanger
     }
 });
 
@@ -208,8 +163,78 @@ export const skyTheme = StyleSheet.create({
     invert : {
         backgroundColor : themes.neutral.indigo
     },
+    danger : {
+        backgroundColor : themes.neutral.backgroundDanger,
+        color : themes.neutral.textDanger
+    },
+    black : {
+        color : themes.sky.textBlack
+    },
     border : {
         borderColor : themes.sky.borderColor,
         borderWidth : 0.5
+    }
+});
+
+export const sharedStyles = StyleSheet.create({
+    btn : {
+        borderWidth : 0.5,
+        height : 1.5 * BASE_HEIGHT,
+        elevation : 1,
+        textAlign : "center"
+    },
+    btnMini : {
+        borderWidth : 0.2,
+        height : 1.25 * BASE_HEIGHT,
+        elevation : 1,
+        textAlign : "center"
+    },
+    btnSuccess : {
+        backgroundColor : themes.neutral.backgroundSuccess,
+        color : themes.neutral.textSuccess,
+        borderColor : themes.neutral.borderSuccess
+    },
+    btnSuccessDisabled : {
+        backgroundColor : themes.neutral.borderColor,
+        color : themes.neutral.textSuccess,
+        borderColor : themes.neutral.borderSuccess
+    },
+    btnWarning : {
+        backgroundColor : themes.neutral.backgroundWarning,
+        color : themes.neutral.textWarning,
+        borderColor : themes.neutral.borderWarning
+    },
+    btnWarningDisabled : {
+        backgroundColor : themes.neutral.borderWarning,
+        color : themes.neutral.textWarning,
+        borderColor : themes.neutral.borderWarning
+    },
+    btnDanger : {
+        backgroundColor : themes.neutral.backgroundDanger,
+        color : themes.neutral.textDanger,
+        borderColor : themes.neutral.borderDanger
+    },
+    btnDangerDisabled : {
+        backgroundColor : themes.neutral.borderDanger,
+        color : themes.neutral.textDanger,
+        borderColor : themes.neutral.borderDanger
+    },
+    inputWrapper : {
+        marginVertical : BASE_HEIGHT * 0.5,
+        marginHorizontal : BASE_HEIGHT * 0.75
+    },
+    inputLabel : {
+        fontWeight : '700',
+        paddingLeft : BASE_HEIGHT * 0.5
+    },
+    charCount : {
+        marginTop : BASE_HEIGHT * -1,
+        marginHorizontal : BASE_HEIGHT * 0.5,
+        textAlign : "right"
+    },
+    textarea : {
+        backgroundColor : '#dedede',
+        borderTopLeftRadius : BASE_HEIGHT * 0.25,
+        borderTopRightRadius : BASE_HEIGHT * 0.25
     }
 });

@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { ScrollView, Text, View } from 'react-native';
+
 import DrawerAccount from "../account/DrawerAccount";
+import MainMenu from "./MainMenu";
+import { IAppDrawer } from "../shared/interfaces";
 
 import styles from './styles';
 import { Typography } from "../shared/typography";
-import MainMenu from "./MainMenu";
-import { IAppDrawer } from "../shared/interfaces";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -23,7 +24,7 @@ const AppDrawer = (props: IAppDrawer) => {
             </ScrollView>
 
             <View style={[ styles.footerContainer, props.settings.theme.backgroundPrimary ]}>
-                <Text style={[ props.settings.theme.textFill, Typography.tinyText ]}>
+                <Text style={[ props.settings.theme.textFill, Typography.tiny ]}>
                     Developed by Jay Nguyen.
                     All rights reserved.
                 </Text>

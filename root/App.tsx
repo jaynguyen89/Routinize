@@ -17,19 +17,19 @@ store.dispatch(getAppSettings());
 const Drawer = createDrawerNavigator();
 
 const App: () => React.ReactNode = () => {
-  //React.useEffect(() => { StatusBar.setHidden(true); }, []);
+    //React.useEffect(() => { StatusBar.setHidden(true); }, []);
 
-  return (
-      <Provider store={ store }>
-          <NavigationContainer>
-              <Drawer.Navigator drawerContent={props => <AppDrawer { ...props } />}>
-                  <Drawer.Screen name='DrawerTodos'  component={ ActiveTodoTab } />
-                  <Drawer.Screen name='DrawerHome' component={ HomeStack } />
-                  <Drawer.Screen name='DrawerSettings' component={ SettingStack } />
-              </Drawer.Navigator>
-          </NavigationContainer>
-      </Provider>
-  );
+    return (
+        <Provider store={ store }>
+            <NavigationContainer>
+                <Drawer.Navigator drawerContent={props => <AppDrawer { ...props } />}>
+                    <Drawer.Screen name='DrawerTodos'  component={ ActiveTodoTab } />
+                    <Drawer.Screen name='DrawerHome' component={ HomeStack } />
+                    <Drawer.Screen name='DrawerSettings' component={ SettingStack } />
+                </Drawer.Navigator>
+            </NavigationContainer>
+        </Provider>
+    );
 };
 
 export default App;
