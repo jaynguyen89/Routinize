@@ -8,11 +8,10 @@ interface ITodo extends IThing {
     description : string,
     details : string,
     dueDate : string,
-    dueTime : string,
-    places : Array<IPlace>,
-    images : Array<IMedia>,
-    files : Array<IFile>,
-    related : Array<ITodo | INote>,
+    places? : Array<IPlace>,
+    images? : Array<IMedia>,
+    files? : Array<IFile>,
+    related? : Array<ITodo | INote>,
     doneDate : string | null
 }
 

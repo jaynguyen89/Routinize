@@ -35,3 +35,9 @@ export enum FILE_TYPES {
     CODE,
     OTHERS
 }
+
+export enum ACTION_TYPES {
+    NORMAL,
+    CAUTIOUS,
+    DANGEROUS
+}

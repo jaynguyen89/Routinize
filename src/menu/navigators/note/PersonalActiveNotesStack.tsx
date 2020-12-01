@@ -25,6 +25,15 @@ const PersonalActiveNotesStack = (props : IAppDrawer) => {
                               }
                           }} />
 
+            <Stack.Screen name='Note Details - Personal' component={ NoteDetail }
+                          options={{
+                              headerTitleStyle : Typography.thirdHeader,
+                              headerTintColor : props.settings.theme.textFill.color,
+                              headerStyle : {
+                                  backgroundColor : props.settings.theme.backgroundPrimary.backgroundColor
+                              }
+                          }} />
+
             <Stack.Screen name='New Note - Personal' component={ NoteDetail }
                           options={{
                               headerTitleStyle : Typography.thirdHeader,

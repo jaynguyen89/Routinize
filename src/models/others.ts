@@ -7,11 +7,9 @@ interface IAttachment {
 }
 
 export interface IMedia extends IAttachment {
-    id : number,
     type : MEDIA_TYPES
 }
 
 export interface IFile extends IAttachment {
-    id : number,
     type : FILE_TYPES
 }

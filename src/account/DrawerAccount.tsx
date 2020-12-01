@@ -5,7 +5,7 @@ import { Button } from 'react-native-elements';
 import Gravatar from "@krosben/react-native-gravatar";
 
 import styles from "./styles";
-import {Typography} from "../shared/typography";
+import {BASE_HEIGHT, Typography} from "../shared/typography";
 import {sharedStyles} from "../shared/styles";
 
 interface IDrawerAccount {
@@ -27,14 +27,14 @@ const DrawerAccount = (props : IDrawerAccount) => {
             <View style={[ styles.drawerAccountContainer, props.settings.theme.backgroundPrimary ]}>
                 <View style={ styles.accountContent }>
                     <View style={ styles.avatarWrapper }>
-                        <Gravatar email='nguyen.le.kim.phuc@gmail.com' size={ 150 } defaultImage='mm' />
+                        <Gravatar email='nguyen.le.kim.phuc@gmail.com' size={ BASE_HEIGHT * 7.75 } defaultImage='mm' />
                     </View>
                     <View style={ styles.accountWrapper }>
                         <View style={ styles.account }>
-                            <Text style={[ props.settings.theme.backgroundPrimary, Typography.thirdHeader ]}>
+                            <Text style={[ props.settings.theme.backgroundPrimary, Typography.fourthHeader ]}>
                                 Jay Nguyen
                             </Text>
-                            <Text style={[ props.settings.theme.backgroundPrimary, Typography.small ]}>
+                            <Text style={[ props.settings.theme.backgroundPrimary, Typography.tiny ]}>
                                 jay.nguyen@jaydeveloper.com
                             </Text>
                         </View>

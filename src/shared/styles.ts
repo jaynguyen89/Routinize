@@ -153,7 +153,7 @@ export const skyTheme = StyleSheet.create({
         color : themes.sky.textColor
     },
     backgroundSecondary : {
-        backgroundColor : themes.sky.shadowColor,
+        backgroundColor : themes.sky.textColor,
         color : themes.sky.textBlack
     },
     shadow : shadows.blueShadow,
@@ -195,9 +195,9 @@ export const sharedStyles = StyleSheet.create({
         borderColor : themes.neutral.borderSuccess
     },
     btnSuccessDisabled : {
-        backgroundColor : themes.neutral.borderColor,
-        color : themes.neutral.textSuccess,
-        borderColor : themes.neutral.borderSuccess
+        backgroundColor : themes.neutral.borderSuccess,
+        color : themes.neutral.backgroundSuccess,
+        borderColor : themes.neutral.backgroundSuccess
     },
     btnWarning : {
         backgroundColor : themes.neutral.backgroundWarning,
@@ -224,6 +224,10 @@ export const sharedStyles = StyleSheet.create({
         margin : 0,
         padding : 0
     },
+    touchable : {
+        width : '100%',
+        height : '100%'
+    },
     fab : {
         position: 'absolute',
         margin: 15,
@@ -247,5 +251,14 @@ export const sharedStyles = StyleSheet.create({
         backgroundColor : '#dedede',
         borderTopLeftRadius : BASE_HEIGHT * 0.25,
         borderTopRightRadius : BASE_HEIGHT * 0.25
-    }
+    },
+    inputFieldBtn : {
+        padding : BASE_HEIGHT * 0.25,
+        borderRadius : BASE_HEIGHT * 0.15,
+        width : BASE_HEIGHT * 2.5
+    },
+    btnWrapper : {
+        flex : 1,
+        marginHorizontal : 5
+    },
 });

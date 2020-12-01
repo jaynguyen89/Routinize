@@ -8,7 +8,7 @@ import { IAppDrawer } from "../../shared/interfaces";
 
 import styles from "../styles";
 import { baseFontSize, Typography } from "../../shared/typography";
-import { faArchive, faQuoteLeft, faRibbon } from "@fortawesome/free-solid-svg-icons";
+import { faArchive, faAward, faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -28,7 +28,7 @@ const Notes = (props: IAppDrawer) => {
                 </TouchableRipple>
 
                 <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faRibbon } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                    <FontAwesomeIcon icon={ faAward } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                     <Text style={[ styles.rowText, Typography.regular ]}>Highlighted</Text>
                 </View>
 

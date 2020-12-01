@@ -24,7 +24,7 @@ const TodoDetail = (props : ITodoDetail) => {
     }, []);
 
     return (
-        <ScrollView style={ styles.scroller }>
+        <ScrollView style={ sharedStyles.scroller }>
             <View style={ sharedStyles.inputWrapper }>
                 <Text style={[ Typography.regular, props.settings.theme.black, sharedStyles.inputLabel ]}>{ 'Todo Title' }</Text>
                 <Input placeholder='Max. 75 characters' style={[ Typography.regular ]}
@@ -49,35 +49,35 @@ const TodoDetail = (props : ITodoDetail) => {
             </View>
 
             <View style={ sharedStyles.inputWrapper }>
-                <Text style={[ Typography.regular, props.settings.theme.black, sharedStyles.inputLabel ]}>Assignees</Text>
+                <Text style={[ Typography.regular, props.settings.theme.black, sharedStyles.inputLabel ]}>Share To</Text>
                 <Input placeholder='Name of Collaborator to search' style={[ Typography.regular, { flex : 1 } ]}
                        leftIcon={ <Icon name='people' size={ 24 } color={ props.settings.theme.invert.backgroundColor } /> }
                        rightIcon={ <Icon name='person-search' size={ 24 }
                                         color={ props.settings.theme.textFill.color }
-                                        style={[ props.settings.theme.btnPrimary, styles.inputFieldBtn ] as ViewStyle }
+                                        style={[ props.settings.theme.btnPrimary, sharedStyles.inputFieldBtn ] as ViewStyle }
                        /> }
                 />
             </View>
 
             <View style={ sharedStyles.inputWrapper }>
                 <Text style={[ Typography.regular, props.settings.theme.black, sharedStyles.inputLabel ]}>Places</Text>
-                <Input placeholder='Name of Collaborator to search' style={[ Typography.regular, { flex : 1 } ]}
+                <Input placeholder='Address or Place Name' style={[ Typography.regular, { flex : 1 } ]}
                        leftIcon={ <Icon name='map' size={ 24 } color={ props.settings.theme.invert.backgroundColor } /> }
                        rightIcon={ <Icon name='maps-ugc' size={ 24 }
                                          color={ props.settings.theme.textFill.color }
-                                         style={[ props.settings.theme.btnPrimary, styles.inputFieldBtn ] as ViewStyle }
+                                         style={[ props.settings.theme.btnPrimary, sharedStyles.inputFieldBtn ] as ViewStyle }
                        /> }
                 />
             </View>
 
             <View style={[ sharedStyles.inputWrapper, { flexDirection : 'row' } ]}>
                 <Button mode='contained' dark icon='image-plus'
-                        style={[ props.settings.theme.btnPrimary, styles.btnWrapper ]}>
+                        style={[ props.settings.theme.btnPrimary, sharedStyles.btnWrapper ]}>
                     Attach Photos
                 </Button>
 
                 <Button mode='contained' dark icon='file-plus'
-                        style={[ props.settings.theme.btnPrimary, styles.btnWrapper ]}>
+                        style={[ props.settings.theme.btnPrimary, sharedStyles.btnWrapper ]}>
                     Attach Files
                 </Button>
             </View>
@@ -90,12 +90,12 @@ const TodoDetail = (props : ITodoDetail) => {
 
             <View style={[ sharedStyles.inputWrapper, { flexDirection : 'row' } ]}>
                 <Button mode='contained' dark icon='close-circle'
-                        style={[ props.settings.theme.danger, styles.btnWrapper ]}>
+                        style={[ props.settings.theme.danger, sharedStyles.btnWrapper ]}>
                     Cancel
                 </Button>
 
                 <Button mode='contained' dark icon='plus-circle'
-                        style={[ props.settings.theme.btnPrimary, styles.btnWrapper ]}>
+                        style={[ props.settings.theme.btnPrimary, sharedStyles.btnWrapper ]}>
                     Done
                 </Button>
             </View>

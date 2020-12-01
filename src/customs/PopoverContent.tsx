@@ -3,20 +3,16 @@ import { connect } from "react-redux";
 
 import { Text, View } from "react-native";
 import { Button } from "react-native-paper";
+import { IDynamicButton } from "../shared/interfaces";
 
 import styles from "./styles";
-import {baseFontSize, Typography} from "../shared/typography";
-import {faQuoteLeft} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import { Typography } from "../shared/typography";
+import { ACTION_TYPES } from "../shared/enums";
+import { sharedStyles } from "../shared/styles";
 
 interface IPopoverContent {
     settings? : any,
-    actions : Array<{
-        name : string,
-        icon : string,
-        dangerous : boolean,
-        callback : any
-    }>
+    actions : Array<IDynamicButton>
 }
 
 const mapStateToProps = (state : any) => ({
@@ -29,10 +25,12 @@ const PopoverContent = (props : IPopoverContent) => {
             <Text style={[ Typography.fourthHeader, props.settings.theme.black, styles.popoverTitle ]}>Actions</Text>
 
             {
-                props.actions.map(action =>
-                    <Button mode='contained' dark key={ action.name } icon={ action.icon }
+                props.actions.map((action : IDynamicButton) =>
+                    <Button mode='contained' dark key={ action.name } icon={ action.icon as string }
                             style={[
-                                action.dangerous ? props.settings.theme.danger : props.settings.theme.btnPrimary,
+                                action.type === ACTION_TYPES.DANGEROUS ? props.settings.theme.danger : (
+                                    action.type === ACTION_TYPES.CAUTIOUS ? sharedStyles.btnWarning : props.settings.theme.btnPrimary
+                                ),
                                 styles.popoverBtn
                             ]}
                             onPress={ action.callback }

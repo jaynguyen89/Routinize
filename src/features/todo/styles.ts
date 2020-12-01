@@ -22,6 +22,15 @@ const styles = StyleSheet.create({
         padding : BASE_HEIGHT * 0.25,
         borderRadius : BASE_HEIGHT * 0.25
     },
+    titleIcon : {
+        flex : 1,
+        marginTop : BASE_HEIGHT * 0.5,
+        marginRight : BASE_HEIGHT * 0.3
+    },
+    paragraph : {
+        textAlign : "justify",
+        marginTop : BASE_HEIGHT * 0.3
+    },
     overlapped : {
         flex : 1,
         position : "absolute",
@@ -37,15 +46,6 @@ const styles = StyleSheet.create({
         backgroundColor : '#fff',
         opacity : 0.5,
         elevation : 0
-    },
-    btnWrapper : {
-        flex : 1,
-        marginHorizontal : 5
-    },
-    inputFieldBtn : {
-        padding : BASE_HEIGHT * 0.25,
-        borderRadius : BASE_HEIGHT * 0.15,
-        width : BASE_HEIGHT * 2.5
     }
 });
 

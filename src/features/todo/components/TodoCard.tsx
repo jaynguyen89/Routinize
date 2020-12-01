@@ -1,19 +1,20 @@
 import React from "react";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
-import { View } from "react-native";
-import { Card, FAB, Paragraph, Text } from "react-native-paper";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import {View, ViewStyle} from "react-native";
+import {Card, FAB, Paragraph, Text} from "react-native-paper";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import Popover from "react-native-popover-view/dist/Popover";
 import PopoverContent from "../../../customs/PopoverContent";
 
-import { ITodoCard } from "../redux/constants";
+import {ITodoCard} from "../redux/constants";
 import ITodo from "../../../models/ITodo";
 
 import styles from "../styles";
-import { baseFontSize, Typography } from "../../../shared/typography";
-import { faFile, faImage, faLink, faMapMarkerAlt, faStopwatch, faUser } from "@fortawesome/free-solid-svg-icons";
-import { setTodoDetailItem } from "../redux/actions";
+import {baseFontSize, Typography} from "../../../shared/typography";
+import {faFile, faImage, faLink, faMapMarkerAlt, faStopwatch, faSun, faUser} from "@fortawesome/free-solid-svg-icons";
+import {setTodoDetailItem} from "../redux/actions";
+import {ACTION_TYPES} from "../../../shared/enums";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -50,10 +51,28 @@ const TodoCard = (props : ITodoCard) => {
                     {
                         (
                             props.item.images &&
-                            <Text style={[styles.title, Typography.fourthHeader]}>{ props.item.title }</Text>
+                            <View style={{ flex : 1, flexDirection : "row" }}>
+                                <FontAwesomeIcon icon={ faSun } size={ baseFontSize * 1.5 }
+                                                 style={[ styles.titleIcon, { color: props.settings.theme.danger.backgroundColor } as ViewStyle]}
+                                />
+
+                                <Text style={[ styles.title, Typography.fourthHeader, { flex : 9 } ]} numberOfLines={ 1 }>
+                                    { props.item.title }
+                                </Text>
+                            </View>
                         ) || (
-                            <View style={{ flex : 1 }}>
-                                <Text style={[styles.title, Typography.fourthHeader, { flex : 9 }]}>{ props.item.title }</Text>
+                            <View style={{ flex : 1, flexDirection : "row" }}>
+                                {
+                                    props.item.emphasized &&
+                                    <FontAwesomeIcon icon={ faSun } size={baseFontSize * 1.5}
+                                                     style={[ styles.titleIcon, { color: props.settings.theme.danger.backgroundColor } as ViewStyle ]}
+                                    />
+                                }
+
+                                <Text style={[ styles.title, Typography.fourthHeader, { flex : props.item.emphasized ? 8 : 9 } ]} numberOfLines={ 1 }>
+                                    { props.item.title }
+                                </Text>
+
                                 <FAB visible small style={[ styles.action, { flex : 1 } ]} icon='dots-vertical'
                                      onPress={ () => setShowPopover(true) }
                                 />
@@ -64,7 +83,7 @@ const TodoCard = (props : ITodoCard) => {
                     <View style={[ styles.infoWrapper, props.settings.theme.btnDisabled ]}>
                         <Text style={[ { flex : 3 }, Typography.small ]}>
                             <FontAwesomeIcon icon={ faStopwatch } size={ baseFontSize * 1.3 } />
-                            { `${ props.item.dueDate } ${ props.item.dueTime }` }
+                            { props.item.dueDate }
                         </Text>
 
                         {
@@ -76,7 +95,7 @@ const TodoCard = (props : ITodoCard) => {
                         }
 
                         {
-                            props.item.places.length !== 0 &&
+                            props.item.places &&
                             <Text style={[ { flex: 1, textAlign : 'right' }, Typography.small ]}>
                                 <FontAwesomeIcon icon={ faMapMarkerAlt } size={ baseFontSize * 1.3 } />
                                 { props.item.places.length }
@@ -84,7 +103,7 @@ const TodoCard = (props : ITodoCard) => {
                         }
 
                         {
-                            props.item.images.length !== 0 &&
+                            props.item.images &&
                             <Text style={[ { flex: 1, textAlign : 'right' }, Typography.small ]}>
                                 <FontAwesomeIcon icon={ faImage } size={ baseFontSize * 1.3 } />
                                 { props.item.images.length }
@@ -92,7 +111,7 @@ const TodoCard = (props : ITodoCard) => {
                         }
 
                         {
-                            props.item.files.length !== 0 &&
+                            props.item.files &&
                             <Text style={[ { flex: 1, textAlign : 'right' }, Typography.small ]}>
                                 <FontAwesomeIcon icon={ faFile } size={ baseFontSize * 1.3 } />
                                 { props.item.files.length }
@@ -100,7 +119,7 @@ const TodoCard = (props : ITodoCard) => {
                         }
 
                         {
-                            props.item.related.length !== 0 &&
+                            props.item.related &&
                             <Text style={[ { flex: 1, textAlign : 'right' }, Typography.small ]}>
                                 <FontAwesomeIcon icon={ faLink } size={ baseFontSize * 1.3 } />
                                 { props.item.related.length }
@@ -108,16 +127,18 @@ const TodoCard = (props : ITodoCard) => {
                         }
                     </View>
 
-                    <Paragraph style={{ textAlign : 'justify' }}>{ props.item.description }</Paragraph>
+                    <Paragraph style={ styles.paragraph } numberOfLines={ 2 }>
+                        { props.item.description }
+                    </Paragraph>
                 </Card.Content>
             </Card>
 
             <Popover isVisible={ showPopover } onRequestClose={ () => setShowPopover(false) }>
                 <PopoverContent
                     actions={[
-                        { name : 'Mark as Done', icon : 'check-bold', dangerous : false, callback : () => console.log('Mark Done') },
-                        { name : 'Make Important', icon : 'weather-sunny', dangerous : false, callback : () => console.log('Important') },
-                        { name : 'Delete', icon : 'delete', dangerous : true, callback : () => console.log('Delete') }
+                        { name : 'Mark as Done', icon : 'check-bold', type : ACTION_TYPES.NORMAL, callback : () => console.log('Mark Done') },
+                        { name : 'Make Important', icon : 'weather-sunny', type : ACTION_TYPES.NORMAL, callback : () => console.log('Important') },
+                        { name : 'Delete', icon : 'delete', type : ACTION_TYPES.DANGEROUS, callback : () => console.log('Delete') }
                     ]}
                 />
             </Popover>
