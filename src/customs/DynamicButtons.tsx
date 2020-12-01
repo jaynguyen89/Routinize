@@ -1,21 +1,16 @@
 import React from 'react';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
+
+import { View } from "react-native";
+import { IButtonGroup, IDynamicButton } from "../shared/interfaces";
+import { IconDefinition } from '@fortawesome/fontawesome-common-types';
+import { ACTION_TYPES } from "../shared/enums";
+import { TouchableRipple } from "react-native-paper";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 import styles from "./styles";
-import {View} from "react-native";
-import {IDynamicButton} from "../shared/interfaces";
-import {baseFontSize} from "../shared/typography";
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-
-import {IconDefinition} from '@fortawesome/fontawesome-common-types';
-import {ACTION_TYPES} from "../shared/enums";
-import {sharedStyles} from "../shared/styles";
-import {TouchableRipple} from "react-native-paper";
-
-interface IButtonGroup {
-    settings? : any
-    actions : Array<IDynamicButton>
-}
+import { baseFontSize } from "../shared/typography";
+import { sharedStyles } from "../shared/styles";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings

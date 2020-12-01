@@ -2,11 +2,15 @@ import React from 'react';
 import { connect } from "react-redux";
 
 import styles from "../styles";
-import {View, ViewStyle} from "react-native";
+import {Pressable, View, ViewStyle} from "react-native";
 import {sharedStyles} from "../../../shared/styles";
 import { Icon, Input, Text} from "react-native-elements";
-import {Typography} from "../../../shared/typography";
+import {baseFontSize, Typography} from "../../../shared/typography";
 import {Switch, Button} from "react-native-paper";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import {ACTION_TYPES} from "../../../shared/enums";
+import ActionButtons from "../../../customs/ActionButtons";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,
@@ -33,17 +37,10 @@ const NotePreference = (props : any) => {
                 />
             </View>
 
-            <View style={[ sharedStyles.inputWrapper, { flexDirection : 'row' } ]}>
-                <Button mode='contained' dark icon='close-circle'
-                        style={[ props.settings.theme.danger, sharedStyles.btnWrapper ]}>
-                    Cancel
-                </Button>
-
-                <Button mode='contained' dark icon='plus-circle'
-                        style={[ props.settings.theme.btnPrimary, sharedStyles.btnWrapper ]}>
-                    Done
-                </Button>
-            </View>
+            <ActionButtons actions={[
+                { name : 'Cancel', icon : faTimesCircle, type : ACTION_TYPES.DANGEROUS, callback : () => console.log('Cancel') },
+                { name : 'Done', icon : faCheckCircle, type : ACTION_TYPES.NORMAL, callback : () => console.log('Done') }
+            ]} />
         </View>
     );
 }

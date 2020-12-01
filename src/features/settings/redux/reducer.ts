@@ -2,12 +2,13 @@ import * as settingsConstants from './constants';
 import produce from 'immer';
 import { THEMES } from "../../../shared/enums";
 import { dayTheme, nightTheme, seaTheme, skyTheme } from "../../../shared/styles";
+import ISettings from "../../../models/ISettings";
 
 interface ISettingsStore {
     appSettings : {
         isRetrieving : boolean,
         isSuccess : boolean,
-        settings : settingsConstants.ISettings | null
+        settings : ISettings | null
     }
 }
 
@@ -37,9 +38,9 @@ const reducer = produce((state, action) => {
             state.appSettings.settings = action.payload;
 
             state.appSettings.settings.theme =
-                action.payload === THEMES[THEMES.DAY] ? dayTheme : (
-                    action.payload === THEMES[THEMES.NIGHT] ? nightTheme : (
-                        action.payload === THEMES[THEMES.SEA] ? seaTheme : skyTheme
+                action.payload.theme === THEMES[THEMES.DAY] ? dayTheme : (
+                    action.payload.theme === THEMES[THEMES.NIGHT] ? nightTheme : (
+                        action.payload.theme === THEMES[THEMES.SEA] ? seaTheme : skyTheme
                     )
                 );
             return;

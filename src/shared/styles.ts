@@ -67,6 +67,13 @@ export const dayTheme = StyleSheet.create({
     invert : {
         backgroundColor : themes.neutral.disabledColor
     },
+    danger : {
+        backgroundColor : themes.neutral.backgroundDanger,
+        color : themes.neutral.textDanger
+    },
+    black : {
+        color : themes.sky.textBlack
+    },
     border : {
         borderColor : themes.light.borderColor,
         borderWidth : 0.5
@@ -99,6 +106,13 @@ export const nightTheme = StyleSheet.create({
     invert : {
         backgroundColor : themes.neutral.backgroundDanger
     },
+    danger : {
+        backgroundColor : themes.neutral.backgroundDanger,
+        color : themes.neutral.textDanger
+    },
+    black : {
+        color : themes.sky.textBlack
+    },
     border : {
         borderColor : themes.light.borderColor,
         borderWidth : 0.5
@@ -130,6 +144,13 @@ export const seaTheme = StyleSheet.create({
     },
     invert : {
         backgroundColor : themes.neutral.backgroundWarning
+    },
+    danger : {
+        backgroundColor : themes.neutral.backgroundDanger,
+        color : themes.neutral.textDanger
+    },
+    black : {
+        color : themes.sky.textBlack
     },
     border : {
         borderColor : themes.light.borderColor,
@@ -179,15 +200,15 @@ export const skyTheme = StyleSheet.create({
 export const sharedStyles = StyleSheet.create({
     btn : {
         borderWidth : 0.5,
-        height : 1.5 * BASE_HEIGHT,
         elevation : 1,
-        textAlign : "center"
+        borderRadius : BASE_HEIGHT * 0.2
     },
     btnMini : {
         borderWidth : 0.2,
         height : 1.25 * BASE_HEIGHT,
         elevation : 1,
-        textAlign : "center"
+        textAlign : "center",
+        borderRadius : BASE_HEIGHT * 0.2
     },
     btnSuccess : {
         backgroundColor : themes.neutral.backgroundSuccess,
@@ -261,4 +282,11 @@ export const sharedStyles = StyleSheet.create({
         flex : 1,
         marginHorizontal : 5
     },
+    btnTextWrapper : {
+        margin : 0,
+        padding : 8,
+        alignSelf : "center",
+        textTransform : "uppercase",
+        fontWeight : '700'
+    }
 });

@@ -1,7 +1,7 @@
 //import SQLite from 'react-native-sqlite-storage';
-import { STORAGE_KEYS, THEMES } from '../shared/enums';
+import { DATETIME_FORMATS, STORAGE_KEYS, THEMES, UNIT_SYSTEMS } from '../shared/enums';
 import AsyncStorage from '@react-native-community/async-storage';
-import { ISettings } from "../features/settings/redux/constants";
+import ISettings from "../models/ISettings";
 
 // const connection = {
 //     database : SQLite.openDatabase({
@@ -37,13 +37,15 @@ export const getSettingsFromAsyncStorage = async (key : STORAGE_KEYS) : Promise<
 
         if (entry === null)
             entry = {
-                theme : THEMES[THEMES.DAY],
+                theme : THEMES[THEMES.SKY],
                 isPremium : false,
                 reminderUnlocked : false,
                 todoUnlocked : false,
                 notesUnlocked : false,
                 shouldHideAds : false,
-                premiumElapseTime : 0
+                premiumElapseTime : 0,
+                dateTimeFormat : DATETIME_FORMATS.FRIENDLY_DMY,
+                unitSystem : UNIT_SYSTEMS.INTERNATIONAL
             } as ISettings;
     } catch (e) {
         console.log(e);

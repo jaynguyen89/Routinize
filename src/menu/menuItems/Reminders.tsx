@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Text, View } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { TouchableRipple } from "react-native-paper";
 
 import { IAppDrawer } from "../../shared/interfaces";
 
@@ -19,9 +20,14 @@ const Reminders = (props: IAppDrawer) => {
             <Text style={[ styles.rowHeader, props.settings.theme.invert, props.settings.theme.textFill ]}>Reminders</Text>
 
             <View style={ styles.rowMenu }>
-                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faBell } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>Active Items</Text>
+                <View style={{ margin : 0, padding : 0 }}>
+                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
+                                     onPress={ () => props.navigation.navigate('DrawerReminders', { screen : 'Active Reminders - Personal'}) }>
+                        <>
+                            <FontAwesomeIcon icon={ faBell } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                            <Text style={[ styles.rowText, Typography.regular ]}>Active Items</Text>
+                        </>
+                    </TouchableRipple>
                 </View>
 
                 <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>

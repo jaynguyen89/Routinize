@@ -15,6 +15,7 @@ import { baseFontSize, Typography } from "../../../shared/typography";
 import { ACTION_TYPES } from "../../../shared/enums";
 
 import { setNoteDetailItem } from "../redux/actions";
+import {sharedStyles} from "../../../shared/styles";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -34,40 +35,43 @@ const NoteRow = (props : INoteRow) => {
 
     return (
         <>
-            <TouchableRipple onPress={ () => viewNoteDetails(props.item) } onLongPress={ () => setShowPopover(true) }>
-                <View style={[ styles.rowWrapper, props.settings.theme.backgroundSecondary ]}>
-                    <View style={[ styles.titleWrapper ]}>
-                        {
-                            props.item.emphasized &&
-                            <FontAwesomeIcon icon={ faAward } size={ baseFontSize * 1.5 }
-                                             style={[ styles.titleIcon, { color: props.settings.theme.danger.backgroundColor } as ViewStyle]}
-                            />
-                        }
-
-                        <Text style={[ styles.title, Typography.regular ]} numberOfLines={ 1 }>
+            <View style={ sharedStyles.scroller }>
+                <TouchableRipple style={[ styles.rowWrapper, props.settings.theme.backgroundSecondary ]}
+                                 onPress={ () => viewNoteDetails(props.item) } onLongPress={ () => setShowPopover(true) }>
+                    <>
+                        <View style={[ styles.titleWrapper ]}>
                             {
-                                (props.item.title && props.item.title) || props.item.segments[0].body
+                                props.item.emphasized &&
+                                <FontAwesomeIcon icon={ faAward } size={ baseFontSize * 1.5 }
+                                                 style={[ styles.titleIcon, { color: props.settings.theme.danger.backgroundColor } as ViewStyle]}
+                                />
                             }
-                        </Text>
-                    </View>
 
-                    <View style={[ styles.infoSummary ]}>
-                        <Text style={[ (props.item.assignees.length && { flex : 2 }) || { flex : 2, textAlign : 'right' }, Typography.small ]}>
-                            { `${ props.item.author.firstName } ${ props.item.author.lastName }` }
-                        </Text>
-
-                        <Text style={[ { flex : 3 }, Typography.small ]}>{ props.item.createdOn }</Text>
-
-                        {
-                            props.item.assignees.length > 0 &&
-                            <Text style={[ { flex: 1, textAlign: 'right' }, Typography.small ]}>
-                                <FontAwesomeIcon icon={ faUser } size={ baseFontSize * 1.3 }/>
-                                { props.item.assignees.length }
+                            <Text style={[ styles.title, Typography.regular ]} numberOfLines={ 1 }>
+                                {
+                                    (props.item.title && props.item.title) || props.item.segments[0].body
+                                }
                             </Text>
-                        }
-                    </View>
-                </View>
-            </TouchableRipple>
+                        </View>
+
+                        <View style={[ styles.infoSummary ]}>
+                            <Text style={[ (props.item.assignees.length && { flex : 2 }) || { flex : 2, textAlign : 'right' }, Typography.small ]}>
+                                { `${ props.item.author.firstName } ${ props.item.author.lastName }` }
+                            </Text>
+
+                            <Text style={[ { flex : 3 }, Typography.small ]}>{ props.item.createdOn }</Text>
+
+                            {
+                                props.item.assignees.length > 0 &&
+                                <Text style={[ { flex: 1, textAlign: 'right' }, Typography.small ]}>
+                                    <FontAwesomeIcon icon={ faUser } size={ baseFontSize * 1.3 }/>
+                                    { props.item.assignees.length }
+                                </Text>
+                            }
+                        </View>
+                    </>
+                </TouchableRipple>
+            </View>
 
             <Popover isVisible={ showPopover } onRequestClose={ () => setShowPopover(false) }>
                 <PopoverContent

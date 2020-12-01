@@ -27,6 +27,7 @@
     "axios": "^0.21.0",
     "immer": "^8.0.0",
     "lodash": "^4.17.20",
+    "moment": "^2.29.1",
     "react": "16.13.1",
     "react-native": "0.63.3",
     "react-native-datepicker": "^1.7.2",

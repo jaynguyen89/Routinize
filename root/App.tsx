@@ -9,6 +9,7 @@ import { getAppSettings } from '../src/features/settings/redux/actions';
 import AppDrawer from "../src/menu/AppDrawer";
 import ActiveTodoTab from "../src/menu/navigators/todo/ActiveTodoTab";
 import ActiveNoteTab from "../src/menu/navigators/note/ActiveNoteTab";
+import ActiveReminderTab from "../src/menu/navigators/reminder/ActiveReminderTab";
 
 import('./debugger').then(() => console.log('Debugger is running.'));
 
@@ -24,6 +25,7 @@ const App: () => React.ReactNode = () => {
                 <Drawer.Navigator drawerContent={props => <AppDrawer { ...props } />}>
                     <Drawer.Screen name='DrawerTodos' component={ ActiveTodoTab } />
                     <Drawer.Screen name='DrawerNotes' component={ ActiveNoteTab } />
+                    <Drawer.Screen name='DrawerReminders' component={ ActiveReminderTab } />
                 </Drawer.Navigator>
             </NavigationContainer>
         </Provider>

@@ -1,20 +1,21 @@
 import React from "react";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
-import {View, ViewStyle} from "react-native";
-import {Card, FAB, Paragraph, Text} from "react-native-paper";
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import { View, ViewStyle } from "react-native";
+import { Card, FAB, Paragraph, Text } from "react-native-paper";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import Popover from "react-native-popover-view/dist/Popover";
 import PopoverContent from "../../../customs/PopoverContent";
+import { ACTION_TYPES } from "../../../shared/enums";
 
-import {ITodoCard} from "../redux/constants";
+import { ITodoCard } from "../redux/constants";
 import ITodo from "../../../models/ITodo";
 
 import styles from "../styles";
-import {baseFontSize, Typography} from "../../../shared/typography";
-import {faFile, faImage, faLink, faMapMarkerAlt, faStopwatch, faSun, faUser} from "@fortawesome/free-solid-svg-icons";
-import {setTodoDetailItem} from "../redux/actions";
-import {ACTION_TYPES} from "../../../shared/enums";
+import { baseFontSize, Typography } from "../../../shared/typography";
+import { faFile, faImage, faLink, faMapMarkerAlt, faStopwatch, faSun, faUser } from "@fortawesome/free-solid-svg-icons";
+
+import { setTodoDetailItem } from "../redux/actions";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings

@@ -20,12 +20,15 @@ const Notes = (props: IAppDrawer) => {
             <Text style={[ styles.rowHeader, props.settings.theme.invert, props.settings.theme.textFill ]}>Notes</Text>
 
             <View style={ styles.rowMenu }>
-                <TouchableRipple onPress={ () => props.navigation.navigate('DrawerNotes', { screen : 'Active Notes - Personal'}) }>
-                    <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                        <FontAwesomeIcon icon={ faQuoteLeft } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                        <Text style={[ styles.rowText, Typography.regular ]}>Active Notes</Text>
-                    </View>
-                </TouchableRipple>
+                <View style={{ margin:0, padding:0 }}>
+                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
+                                     onPress={ () => props.navigation.navigate('DrawerNotes', { screen : 'Active Notes - Personal'}) }>
+                        <>
+                            <FontAwesomeIcon icon={ faQuoteLeft } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                            <Text style={[ styles.rowText, Typography.regular ]}>Active Notes</Text>
+                        </>
+                    </TouchableRipple>
+                </View>
 
                 <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
                     <FontAwesomeIcon icon={ faAward } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />

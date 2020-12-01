@@ -5,9 +5,15 @@ export interface IAppDrawer {
     navigation : any,
     settings : any
 }
- export interface IDynamicButton {
-     name? : string,
-     icon : string | IconDefinition,
-     callback : any,
-     type : ACTION_TYPES
- }
+
+export interface IButtonGroup {
+    settings? : any
+    actions : Array<IDynamicButton>
+}
+
+export interface IDynamicButton {
+    name? : string,
+    icon : string | IconDefinition,
+    callback : any,
+    type : ACTION_TYPES
+}
