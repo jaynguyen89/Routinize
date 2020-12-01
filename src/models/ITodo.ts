@@ -4,7 +4,6 @@ import { IFile, IMedia } from "./others";
 import INote from "./INote";
 
 interface ITodo extends IThing {
-    id : number,
     description : string,
     details : string,
     dueDate : string,
@@ -16,3 +15,7 @@ interface ITodo extends IThing {
 }
 
 export default ITodo;
+
+export interface ITodoSharing {
+
+}

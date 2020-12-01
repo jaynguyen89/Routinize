@@ -2,10 +2,12 @@ interface IPlace {
     id : string | number,
     name : string,
     address : string,
-    coordination : {
-        lat : number,
-        long : number
-    }
+    coordination : ICoordination
 }
 
 export default IPlace;
+
+export interface ICoordination {
+    lat : number,
+    long : number
+}
