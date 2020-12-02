@@ -7,7 +7,7 @@ import { IAppDrawer } from "../../shared/interfaces";
 
 import styles from "../styles";
 import { baseFontSize, Typography } from "../../shared/typography";
-import { faHandsHelping, faObjectGroup, faUserCog } from "@fortawesome/free-solid-svg-icons";
+import { faHandsHelping, faObjectGroup, faShareAlt } from "@fortawesome/free-solid-svg-icons";
 
 
 const mapStateToProps = (state : any) => ({
@@ -31,8 +31,8 @@ const Collaboration = (props: IAppDrawer) => {
                 </View>
 
                 <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faUserCog } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>Preferences</Text>
+                    <FontAwesomeIcon icon={ faShareAlt } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                    <Text style={[ styles.rowText, Typography.regular ]}>Invitations</Text>
                 </View>
             </View>
         </View>

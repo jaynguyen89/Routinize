@@ -8,7 +8,7 @@ import { IAppDrawer } from "../../shared/interfaces";
 
 import styles from "../styles";
 import { baseFontSize, Typography } from "../../shared/typography";
-import { faArchive, faAward, faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
+import {faArchive, faAward, faLightbulb, faQuoteLeft} from "@fortawesome/free-solid-svg-icons";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -25,7 +25,7 @@ const Notes = (props: IAppDrawer) => {
                                      onPress={ () => props.navigation.navigate('DrawerNotes', { screen : 'Active Notes - Personal'}) }>
                         <>
                             <FontAwesomeIcon icon={ faQuoteLeft } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                            <Text style={[ styles.rowText, Typography.regular ]}>Active Notes</Text>
+                            <Text style={[ styles.rowText, Typography.regular ]}>Active Items</Text>
                         </>
                     </TouchableRipple>
                 </View>
@@ -38,6 +38,11 @@ const Notes = (props: IAppDrawer) => {
                 <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
                     <FontAwesomeIcon icon={ faArchive } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                     <Text style={[ styles.rowText, Typography.regular ]}>Archived</Text>
+                </View>
+
+                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
+                    <FontAwesomeIcon icon={ faLightbulb } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                    <Text style={[ styles.rowText, Typography.regular ]}>Initiative Ideas</Text>
                 </View>
             </View>
         </View>

@@ -26,7 +26,7 @@ const Settings = (props: IAppDrawer) => {
 
                 <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
                     <FontAwesomeIcon icon={ faChild } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>Personalize</Text>
+                    <Text style={[ styles.rowText, Typography.regular ]}>Personalization</Text>
                 </View>
 
                 <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>

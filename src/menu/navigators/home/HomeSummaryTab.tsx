@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import PersonalActiveRemindersStack from "./PersonalActiveRemindersStack";
-import SharedActiveRemindersStack from "./SharedActiveRemindersStack";
+import SharedSummaryStack from "./SharedSummaryStack";
+import PersonalSummaryStack from "./PersonalSummaryStack";
 
 import { BASE_HEIGHT, baseFontSize } from "../../../shared/typography";
 import { faUserFriends, faUsers, faUserTie, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +15,7 @@ const mapStateToProps = (state: any) => ({
     settings : state.settingsReducer.appSettings.settings
 });
 
-const ActiveReminderTab = (props : any) => {
+const HomeSummaryTab = (props : any) => {
     return (
         props.settings &&
         <BottomTab.Navigator
@@ -41,8 +41,8 @@ const ActiveReminderTab = (props : any) => {
                 }
             }}
         >
-            <BottomTab.Screen name='Personal' component={ PersonalActiveRemindersStack } options={{ tabBarBadge : 1 }} />
-            <BottomTab.Screen name='Shared' component={ SharedActiveRemindersStack } />
+            <BottomTab.Screen name='Personal' component={ PersonalSummaryStack } options={{ tabBarBadge : 1 }} />
+            <BottomTab.Screen name='Shared' component={ SharedSummaryStack } />
         </BottomTab.Navigator>
         || <></>
     );
@@ -50,4 +50,4 @@ const ActiveReminderTab = (props : any) => {
 
 export default connect(
     mapStateToProps
-)(ActiveReminderTab);
+)(HomeSummaryTab);

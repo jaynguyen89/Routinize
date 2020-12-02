@@ -1,12 +1,12 @@
 import React from 'react';
 import {Text, View} from "react-native";
 
-const Home = () => {
+const SharedSummary = () => {
     return (
         <View style={{flex:1}}>
-            <Text>Home Activity</Text>
+            <Text>Shared Summary</Text>
         </View>
     );
 }
 
-export default Home;
+export default SharedSummary;

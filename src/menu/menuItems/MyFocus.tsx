@@ -8,7 +8,7 @@ import { IAppDrawer } from "../../shared/interfaces";
 
 import styles from "../styles";
 import { baseFontSize, Typography } from "../../shared/typography";
-import {faBullseye, faClipboardCheck, faClipboardList, faPercentage} from "@fortawesome/free-solid-svg-icons";
+import { faChartBar, faTasks } from "@fortawesome/free-solid-svg-icons";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -17,28 +17,21 @@ const mapStateToProps = (state : any) => ({
 const MyFocus = (props: IAppDrawer) => {
     return (
         <View style={ styles.menuRow }>
-            <Text style={[ styles.rowHeader, props.settings.theme.invert, props.settings.theme.textFill ]}>Home: My Focus</Text>
+            <Text style={[ styles.rowHeader, props.settings.theme.invert, props.settings.theme.textFill ]}>Home</Text>
 
             <View style={ styles.rowMenu }>
-                <TouchableRipple onPress={ () => props.navigation.navigate('Active Todos - Personal') }>
-                    <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                        <FontAwesomeIcon icon={ faClipboardCheck } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                        <Text style={[ styles.rowText, Typography.regular ]}>My Todos Summary</Text>
-                    </View>
-                </TouchableRipple>
-
-                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faClipboardList } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>My Notes Summary</Text>
+                <View style={{ margin:0, padding:0 }}>
+                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
+                                     onPress={ () => props.navigation.navigate('DrawerHome', { screen : 'Summary - Personal Activities'}) }>
+                        <>
+                            <FontAwesomeIcon icon={ faTasks } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                            <Text style={[ styles.rowText, Typography.regular ]}>Summary</Text>
+                        </>
+                    </TouchableRipple>
                 </View>
 
                 <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faBullseye } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>My Goals</Text>
-                </View>
-
-                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faPercentage } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                    <FontAwesomeIcon icon={ faChartBar } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                     <Text style={[ styles.rowText, Typography.regular ]}>Statistics</Text>
                 </View>
             </View>

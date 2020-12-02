@@ -25,7 +25,7 @@ const ToDos = (props: IAppDrawer) => {
                                      onPress={ () => props.navigation.navigate('DrawerTodos', { screen : 'Active Todos - Personal'}) }>
                         <>
                             <FontAwesomeIcon icon={ faBomb } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                            <Text style={[ styles.rowText, Typography.regular ]}>Active</Text>
+                            <Text style={[ styles.rowText, Typography.regular ]}>Active Items</Text>
                         </>
                     </TouchableRipple>
                 </View>

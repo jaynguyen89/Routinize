@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import SharedActiveReminders from "../../../features/reminder/active/SharedActiveReminders";
+import SharedSummary from "../../../features/home/summary/SharedSummary";
 import { IAppDrawer } from "../../../shared/interfaces";
 
 import { Typography } from "../../../shared/typography";
@@ -12,10 +12,10 @@ const mapStateToProps = (state: any) => ({
     settings : state.settingsReducer.appSettings.settings
 });
 
-const SharedActiveRemindersStack = (props : IAppDrawer) => {
+const SharedSummaryStack = (props : IAppDrawer) => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name='Active Reminders - Shared' component={ SharedActiveReminders }
+            <Stack.Screen name='Summary - Shared Activities' component={ SharedSummary }
                           options={{
                               headerTitleStyle : Typography.thirdHeader,
                               headerTintColor : props.settings.theme.textFill.color,
@@ -29,4 +29,4 @@ const SharedActiveRemindersStack = (props : IAppDrawer) => {
 
 export default connect(
     mapStateToProps
-)(SharedActiveRemindersStack);
+)(SharedSummaryStack);
