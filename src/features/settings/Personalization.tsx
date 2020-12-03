@@ -5,7 +5,7 @@ const mapStateToProps = (state : any) => ({
 
 });
 
-const SharedAllTodos = () => {
+const Personalization = () => {
     return (
         <></>
     );
@@ -13,4 +13,4 @@ const SharedAllTodos = () => {
 
 export default connect(
     mapStateToProps
-)(SharedAllTodos);
+)(Personalization);

@@ -22,22 +22,32 @@ const ToDos = (props: IAppDrawer) => {
             <View style={ styles.rowMenu }>
                 <View style={{ margin:0, padding:0 }}>
                     <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
-                                     onPress={ () => props.navigation.navigate('DrawerTodos', { screen : 'Active Todos - Personal'}) }>
+                                     onPress={ () => props.navigation.navigate('ActiveTodos', { screen : 'Active Todos - Personal'}) }>
                         <>
                             <FontAwesomeIcon icon={ faBomb } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                            <Text style={[ styles.rowText, Typography.regular ]}>Active Items</Text>
+                            <Text style={[ styles.rowText, Typography.regular ]}>Active</Text>
                         </>
                     </TouchableRipple>
                 </View>
 
-                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faSun } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>Important</Text>
+                <View style={{ margin:0, padding:0 }}>
+                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
+                                     onPress={ () => props.navigation.navigate('ImportantTodos', { screen : 'Important Todos - Personal'}) }>
+                        <>
+                            <FontAwesomeIcon icon={ faSun } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                            <Text style={[ styles.rowText, Typography.regular ]}>Important</Text>
+                        </>
+                    </TouchableRipple>
                 </View>
 
-                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faCheck } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>Done</Text>
+                <View style={{ margin:0, padding:0 }}>
+                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
+                                     onPress={ () => props.navigation.navigate('DoneTodos', { screen : 'Done Todos - Personal'}) }>
+                        <>
+                            <FontAwesomeIcon icon={ faCheck } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                            <Text style={[ styles.rowText, Typography.regular ]}>Done</Text>
+                        </>
+                    </TouchableRipple>
                 </View>
             </View>
         </View>

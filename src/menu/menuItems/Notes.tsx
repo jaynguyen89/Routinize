@@ -8,7 +8,7 @@ import { IAppDrawer } from "../../shared/interfaces";
 
 import styles from "../styles";
 import { baseFontSize, Typography } from "../../shared/typography";
-import {faArchive, faAward, faLightbulb, faQuoteLeft} from "@fortawesome/free-solid-svg-icons";
+import { faArchive, faAward, faLightbulb, faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -22,27 +22,42 @@ const Notes = (props: IAppDrawer) => {
             <View style={ styles.rowMenu }>
                 <View style={{ margin:0, padding:0 }}>
                     <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
-                                     onPress={ () => props.navigation.navigate('DrawerNotes', { screen : 'Active Notes - Personal'}) }>
+                                     onPress={ () => props.navigation.navigate('ActiveNotes', { screen : 'Active Notes - Personal'}) }>
                         <>
                             <FontAwesomeIcon icon={ faQuoteLeft } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                            <Text style={[ styles.rowText, Typography.regular ]}>Active Items</Text>
+                            <Text style={[ styles.rowText, Typography.regular ]}>Active</Text>
                         </>
                     </TouchableRipple>
                 </View>
 
-                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faAward } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>Highlighted</Text>
+                <View style={{ margin:0, padding:0 }}>
+                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
+                                     onPress={ () => props.navigation.navigate('HighlightedNotes', { screen : 'Highlighted Notes - Personal'}) }>
+                        <>
+                            <FontAwesomeIcon icon={ faAward } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                            <Text style={[ styles.rowText, Typography.regular ]}>Highlighted</Text>
+                        </>
+                    </TouchableRipple>
                 </View>
 
-                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faArchive } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>Archived</Text>
+                <View style={{ margin:0, padding:0 }}>
+                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
+                                     onPress={ () => props.navigation.navigate('ArchivedNotes', { screen : 'Archived Notes - Personal'}) }>
+                        <>
+                            <FontAwesomeIcon icon={ faArchive } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                            <Text style={[ styles.rowText, Typography.regular ]}>Archived</Text>
+                        </>
+                    </TouchableRipple>
                 </View>
 
-                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faLightbulb } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>Initiative Ideas</Text>
+                <View style={{ margin:0, padding:0 }}>
+                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
+                                     onPress={ () => props.navigation.navigate('RandomIdeas', { screen : 'Random Ideas'}) }>
+                        <>
+                            <FontAwesomeIcon icon={ faLightbulb } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                            <Text style={[ styles.rowText, Typography.regular ]}>Random Ideas</Text>
+                        </>
+                    </TouchableRipple>
                 </View>
             </View>
         </View>

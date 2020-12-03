@@ -42,6 +42,12 @@ export enum ACTION_TYPES {
     DANGEROUS
 }
 
+export enum PERMISSIONS {
+    READ,
+    EDIT,
+    DELETE
+}
+
 export enum DATETIME_FORMATS {
     FRIENDLY_A_DMY = 'DD MMM YYYY hh:ss a', //ex. 25 Oct 2009 01:30 PM
     COMPACT_SA_DMY = 'DD/MM/YYYY hh:ss a', //ex. 25/10/2009 01:30 PM

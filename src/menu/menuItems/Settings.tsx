@@ -4,10 +4,11 @@ import { Text, View } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 import { IAppDrawer } from "../../shared/interfaces";
+import { TouchableRipple } from "react-native-paper";
 
 import styles from "../styles";
 import { baseFontSize, Typography } from "../../shared/typography";
-import { faChild, faCogs, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { faChild, faCogs } from "@fortawesome/free-solid-svg-icons";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -19,19 +20,24 @@ const Settings = (props: IAppDrawer) => {
             <Text style={[ styles.rowHeader, props.settings.theme.invert, props.settings.theme.textFill ]}>Settings</Text>
 
             <View style={ styles.rowMenu }>
-                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faCogs } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>App Settings</Text>
+                <View style={{ margin:0, padding:0 }}>
+                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
+                                     onPress={ () => props.navigation.navigate('Settings', { screen : 'Settings'}) }>
+                        <>
+                            <FontAwesomeIcon icon={ faCogs } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                            <Text style={[ styles.rowText, Typography.regular ]}>App Settings</Text>
+                        </>
+                    </TouchableRipple>
                 </View>
 
-                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faChild } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>Personalization</Text>
-                </View>
-
-                <View style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}>
-                    <FontAwesomeIcon icon={ faShoppingCart } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                    <Text style={[ styles.rowText, Typography.regular ]}>Shop</Text>
+                <View style={{ margin:0, padding:0 }}>
+                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
+                                     onPress={ () => props.navigation.navigate('Personalization', { screen : 'Personalization'}) }>
+                        <>
+                            <FontAwesomeIcon icon={ faChild } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                            <Text style={[ styles.rowText, Typography.regular ]}>Personalization</Text>
+                        </>
+                    </TouchableRipple>
                 </View>
             </View>
         </View>

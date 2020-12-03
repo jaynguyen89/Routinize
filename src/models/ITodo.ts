@@ -16,6 +16,3 @@ interface ITodo extends IThing {
 
 export default ITodo;
 
-export interface ITodoSharing {
-
-}

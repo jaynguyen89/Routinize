@@ -6,7 +6,3 @@ interface INote extends IThing {
 }
 
 export default INote;
-
-export interface INoteSharing {
-
-}

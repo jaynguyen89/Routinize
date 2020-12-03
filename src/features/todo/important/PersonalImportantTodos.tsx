@@ -5,7 +5,7 @@ const mapStateToProps = (state : any) => ({
 
 });
 
-const PersonalAllTodos = () => {
+const PersonalImportantTodos = () => {
     return (
         <></>
     );
@@ -13,4 +13,4 @@ const PersonalAllTodos = () => {
 
 export default connect(
     mapStateToProps
-)(PersonalAllTodos);
+)(PersonalImportantTodos);
