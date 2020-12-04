@@ -1,11 +1,8 @@
-import ICollaborator from "./ICollaborator";
+import IThing from "./IThing";
 
-interface IIdea {
+interface IIdea extends IThing {
     id : number,
-    author : ICollaborator,
-    isPersonal : boolean,
-    content : string,
-    createdOn : string
+    content : string
 }
 
 export default IIdea;

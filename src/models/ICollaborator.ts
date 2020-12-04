@@ -1,7 +1,9 @@
-import IPlace from "./IPlace";
+import IPlace from './IPlace';
 
 interface ICollaborator {
     id : string | number,
+    avatar : string,
+    uniqueId : string,
     firstName : string,
     lastName : string,
     gender : boolean, //true for Male

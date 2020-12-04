@@ -1,6 +1,6 @@
 import { PERMISSIONS } from "../shared/enums";
 
-interface IItemSharing {
+interface IItemCollabSharing {
     id : number,
     itemId : number,
     collaboratorId : number,
@@ -8,4 +8,4 @@ interface IItemSharing {
     permission : PERMISSIONS
 }
 
-export default IItemSharing;
+export default IItemCollabSharing;

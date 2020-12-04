@@ -1,24 +1,28 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
-import {ScrollView, View, ViewStyle} from "react-native";
-import { Icon, Input } from "react-native-elements";
-import DynamicButtons from "../../../customs/DynamicButtons";
-import { FAB } from "react-native-paper";
-import NoteSegmentCard from "./NoteSegmentCard";
-import Popover from "react-native-popover-view/dist/Popover";
-import NotePreference from "./NotePreference";
-import { ACTION_TYPES } from "../../../shared/enums";
-import { INoteDetail } from "../redux/constants";
+import { ScrollView, View } from 'react-native';
+import { Icon, Input } from 'react-native-elements';
+import DynamicButtons from '../../../customs/DynamicButtons';
+import { FAB } from 'react-native-paper';
+import NoteSegmentCard from './NoteSegmentCard';
+import Popover from 'react-native-popover-view/dist/Popover';
+import NotePreference from './NotePreference';
+import { ACTION_TYPES } from '../../../shared/enums';
+import { INoteDetail } from '../redux/constants';
 
-import styles from "../styles";
-import { sharedStyles } from "../../../shared/styles";
-import { Typography} from "../../../shared/typography";
+import styles from '../styles';
+import { sharedStyles } from '../../../shared/styles';
+import { Typography } from '../../../shared/typography';
 import {
-    faFileImport, faMapMarkerAlt, faMinusCircle,
-    faPhotoVideo, faPlusCircle, faTrashAlt
-} from "@fortawesome/free-solid-svg-icons";
-import INoteSegment from "../../../models/INoteSegment";
+    faFileImport,
+    faMapMarkerAlt,
+    faMinusCircle,
+    faPhotoVideo,
+    faPlusCircle,
+    faTrashAlt
+} from '@fortawesome/free-solid-svg-icons';
+import INoteSegment from '../../../models/INoteSegment';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,

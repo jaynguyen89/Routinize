@@ -48,6 +48,18 @@ export enum PERMISSIONS {
     DELETE
 }
 
+export enum TEAM_ROLES {
+    ADMIN = 'Admin',
+    MOD = 'Moderator',
+    MEMBER = 'Member'
+}
+
+export enum INVITATION_STATUS {
+    PENDING,
+    ACCEPTED,
+    REJECTED
+}
+
 export enum DATETIME_FORMATS {
     FRIENDLY_A_DMY = 'DD MMM YYYY hh:ss a', //ex. 25 Oct 2009 01:30 PM
     COMPACT_SA_DMY = 'DD/MM/YYYY hh:ss a', //ex. 25/10/2009 01:30 PM
