@@ -1,18 +1,18 @@
-//import SQLite from 'react-native-sqlite-storage';
+import SQLite from 'react-native-sqlite-storage';
 import { DATETIME_FORMATS, STORAGE_KEYS, THEMES, UNIT_SYSTEMS } from '../shared/enums';
 import AsyncStorage from '@react-native-community/async-storage';
 import ISettings from "../models/ISettings";
 
-// const connection = {
-//     database : SQLite.openDatabase({
-//             name: 'calculator_data',
-//             location: 'default',
-//             createFromLocation: '~calculator_data.sqlite'
-//         },
-//         () => console.log('Database connected successfully.'),
-//         error => console.log(error)
-//     )
-// };
+const connection = {
+    database : SQLite.openDatabase({
+            name: 'routinizeDb',
+            location: 'default',
+            createFromLocation: '~routinizeDb.db'
+        },
+        () => console.log('Database connected successfully.'),
+        error => console.log(error)
+    )
+};
 
 export const insertData = () => {
 
@@ -37,13 +37,14 @@ export const getSettingsFromAsyncStorage = async (key : STORAGE_KEYS) : Promise<
 
         if (entry === null)
             entry = {
-                theme : THEMES[THEMES.SKY],
+                theme : THEMES.SKY,
                 isPremium : false,
-                reminderUnlocked : false,
                 todoUnlocked : false,
                 notesUnlocked : false,
+                collabUnlocked : false,
                 shouldHideAds : false,
-                premiumElapseTime : 0,
+                premiumUntil : null,
+                unlockedUntil : null,
                 dateTimeFormat : DATETIME_FORMATS.FRIENDLY_DMY,
                 unitSystem : UNIT_SYSTEMS.INTERNATIONAL
             } as ISettings;
@@ -58,19 +59,20 @@ export const getEntry = () => {
 
 }
 
-// export const getData = (table : any) : any[] => {
-//     let dbData: any[] = [];
-//     connection.database.transaction(tx => {
-//         tx.executeSql(
-//             `SELECT * FROM ${ table }`, [],
-//             (tx, results) => {
-//                 results.rows.raw().forEach(item => dbData.push(item));
-//             })
-//     })
-//         .then(r => console.log(r));
-//
-//     return dbData;
-// };
+export const getData = (table : any) : any[] => {
+    let dbData: any[] = [];
+
+    connection.database.transaction(tx => {
+        tx.executeSql(
+            'SELECT * FROM ?', [table],
+            (tx, results) => {
+                dbData.push(results.rows.item(0))
+            })
+        })
+        //.then(e => console.log(e));
+
+    return dbData;
+};
 
 export const execute = (query : string) => {
 

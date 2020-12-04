@@ -19,21 +19,21 @@ export enum ORIGIN {
 }
 
 export enum MEDIA_TYPES {
-    PHOTO,
-    VIDEO,
-    AUDIO
+    PHOTO = 0,
+    VIDEO = 1,
+    AUDIO = 2
 }
 
 export enum FILE_TYPES {
-    PDF,
-    TXT,
-    DOC,
-    PPT,
-    EXCEL,
-    ARCHIVE,
-    CSV,
-    CODE,
-    OTHERS
+    PDF = 3,
+    TXT = 4,
+    DOC = 5,
+    PPT = 6,
+    EXCEL = 7,
+    ARCHIVE = 8,
+    CSV = 9,
+    CODE = 10,
+    OTHERS = 11
 }
 
 export enum ACTION_TYPES {
@@ -49,15 +49,21 @@ export enum PERMISSIONS {
 }
 
 export enum TEAM_ROLES {
-    ADMIN = 'Admin',
-    MOD = 'Moderator',
-    MEMBER = 'Member'
+    ADMIN,
+    MODERATOR,
+    MEMBER
 }
 
 export enum INVITATION_STATUS {
     PENDING,
     ACCEPTED,
     REJECTED
+}
+
+export enum TITLES {
+    MR = 'Mr',
+    MS = 'Ms',
+    MRS = 'Mrs'
 }
 
 export enum DATETIME_FORMATS {
@@ -78,4 +84,38 @@ export enum DATETIME_FORMATS {
 export enum UNIT_SYSTEMS {
     INTERNATIONAL,
     UNITED_STATES
+}
+
+export enum ADDRESS_FORMAT {
+    SS, //Suburb + State
+    SO, //State Only
+    ST, //Street + Suburb
+    FULL //Whole address
+}
+
+export enum NAME_FORMAT {
+    FML, //First + Middle + Last in abbr.
+    FLA, //First in full + Last in abbr.
+    FLF, //First + Last in full,
+    FAL, //First in abbr. + Last in full
+    INITS, //Only initial letters
+}
+
+export enum PRIVACY {
+    HIDDEN, //Hide to everyone
+    PARTIAL, //Hide part of phone number
+    PUBLIC, //Show to everyone
+    CUSTOM
+}
+
+export enum RELATIONSHIPS {
+    RELATED,
+    BLOCKED,
+    BLOCKS
+}
+
+export enum ITEM_TYPES {
+    TODO,
+    NOTE,
+    SEGMENT
 }

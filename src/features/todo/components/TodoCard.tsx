@@ -37,12 +37,12 @@ const TodoCard = (props : ITodoCard) => {
         <>
             <Card style={ styles.todoCard } onPress={ () => viewTodoDetails(props.item) }>
                 {
-                    props.item.images &&
-                    <Card.Cover source={{ uri: props.item.images[0].url }} style={ styles.cardCover }/>
+                    props.item.attachments &&
+                    <Card.Cover source={{ uri: props.item.attachments[0].url }} style={ styles.cardCover }/>
                 }
 
                 {
-                    props.item.images &&
+                    props.item.attachments &&
                     <FAB visible small style={ styles.overlapped } icon='dots-vertical'
                          onPress={ () => setShowPopover(true) }
                     />
@@ -51,7 +51,7 @@ const TodoCard = (props : ITodoCard) => {
                 <Card.Content>
                     {
                         (
-                            props.item.images &&
+                            props.item.attachments &&
                             <View style={{ flex : 1, flexDirection : "row" }}>
                                 <FontAwesomeIcon icon={ faSun } size={ baseFontSize * 1.5 }
                                                  style={[ styles.titleIcon, { color: props.settings.theme.danger.backgroundColor } as ViewStyle]}
@@ -87,35 +87,35 @@ const TodoCard = (props : ITodoCard) => {
                             { props.item.dueDate }
                         </Text>
 
-                        {
+                        {//Assignees
                             !props.item.isPersonal &&
                             <Text style={[ { flex : 1 }, Typography.small ]}>
                                 <FontAwesomeIcon icon={ faUser } size={ baseFontSize * 1.3 } />
-                                { props.item.assignees.length }
+                                { '2' }
                             </Text>
                         }
 
                         {
-                            props.item.places &&
+                            props.item.attachments &&
                             <Text style={[ { flex: 1, textAlign : 'right' }, Typography.small ]}>
                                 <FontAwesomeIcon icon={ faMapMarkerAlt } size={ baseFontSize * 1.3 } />
-                                { props.item.places.length }
+                                { props.item.places?.length }
                             </Text>
                         }
 
-                        {
-                            props.item.images &&
+                        {//Images
+                            props.item.attachments &&
                             <Text style={[ { flex: 1, textAlign : 'right' }, Typography.small ]}>
                                 <FontAwesomeIcon icon={ faImage } size={ baseFontSize * 1.3 } />
-                                { props.item.images.length }
+                                { props.item.attachments.length }
                             </Text>
                         }
 
-                        {
-                            props.item.files &&
+                        {//Files
+                            props.item.attachments &&
                             <Text style={[ { flex: 1, textAlign : 'right' }, Typography.small ]}>
                                 <FontAwesomeIcon icon={ faFile } size={ baseFontSize * 1.3 } />
-                                { props.item.files.length }
+                                { props.item.attachments.length }
                             </Text>
                         }
 

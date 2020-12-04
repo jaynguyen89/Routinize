@@ -1,10 +1,11 @@
 import IPlace from "./IPlace";
-import {IFile, IMedia} from "./others";
+import { IFile, IMedia } from "./others";
 
 interface INoteSegment {
     id : number,
     body : string,
-    attachments : Array<IPlace | IMedia | IFile>
+    places : Array<IPlace> | null,
+    attachments : Array<IMedia | IFile> | null
 }
 
 export default INoteSegment;

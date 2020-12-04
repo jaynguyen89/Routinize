@@ -1,6 +1,6 @@
 interface IPlace {
     id : string | number,
-    name : string,
+    name : string | null,
     address : string,
     coordination : ICoordination
 }

@@ -55,17 +55,18 @@ const NoteRow = (props : INoteRow) => {
                         </View>
 
                         <View style={[ styles.infoSummary ]}>
-                            <Text style={[ (props.item.assignees.length && { flex : 2 }) || { flex : 2, textAlign : 'right' }, Typography.small ]}>
-                                { `${ props.item.author.firstName } ${ props.item.author.lastName }` }
+                            { /* props.item.assignees.length is replaced by number */ }
+                            <Text style={[ (1 && { flex : 2 }) || { flex : 2, textAlign : 'right' }, Typography.small ]}>
+                                { `${ props.item.author?.firstName } ${ props.item.author?.lastName }` }
                             </Text>
 
                             <Text style={[ { flex : 3 }, Typography.small ]}>{ props.item.createdOn }</Text>
 
                             {
-                                props.item.assignees.length > 0 &&
+                                1 > 0 &&
                                 <Text style={[ { flex: 1, textAlign: 'right' }, Typography.small ]}>
                                     <FontAwesomeIcon icon={ faUser } size={ baseFontSize * 1.3 }/>
-                                    { props.item.assignees.length }
+                                    { 1 }
                                 </Text>
                             }
                         </View>

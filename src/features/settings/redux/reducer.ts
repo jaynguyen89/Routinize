@@ -38,9 +38,9 @@ const reducer = produce((state, action) => {
             state.appSettings.settings = action.payload;
 
             state.appSettings.settings.theme =
-                action.payload.theme === THEMES[THEMES.DAY] ? dayTheme : (
-                    action.payload.theme === THEMES[THEMES.NIGHT] ? nightTheme : (
-                        action.payload.theme === THEMES[THEMES.SEA] ? seaTheme : skyTheme
+                action.payload.theme === THEMES.DAY ? dayTheme : (
+                    action.payload.theme === THEMES.NIGHT ? nightTheme : (
+                        action.payload.theme === THEMES.SEA ? seaTheme : skyTheme
                     )
                 );
             return;

@@ -1,11 +1,12 @@
 import ICollaborator from "./ICollaborator";
+import { IMedia } from './others';
 
 interface IProject {
     id : number,
     projectName : string,
     projectCode : string,
     description : string,
-    coverImage : string,
+    coverImage : IMedia | null,
     createdOn : string,
     createdBy : ICollaborator
 }
