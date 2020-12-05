@@ -2,14 +2,14 @@ import INote from "../../../models/INote";
 import INoteSegment from "../../../models/INoteSegment";
 
 export interface IActiveNotes {
-    settings? : any,
+    settings : any,
     items : INote,
     navigation : any,
     setNoteTypeToCreate : any
 }
 
 export interface INoteRow {
-    settings? : any,
+    settings : any,
     item : INote,
     navigation : any,
     setNoteDetailItem : any

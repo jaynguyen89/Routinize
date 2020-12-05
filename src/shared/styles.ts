@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import themes from '../shared/themes';
-import { BASE_HEIGHT } from './typography';
+import { BASE_HEIGHT, baseFontSize } from './typography';
 
 const shadows = StyleSheet.create({
     lightShadow : {
@@ -288,5 +288,8 @@ export const sharedStyles = StyleSheet.create({
         alignSelf : "center",
         textTransform : "uppercase",
         fontWeight : '700'
+    },
+    stackBtnWrapper : {
+        marginRight : BASE_HEIGHT * 0.75
     }
 });

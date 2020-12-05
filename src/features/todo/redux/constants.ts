@@ -11,7 +11,7 @@ export interface ITodos {
 export interface ITodoCard {
     navigation : any,
     key : string | number,
-    settings? : any,
+    settings : any,
     item : ITodo,
     setTodoDetailItem : any
 }

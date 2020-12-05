@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import {BASE_HEIGHT} from "../../shared/typography";
+import { BASE_HEIGHT } from "../../shared/typography";
 
 const styles = StyleSheet.create({
     rowWrapper : {

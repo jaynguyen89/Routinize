@@ -13,7 +13,12 @@ export interface IButtonGroup {
 
 export interface IDynamicButton {
     name? : string,
-    icon : string | IconDefinition,
+    icon? : string | IconDefinition,
     callback : any,
     type : ACTION_TYPES
+}
+
+export interface IPopoverContent {
+    settings? : any,
+    actions : Array<IDynamicButton>
 }

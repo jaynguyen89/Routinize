@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import MyCollaborators from "../../../features/collaboration/team/MyCollaborators";
+import MyCollaborators from "../../../features/collaboration/collaborator/MyCollaborators";
 import { IAppDrawer } from "../../../shared/interfaces";
 
 import { Typography } from "../../../shared/typography";

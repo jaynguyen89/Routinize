@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { ScrollView, View } from "react-native";
+import { Button, ScrollView, View } from 'react-native';
 import { FAB } from "react-native-paper";
 import NoteRow from "../components/NoteRow";
 import { Divider } from "react-native-elements";
@@ -72,7 +72,6 @@ const PersonalActiveNotes = (props : IActiveNotes) => {
     }
 
     return (
-        props.settings &&
         <>
             <ScrollView style={ sharedStyles.scroller }>
                 {

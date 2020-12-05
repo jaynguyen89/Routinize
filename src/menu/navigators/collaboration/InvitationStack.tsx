@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import Invitations from "../../../features/collaboration/team/Invitations";
+import Invitations from "../../../features/collaboration/invitation/Invitations";
 import { IAppDrawer } from "../../../shared/interfaces";
 
 import { Typography } from "../../../shared/typography";

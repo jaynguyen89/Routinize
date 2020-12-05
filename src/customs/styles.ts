@@ -41,6 +41,10 @@ const styles = StyleSheet.create({
     nthBtn : {
         borderRightWidth : 0.5,
         borderLeftWidth : 0.5
+    },
+    menuRow : {
+        flex : 1,
+        marginBottom : BASE_HEIGHT * 0.35
     }
 });
 

@@ -50,7 +50,6 @@ const PersonalActiveTodos = (props : ITodos) => {
     }
 
     return (
-        props.settings &&
         <>
             <ScrollView style={ sharedStyles.scroller }>
                 {

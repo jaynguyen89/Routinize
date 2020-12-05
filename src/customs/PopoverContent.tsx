@@ -3,17 +3,12 @@ import { connect } from "react-redux";
 
 import { Text, View } from "react-native";
 import { Button } from "react-native-paper";
-import { IDynamicButton } from "../shared/interfaces";
+import { IDynamicButton, IPopoverContent } from '../shared/interfaces';
 
 import styles from "./styles";
 import { Typography } from "../shared/typography";
 import { ACTION_TYPES } from "../shared/enums";
 import { sharedStyles } from "../shared/styles";
-
-interface IPopoverContent {
-    settings? : any,
-    actions : Array<IDynamicButton>
-}
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
