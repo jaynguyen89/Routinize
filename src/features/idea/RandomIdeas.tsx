@@ -1,18 +1,17 @@
-import React, { useRef } from 'react';
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 import { sharedStyles } from '../../shared/styles';
-import { Text, ScrollView, View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import IIdea from '../../models/IIdea';
 import IPlace from '../../models/IPlace';
 import ICollaborator from '../../models/ICollaborator';
 
 import IdeaRow from './components/IdeaRow';
-import { Button, Divider, Icon } from 'react-native-elements';
+import { Divider } from 'react-native-elements';
 import { IRandomIdeas } from './redux/constants';
-import { faEllipsisV, faPlus, faPlusCircle, faUser } from '@fortawesome/free-solid-svg-icons';
-import { baseFontSize, Typography } from '../../shared/typography';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { baseFontSize } from '../../shared/typography';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {  TouchableRipple } from 'react-native-paper';
 import Popover from 'react-native-popover-view/dist/Popover';
 import PopoverMenu from '../../customs/PopoverMenu';
 import { ACTION_TYPES } from '../../shared/enums';
@@ -41,7 +40,7 @@ const items : Array<IIdea> = [
 
 const RandomIdeas = (props : IRandomIdeas) => {
     const [showPopover, setShowPopover] = React.useState(false);
-    const stackButton = useRef('stackButton');
+    const stackButton = React.useRef('stackButton');
 
     React.useLayoutEffect(() => {
         props.navigation.setOptions({

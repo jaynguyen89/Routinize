@@ -8,7 +8,9 @@ interface IProject {
     description : string,
     coverImage : IMedia | null,
     createdOn : string,
-    createdBy : ICollaborator
+    createdBy : ICollaborator,
+    dueDate : string | null,
+    finalDate : string | null
 }
 
 export default IProject;

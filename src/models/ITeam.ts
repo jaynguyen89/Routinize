@@ -8,7 +8,7 @@ interface ITeam {
     coverImage : string | null,
     createdOn : string,
     createdBy : ICollaborator,
-    project : IProject | null
+    project : IProject
 }
 
 export default ITeam;
