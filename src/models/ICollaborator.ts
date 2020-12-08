@@ -1,4 +1,4 @@
-import IPlace from './IPlace';
+import IAddress from './IAddress';
 
 interface ICollaborator {
     id : string | number,
@@ -10,7 +10,7 @@ interface ICollaborator {
     shortName : string | null,
     gender : boolean, //true for Male
     title : string,
-    address : IPlace,
+    address : IAddress,
     phoneNumber : string
 }
 

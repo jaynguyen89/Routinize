@@ -1,4 +1,4 @@
-import { ICoordination } from "./IPlace";
+import { ICoordination } from "./IAddress";
 import ITodo from "./ITodo";
 
 interface INotificationPreference {

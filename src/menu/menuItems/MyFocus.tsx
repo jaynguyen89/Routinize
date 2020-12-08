@@ -22,7 +22,7 @@ const MyFocus = (props: IAppDrawer) => {
             <View style={ styles.rowMenu }>
                 <View style={{ margin:0, padding:0 }}>
                     <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
-                                     onPress={ () => props.navigation.navigate('DrawerSummary', { screen : 'Summary - Personal Activities'}) }>
+                                     onPress={ () => props.navigation.navigate('Summary', { screen : 'Summary - Personal Activities'}) }>
                         <>
                             <FontAwesomeIcon icon={ faTasks } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                             <Text style={[ styles.rowText, Typography.regular ]}>Summary</Text>
@@ -32,7 +32,7 @@ const MyFocus = (props: IAppDrawer) => {
 
                 <View style={{ margin:0, padding:0 }}>
                     <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
-                                     onPress={ () => props.navigation.navigate('DrawerStatistics', { screen : 'Statistics - Personal Activities'}) }>
+                                     onPress={ () => props.navigation.navigate('Statistics', { screen : 'Statistics - Personal Activities'}) }>
                         <>
                             <FontAwesomeIcon icon={ faChartBar } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                             <Text style={[ styles.rowText, Typography.regular ]}>Statistics</Text>

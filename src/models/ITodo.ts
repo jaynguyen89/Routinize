@@ -1,4 +1,4 @@
-import IPlace from "./IPlace";
+import IAddress from "./IAddress";
 import IThing from "./IThing";
 import { IFile, IMedia } from "./others";
 import { RELATIONSHIPS } from '../shared/enums';
@@ -8,7 +8,7 @@ interface ITodo extends IThing {
     description : string,
     details : string,
     dueDate : string,
-    places : Array<IPlace> | null,
+    places : Array<IAddress> | null,
     attachments : Array<IMedia | IFile> | null,
     related : Array<IRelationship> | null,
     doneDate : string | null,

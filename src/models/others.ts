@@ -21,3 +21,10 @@ export interface IItemSharing {
     item : ITodo | INote | INoteSegment,
     itemType : ITEM_TYPES
 }
+
+export interface IAuth {
+    email : string,
+    sessionId : string,
+    authToken : string,
+    timeStamp : number
+}

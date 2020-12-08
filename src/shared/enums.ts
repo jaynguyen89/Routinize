@@ -1,5 +1,11 @@
 export enum DATABASE_TABLES {
-    SETTINGS = 'settings'
+    SETTINGS = 'settings',
+    AUTH = 'auth',
+    USER = 'user',
+    ADDRESS = 'address',
+    NOTES = 'notes',
+    TODOS = 'todos',
+    SEGMENTS = 'noteSegments'
 }
 
 export enum STORAGE_KEYS {
@@ -94,18 +100,18 @@ export enum ADDRESS_FORMAT {
 }
 
 export enum NAME_FORMAT {
-    FML, //First + Middle + Last in abbr.
-    FLA, //First in full + Last in abbr.
-    FLF, //First + Last in full,
-    FAL, //First in abbr. + Last in full
+    FFLA, //First in full. + Last in abbr.
+    FALA, //First in abbr. + Last in abbr.
+    FFLF, //First in full + Last in full,
+    FALF, //First in abbr. + Last in full
     INITS, //Only initial letters
 }
 
+//For phone number, username
 export enum PRIVACY {
     HIDDEN, //Hide to everyone
     PARTIAL, //Hide part of phone number
     PUBLIC, //Show to everyone
-    CUSTOM
 }
 
 export enum RELATIONSHIPS {

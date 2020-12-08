@@ -8,7 +8,7 @@ import { Divider } from "react-native-elements";
 import INote from "../../../models/INote";
 import ICollaborator from "../../../models/ICollaborator";
 import { IMedia } from "../../../models/others";
-import IPlace from "../../../models/IPlace";
+import IAddress from "../../../models/IAddress";
 import { IActiveNotes } from "../redux/constants";
 
 import { sharedStyles } from "../../../shared/styles";
@@ -29,7 +29,7 @@ const items : Array<INote> = [{
     id : 1, title : null, emphasized : false, createdOn : '30 Nov 2020 00:46', isPersonal : true,
     author : {
         id : 1, firstName : 'Jay', lastName : 'Nguyen', gender : true, phoneNumber : '04422357488', title : 'Software Developer',
-        address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IPlace
+        address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IAddress
     } as ICollaborator,
     // assignees : [{
     //     id : 1, firstName : 'Jay', lastName : 'Nguyen', gender : true, phoneNumber : '04422357488', title : 'Software Developer',
@@ -44,7 +44,7 @@ const items : Array<INote> = [{
     id : 2, title : 'Integer eget aliquet nibh praesent tristique.', emphasized : true, createdOn : '21 Oct 2020 18:37', isPersonal : true,
     author : {
         id : 1, firstName : 'Jay', lastName : 'Nguyen', gender : true, phoneNumber : '04422357488', title : 'Software Developer',
-        address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IPlace
+        address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IAddress
     } as ICollaborator,
     // assignees : [{
     //     id : 1, firstName : 'Jay', lastName : 'Nguyen', gender : true, phoneNumber : '04422357488', title : 'Software Developer',

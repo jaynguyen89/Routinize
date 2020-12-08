@@ -206,6 +206,7 @@ export const sharedStyles = StyleSheet.create({
     btnMini : {
         borderWidth : 0.2,
         height : 1.25 * BASE_HEIGHT,
+        paddingBottom : BASE_HEIGHT * 0.55,
         elevation : 1,
         textAlign : "center",
         borderRadius : BASE_HEIGHT * 0.2
