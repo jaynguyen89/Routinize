@@ -78,7 +78,7 @@ export const getData = async (table : DATABASE_TABLES): Promise<Array<any> | any
         setData(data);
     }
 
-    return null;//dbData;
+    return dbData;
 };
 
 export const execute = (query : string) => {
