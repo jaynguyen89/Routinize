@@ -5,8 +5,11 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import store from '../src/providers/reducerIndex';
 
 import { getAppSettings } from '../src/features/settings/redux/actions';
+import { getAuthData } from '../src/auth/redux/actions';
+
 import AppDrawer from "../src/menu/AppDrawer";
 import HomeSummaryTab from "../src/menu/navigators/home/HomeSummaryTab";
+import AccountStack from '../src/menu/navigators/account/AccountStack';
 import HomeStatisticsTab from "../src/menu/navigators/home/HomeStatisticsTab";
 import ActiveTodoTab from "../src/menu/navigators/todo/ActiveTodoTab";
 import ActiveNoteTab from "../src/menu/navigators/note/ActiveNoteTab";
@@ -27,6 +30,7 @@ import ShopStack from "../src/menu/navigators/others/ShopStack";
 import('./debugger').then(() => console.log('Debugger is running.'));
 
 store.dispatch(getAppSettings());
+store.dispatch(getAuthData());
 const Drawer = createDrawerNavigator();
 
 const App: () => React.ReactNode = () => {
@@ -56,6 +60,8 @@ const App: () => React.ReactNode = () => {
                     <Drawer.Screen name='Shop' component={ ShopStack } />
                     <Drawer.Screen name='Support' component={ SupportStack } />
                     <Drawer.Screen name='Recommendations' component={ RecommendationStack } />
+
+                    <Drawer.Screen name='Account' component={ AccountStack } />
                 </Drawer.Navigator>
             </NavigationContainer>
         </Provider>

@@ -1,5 +1,5 @@
 import SQLite from 'react-native-sqlite-storage';
-import { DATETIME_FORMATS, STORAGE_KEYS, THEMES, UNIT_SYSTEMS } from '../shared/enums';
+import { DATABASE_TABLES, DATETIME_FORMATS, STORAGE_KEYS, THEMES, UNIT_SYSTEMS } from '../shared/enums';
 import AsyncStorage from '@react-native-community/async-storage';
 import ISettings from "../models/ISettings";
 
@@ -59,32 +59,40 @@ export const getEntry = () => {
 
 }
 
-export const getData = (table : any) : any[] => {
-    let dbData: any[] = [];
+export const getData = async (table : DATABASE_TABLES): Promise<Array<any> | any> => {
+    let dbData : Array<any> | any = [];
+    const setData = (val : any[] | any) => { dbData = val; };
 
-    connection.database.transaction(tx => {
-        tx.executeSql(
-            'SELECT * FROM ?', [table],
-            (tx, results) => {
-                dbData.push(results.rows.item(0))
-            })
-        })
-        //.then(e => console.log(e));
+    let results : any = await executeQuery('SELECT * FROM ' + table);
+    if (
+        table === DATABASE_TABLES.AUTH ||
+        table === DATABASE_TABLES.USER ||
+        table === DATABASE_TABLES.SETTINGS
+    )
+        setData(results.rows.item(0));
+    else {
+        let data : Array<any> = [];
+        for (let i = 0; i < results.rows.length; i++)
+            data.push(results.rows.item(i));
 
-    return dbData;
+        setData(data);
+    }
+
+    return null;//dbData;
 };
 
 export const execute = (query : string) => {
 
 };
 
-// const executeQuery = (query : string, params = []) => new Promise((resolve, reject) => {
-//     connection.database.transaction(tx => {
-//         tx.executeSql(
-//             query,
-//             params,
-//             (tx, results) => resolve(results),
-//             error => reject(error)
-//         );
-//     });
-// });
+const executeQuery = (query : string, params : Array<DATABASE_TABLES> = []) =>
+    new Promise((resolve, reject) => {
+        connection.database.transaction(tx => {
+            tx.executeSql(
+                query,
+                params,
+                (tx, results) => resolve(results),
+                error => reject(error)
+            );
+        });
+    });

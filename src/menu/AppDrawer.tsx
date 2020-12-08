@@ -17,7 +17,7 @@ const AppDrawer = (props: IAppDrawer) => {
     return (
         props.settings &&
         <View style={ styles.drawerContainer }>
-            <DrawerAccount />
+            <DrawerAccount navigation={ props.navigation } />
 
             <ScrollView style={ styles.scroller }>
                 <MainMenu navigation={ props.navigation } />

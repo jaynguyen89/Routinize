@@ -1,7 +1,7 @@
 import { PERMISSIONS, TEAM_ROLES } from "../shared/enums";
 import { IItemSharing } from './others';
 
-interface IItemTeamSharing {
+interface ITeamTask {
     id : number,
     items : Array<IItemSharing>,
     teamId : number,
@@ -12,4 +12,4 @@ interface IItemTeamSharing {
     }
 }
 
-export default IItemTeamSharing;
+export default ITeamTask;

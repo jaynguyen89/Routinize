@@ -1,60 +1,85 @@
-CREATE TABLE "settings" (
-	"theme"	INTEGER NOT NULL DEFAULT 3,
-	"isPremium"	INTEGER NOT NULL DEFAULT 0,
-	"todoUnlocked"	INTEGER NOT NULL DEFAULT 0,
-	"notesUnlocked"	INTEGER NOT NULL DEFAULT 0,
-	"collabUnlocked"	INTEGER NOT NULL DEFAULT 0,
-	"shouldHideAds"	INTEGER NOT NULL DEFAULT 0,
-	"premiumUntil"	TEXT DEFAULT NULL,
-	"unlockedUntil"	TEXT DEFAULT NULL,
-	"dateTimeFormat"	TEXT NOT NULL DEFAULT 'FRIENDLY_DMY',
-	"unitSystem"	INTEGER NOT NULL DEFAULT 0,
-    "addressFormat" INTEGER NOT NULL DEFAULT 0
-);
-
-INSERT INTO "settings" (
-	"theme",
-	"isPremium",
-	"todoUnlocked",
-	"notesUnlocked",
-	"collabUnlocked",
-	"shouldHideAds",
-	"premiumUntil",
-	"unlockedUntil",
-	"dateTimeFormat",
-	"unitSystem",
-    "addressFormat"
-) VALUES (3, 0, 0, 0, 0, 0, NULL, NULL, 'FRIENDLY_DMY', 0, 0);
-
 CREATE TABLE "addresses" (
     "id" INTEGER NOT NULL UNIQUE,
     "name" TEXT DEFAULT NULL,
-    "address" TEXT NOT NULL,
-    "coordination" TEXT NOT NULL,
+    "building" TEXT DEFAULT NULL,
+    "street" TEXT DEFAULT NULL,
+    "suburb" TEXT DEFAULT NULL,
+    "postcode" TEXT DEFAULT NULL,
+    "state" TEXT DEFAULT NULL,
+    "country" TEXT DEFAULT NULL,
+    "latitude" TEXT NOT NULL,
+    "longitude" TEXT NOT NULL,
     PRIMARY KEY("id" AUTOINCREMENT)
 );
 
 CREATE TABLE "users" (
-	"id"	INTEGER NOT NULL UNIQUE,
+    "id" INTEGER NOT NULL UNIQUE,
     "addressId" INTEGER DEFAULT NULL,
     "email" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
     "avatar" TEXT DEFAULT NULL,
     "uniqueId" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
     "shortName" TEXT DEFAULT NULL,
     "gender" INTEGER NOT NULL DEFAULT 0,
-    "title" TEXT NOT NULL DEFAULT 0,
     "phoneNumber" TEXT DEFAULT NULL,
-	PRIMARY KEY("id" AUTOINCREMENT),
+    PRIMARY KEY("id" AUTOINCREMENT),
     FOREIGN KEY ("addressId") REFERENCES "addresses"("id")
+);
+
+CREATE TABLE "settings" (
+    "id" INTEGER NOT NULL UNIQUE,
+    "userId" INTEGER NOT NULL,
+    "theme"	INTEGER NOT NULL DEFAULT 3,
+    "isPremium"	INTEGER NOT NULL DEFAULT 0,
+    "todoUnlocked"	INTEGER NOT NULL DEFAULT 0,
+    "notesUnlocked"	INTEGER NOT NULL DEFAULT 0,
+    "collabUnlocked"	INTEGER NOT NULL DEFAULT 0,
+    "shouldHideAds"	INTEGER NOT NULL DEFAULT 0,
+    "premiumUntil"	TEXT DEFAULT NULL,
+    "unlockedUntil"	TEXT DEFAULT NULL,
+    "dateTimeFormat"	TEXT NOT NULL DEFAULT 'FRIENDLY_DMY',
+    "unitSystem"	INTEGER NOT NULL DEFAULT 0,
+    "addressFormat" INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY("id" AUTOINCREMENT),
+    FOREIGN KEY ("userId") REFERENCES "users"("id")
+);
+
+INSERT INTO "settings" (
+    "userId",
+    "theme",
+    "isPremium",
+    "todoUnlocked",
+    "notesUnlocked",
+    "collabUnlocked",
+    "shouldHideAds",
+    "premiumUntil",
+    "unlockedUntil",
+    "dateTimeFormat",
+    "unitSystem"
+) VALUES (1, 3, 0, 0, 0, 0, 0, NULL, NULL, 'FRIENDLY_DMY', 0);
+
+CREATE TABLE "collaborators" (
+	"id"	INTEGER NOT NULL UNIQUE,
+    "userId" INTEGER NOT NULL,
+    "collabId" INTEGER NOT NULL,
+    "invitedOn" TEXT NOT NULL,
+    "isAccepted" INTEGER NOT NULL DEFAULT 0,
+    "acceptedOn" TEXT DEFAULT NULL,
+    "rejectedOn" TEXT DEFAULT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT),
+    FOREIGN KEY ("userId") REFERENCES "users"("id"),
+    FOREIGN KEY ("collabId") REFERENCES "users"("id")
 );
 
 CREATE TABLE "privacy" (
     "id"	INTEGER NOT NULL UNIQUE,
     "userId" INTEGER NOT NULL,
-    "policy" INTEGER NOT NULL DEFAULT 0,
-    "customs" TEXT DEFAULT NULL,
+    "addressPolicy" INTEGER NOT NULL DEFAULT 0,
+    "namePolicy" INTEGER NOT NULL DEFAULT 2,
+    "phonePolicy" INTEGER NOT NULL DEFAULT 0,
+    "usernamePolicy" INTEGER NOT NULL DEFAULT 1,
     PRIMARY KEY("id" AUTOINCREMENT),
     FOREIGN KEY ("userId") REFERENCES "users"("id")
 );
@@ -109,8 +134,10 @@ CREATE TABLE "relationships" (
     "id" INTEGER NOT NULL UNIQUE,
     "itemId" INTEGER NOT NULL,
     "itemType" TEXT NOT NULL, --References to Todo, Note or Note Segment
-    "type" INTEGER NOT NULL,
-    "relationType" TEXT NOT NULL,
+    "relateToId" INTEGER NOT NULL,
+    "relateType" TEXT NOT NULL,
+    "type" INTEGER NOT NULL DEFAULT 0,
+    "typeName" TEXT NOT NULL DEFAULT 'RELATES TO',
     PRIMARY KEY("id" AUTOINCREMENT)
 );
 
@@ -179,7 +206,7 @@ CREATE TABLE "teamTasks" (
     "teamId" INTEGER DEFAULT NULL,
     "itemId" INTEGER NOT NULL,
     "itemType" TEXT NOT NULL, --References to Todo, Note or Note Segment
-    "sharedOn" TEXT NOT NULL,
+    "assignedOn" TEXT NOT NULL,
     PRIMARY KEY("id" AUTOINCREMENT),
     FOREIGN KEY ("teamId") REFERENCES "teams"("id")
 );
@@ -189,7 +216,7 @@ CREATE TABLE "stageTasks" (
     "stageId" INTEGER NOT NULL,
     "itemId" INTEGER NOT NULL,
     "itemType" TEXT NOT NULL, --References to Todo, Note or Note Segment
-    "sharedOn" TEXT NOT NULL,
+    "assignedOn" TEXT NOT NULL,
     PRIMARY KEY("id" AUTOINCREMENT),
     FOREIGN KEY ("stageId") REFERENCES "stages"("id")
 );

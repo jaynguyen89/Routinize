@@ -1,6 +1,6 @@
 import { PERMISSIONS, TEAM_ROLES } from "../shared/enums";
 
-interface ITeamMembers {
+interface ITeamMember {
     id : number,
     teamId : number,
     memberId : number,
@@ -8,4 +8,4 @@ interface ITeamMembers {
     permission : PERMISSIONS
 }
 
-export default ITeamMembers;
+export default ITeamMember;

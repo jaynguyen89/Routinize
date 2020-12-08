@@ -1,7 +1,7 @@
 import { PERMISSIONS } from "../shared/enums";
 import { IItemSharing } from './others';
 
-interface IItemCollabSharing {
+interface ICollabTask {
     id : number,
     items : Array<IItemSharing>,
     collaboratorId : number,
@@ -9,4 +9,4 @@ interface IItemCollabSharing {
     permission : PERMISSIONS
 }
 
-export default IItemCollabSharing;
+export default ICollabTask;

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { sharedStyles } from '../../shared/styles';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 import IIdea from '../../models/IIdea';
-import IPlace from '../../models/IPlace';
+import IAddress from '../../models/IAddress';
 import ICollaborator from '../../models/ICollaborator';
 
 import IdeaRow from './components/IdeaRow';
@@ -23,17 +23,17 @@ const mapStateToProps = (state : any) => ({
 const items : Array<IIdea> = [
     { id : 1, author : {
             id : 1, firstName : 'Jay', lastName : 'Nguyen', gender : true, phoneNumber : '04422357488', title : 'Software Developer',
-            address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IPlace
+            address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IAddress
         } as ICollaborator, isPersonal : true, emphasized : false, createdOn : '01 Dec 2020 13:39',
     content : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.' } as IIdea,
     { id : 2, author : {
             id : 1, firstName : 'Jay', lastName : 'Nguyen', gender : true, phoneNumber : '04422357488', title : 'Software Developer',
-            address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IPlace
+            address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IAddress
         } as ICollaborator, isPersonal : true, emphasized : false, createdOn : '03 Dec 2020 15:41',
         content : 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.' } as IIdea,
     { id : 3, author : {
             id : 1, firstName : 'Jay', lastName : 'Nguyen', gender : true, phoneNumber : '04422357488', title : 'Software Developer',
-            address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IPlace
+            address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IAddress
         } as ICollaborator, isPersonal : true, emphasized : false, createdOn : '05 Dec 2020 10:21',
         content : 'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?' } as IIdea
 ];
