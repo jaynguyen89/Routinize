@@ -9,6 +9,7 @@ import { Button } from 'react-native-elements';
 import { sharedStyles } from '../../shared/styles';
 import { IAuth } from '../../models/others';
 import { getLocalAccount } from '../redux/actions';
+import { setAuthStatus } from '../../../root/redux/actions';
 import ILocalAccount from '../../models/local/IAccount';
 import { makeShortName } from '../../helpers/Helpers';
 import { NAME_FORMAT } from '../../shared/enums';
@@ -19,7 +20,8 @@ interface IAccountInfo {
     settings : any,
     auth : any,
     accountData : any
-    getLocalAccount : any
+    getLocalAccount : any,
+    setAuthStatus : any
 }
 
 const mapStateToProps = (state: any) => ({
@@ -29,7 +31,8 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapActionsToProps = {
-    getLocalAccount
+    getLocalAccount,
+    setAuthStatus
 };
 
 const AccountInfo = (props: IAccountInfo) => {
@@ -49,6 +52,7 @@ const AccountInfo = (props: IAccountInfo) => {
 
                     //This line should be double-checked or removed
                     props.getLocalAccount();
+                    props.setAuthStatus(false);
                 }
                 else {
                     props.getLocalAccount();
@@ -64,8 +68,10 @@ const AccountInfo = (props: IAccountInfo) => {
         if (!props.accountData.isRetrieving && !props.accountData.isSuccess)
             props.navigation.navigate('Account', { screen : 'Error' });
 
-        if (!props.accountData.isRetrieving && props.accountData.isSuccess && props.accountData.account)
+        if (!props.accountData.isRetrieving && props.accountData.isSuccess && props.accountData.account) {
             setAccount(props.accountData.account);
+            props.setAuthStatus(false);
+        }
         else
             setAccount(null as unknown as ILocalAccount);
     }, [props.accountData]);

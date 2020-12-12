@@ -38,8 +38,9 @@ export enum FILE_TYPES {
     EXCEL = 7,
     ARCHIVE = 8,
     CSV = 9,
-    CODE = 10,
-    OTHERS = 11
+    SRC = 10,
+    AUDIO = 11,
+    OTHERS = 12
 }
 
 export enum ACTION_TYPES {
@@ -73,18 +74,25 @@ export enum TITLES {
 }
 
 export enum DATETIME_FORMATS {
-    FRIENDLY_A_DMY = 'DD MMM YYYY hh:ss a', //ex. 25 Oct 2009 01:30 PM
-    COMPACT_SA_DMY = 'DD/MM/YYYY hh:ss a', //ex. 25/10/2009 01:30 PM
-    COMPACT_HA_DMY = 'DD-MM-YYYY hh:ss a', //ex. 25-10-2009 01:30 PM
-    FRIENDLY_A_MDY = 'MMM DD YYYY hh:ss a', //ex. Oct 25 2009 01:30 PM
-    COMPACT_SA_MDY = 'MM/DD/YYYY hh:ss a', //ex. 10/25/2009 01:30 PM
-    COMPACT_HA_MDY = 'MM-DD-YYYY hh:ss a', //ex. 10-25-2009 01:30 PM
-    FRIENDLY_DMY = 'DD MMM YYYY hh:ss', //ex. 25 Oct 2009 13:30
-    COMPACT_S_DMY = 'DD/MM/YYYY hh:ss', //ex. 25/10/2009 13:30
-    COMPACT_A_DMY = 'DD-MM-YYYY hh:ss', //ex. 25-10-2009 13:30
-    FRIENDLY_MDY = 'MMM DD YYYY hh:ss', //ex. Oct 25 2009 13:30
-    COMPACT_S_MDY = 'MM/DD/YYYY hh:ss', //ex. 10/25/2009 13:30
-    COMPACT_H_MDY = 'MM-DD-YYYY hh:ss', //ex. 10-25-2009 13:30
+    FRIENDLY_A_DMY = 'DD MMM YYYY hh:mm a', //ex. 25 Oct 2009 01:30 PM
+    COMPACT_SA_DMY = 'DD/MM/YYYY hh:mm a', //ex. 25/10/2009 01:30 PM
+    COMPACT_HA_DMY = 'DD-MM-YYYY hh:mm a', //ex. 25-10-2009 01:30 PM
+    FRIENDLY_A_MDY = 'MMM DD YYYY hh:mm a', //ex. Oct 25 2009 01:30 PM
+    COMPACT_SA_MDY = 'MM/DD/YYYY hh:mm a', //ex. 10/25/2009 01:30 PM
+    COMPACT_HA_MDY = 'MM-DD-YYYY hh:mm a', //ex. 10-25-2009 01:30 PM
+    FRIENDLY_DMY = 'DD MMM YYYY HH:mm', //ex. 25 Oct 2009 13:30
+    COMPACT_S_DMY = 'DD/MM/YYYY HH:mm', //ex. 25/10/2009 13:30
+    COMPACT_H_DMY = 'DD-MM-YYYY HH:mm', //ex. 25-10-2009 13:30
+    FRIENDLY_MDY = 'MMM DD YYYY HH:mm', //ex. Oct 25 2009 13:30
+    COMPACT_S_MDY = 'MM/DD/YYYY HH:mm', //ex. 10/25/2009 13:30
+    COMPACT_H_MDY = 'MM-DD-YYYY HH:mm', //ex. 10-25-2009 13:30
+}
+
+export enum MOMENT_FORMATS {
+    DMY = 'DD-MM-YYYY',
+    DMMMY = 'DD MMM YYYY',
+    HM = 'hh:mm',
+    HMA = 'hh:mm a'
 }
 
 export enum UNIT_SYSTEMS {

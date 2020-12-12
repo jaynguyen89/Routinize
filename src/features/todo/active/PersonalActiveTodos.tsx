@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { ScrollView } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import { FAB } from 'react-native-paper';
 import TodoCard from '../components/TodoCard';
 import { ITodos } from '../redux/constants';
@@ -10,12 +10,18 @@ import { setTodoTypeToCreate } from '../redux/actions';
 import ITodo from '../../../models/ITodo';
 import ICollaborator from '../../../models/ICollaborator';
 import IAddress from '../../../models/IAddress';
-import { MEDIA_TYPES } from '../../../shared/enums';
+import { ACTION_TYPES, MEDIA_TYPES } from '../../../shared/enums';
 import { sharedStyles } from '../../../shared/styles';
 import { IMedia } from '../../../models/others';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faEllipsisV, faPlus, faPlusCircle, faSync, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+import { baseFontSize } from '../../../shared/typography';
+import PopoverMenu from '../../../customs/PopoverMenu';
+import Popover from 'react-native-popover-view/dist/Popover';
 
 const mapStateToProps = (state : any) => ({
-    settings : state.settingsReducer.appSettings.settings
+    settings : state.settingsReducer.appSettings.settings,
+    authStatus : state.appReducer.authStatus
 });
 
 const mapActionsToProps = {
@@ -42,9 +48,22 @@ const items : Array<ITodo> = [{
 }];
 
 const PersonalActiveTodos = (props : ITodos) => {
-    //const [open, setOpen] = React.useState(false);
+    const [showPopover, setShowPopover] = React.useState(false);
+    const stackButton = React.useRef('stackButton');
+
+    React.useLayoutEffect(() => {
+        props.navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity ref={ stackButton as unknown as string } style={ sharedStyles.stackBtnWrapper }
+                                  onPress={ () => setShowPopover(true) }>
+                    <FontAwesomeIcon icon={ faEllipsisV } size={ baseFontSize * 2 } color={ props.settings.theme.textFill.color } />
+                </TouchableOpacity>
+            ),
+        });
+    }, [props.navigation]);
 
     const gotoNewTodo = () => {
+        setShowPopover(false);
         props.setTodoTypeToCreate(true);
         props.navigation.navigate('New Todo - Personal');
     }
@@ -57,40 +76,16 @@ const PersonalActiveTodos = (props : ITodos) => {
                 }
             </ScrollView>
 
-            <FAB visible icon='plus'
-                style={[ sharedStyles.fab, props.settings.theme.invert ]}
-                onPress={ () => gotoNewTodo() }
-            />
-
-            {/*<Provider>*/}
-            {/*    <Portal>*/}
-            {/*        <FAB.Group visible*/}
-            {/*            open={open}*/}
-            {/*            style={[ styles.fab]}*/}
-            {/*            icon={ require('../../../../assets/images/add_icon.png') }*/}
-            {/*            actions={[*/}
-            {/*                { icon: require('../../../../assets/images/add_icon.png'), onPress: () => console.log('Pressed add') },*/}
-            {/*                {*/}
-            {/*                    icon: require('../../../../assets/images/add_icon.png'),*/}
-            {/*                    label: 'Star',*/}
-            {/*                    onPress: () => console.log('Pressed star'),*/}
-            {/*                },*/}
-            {/*                {*/}
-            {/*                    icon: require('../../../../assets/images/add_icon.png'),*/}
-            {/*                    label: 'Email',*/}
-            {/*                    onPress: () => console.log('Pressed email'),*/}
-            {/*                },*/}
-            {/*                {*/}
-            {/*                    icon: require('../../../../assets/images/add_icon.png'),*/}
-            {/*                    label: 'Remind',*/}
-            {/*                    onPress: () => console.log('Pressed notifications'),*/}
-            {/*                },*/}
-            {/*            ]}*/}
-            {/*            onStateChange={() => setOpen(!open)}*/}
-            {/*            onPress={ () => {} }*/}
-            {/*        />*/}
-            {/*    </Portal>*/}
-            {/*</Provider>*/}
+            <Popover isVisible={ showPopover } onRequestClose={ () => setShowPopover(false) }
+                     from={ stackButton } arrowStyle={{ backgroundColor : 'transparent' }}>
+                <PopoverMenu actions={(
+                    props.authStatus && [
+                        { name : 'Add New Todo', icon : faPlusCircle, type : ACTION_TYPES.NORMAL, callback : () => gotoNewTodo() },
+                        { name : 'Sync Data', icon : faSyncAlt, type : ACTION_TYPES.NORMAL, callback : () => console.log('Sync') }
+                    ]) || [
+                        { name : 'Add New Todo', icon : faPlusCircle, type : ACTION_TYPES.NORMAL, callback : () => gotoNewTodo() }
+                    ]} />
+            </Popover>
         </>
     );
 }

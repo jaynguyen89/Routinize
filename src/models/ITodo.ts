@@ -7,7 +7,7 @@ import ICollaborator from './ICollaborator';
 interface ITodo extends IThing {
     description : string,
     details : string,
-    dueDate : string,
+    dueDate : string | null,
     places : Array<IAddress> | null,
     attachments : Array<IMedia | IFile> | null,
     related : Array<IRelationship> | null,

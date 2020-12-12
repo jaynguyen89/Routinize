@@ -1,5 +1,6 @@
-import { NAME_FORMAT } from '../shared/enums';
+import { MOMENT_FORMATS, NAME_FORMAT } from '../shared/enums';
 import { EMPTY_STRING, SPACE_MONO } from './Constants';
+import moment from 'moment';
 
 export const makeShortName = (
     firstName : string, lastName : string, rule : NAME_FORMAT
@@ -31,4 +32,24 @@ export const makeShortName = (
     }
 
     return shortName;
+}
+
+export const processDateTimeChange = (
+    current : string | null, newVal : string, field : string, format : string
+) : string => {alert('helper newVal = ' + newVal);
+    let newDateTime = EMPTY_STRING;
+    format = format.indexOf('_A_') !== -1 || format.indexOf('_HA_') !== -1 ||
+             format.indexOf('_SA_') !== -1 ? MOMENT_FORMATS.HMA : MOMENT_FORMATS.HM;
+alert(format);
+    if (current) {alert('current')
+        const currentDate = moment(current).format(MOMENT_FORMATS.DMY);
+        const currentTime = moment(current).format(format);
+
+        newDateTime = field === 'date' ? moment(newVal).format(MOMENT_FORMATS.DMY).concat(SPACE_MONO).concat(currentTime)
+                                       : currentDate.concat(SPACE_MONO).concat(moment(newVal).format(format));
+    }
+    else
+        newDateTime = moment(newVal).format(format);
+
+    return newDateTime;
 }

@@ -270,6 +270,7 @@ export const sharedStyles = StyleSheet.create({
         textAlign : "right"
     },
     textarea : {
+        textAlignVertical : 'top',
         backgroundColor : '#dedede',
         borderTopLeftRadius : BASE_HEIGHT * 0.25,
         borderTopRightRadius : BASE_HEIGHT * 0.25

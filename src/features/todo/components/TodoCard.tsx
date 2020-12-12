@@ -35,17 +35,10 @@ const TodoCard = (props : ITodoCard) => {
 
     return (
         <>
-            <Card style={ styles.todoCard } onPress={ () => viewTodoDetails(props.item) }>
+            <Card style={ styles.todoCard } onPress={ () => viewTodoDetails(props.item) } onLongPress={ () => setShowPopover(true) }>
                 {
                     props.item.attachments &&
                     <Card.Cover source={{ uri: props.item.attachments[0].url }} style={ styles.cardCover }/>
-                }
-
-                {
-                    props.item.attachments &&
-                    <FAB visible small style={ styles.overlapped } icon='dots-vertical'
-                         onPress={ () => setShowPopover(true) }
-                    />
                 }
 
                 <Card.Content>
@@ -70,13 +63,9 @@ const TodoCard = (props : ITodoCard) => {
                                     />
                                 }
 
-                                <Text style={[ styles.title, Typography.fourthHeader, { flex : props.item.emphasized ? 8 : 9 } ]} numberOfLines={ 1 }>
+                                <Text style={[ styles.title, Typography.fourthHeader, { flex : props.item.emphasized ? 9 : 1 } ]} numberOfLines={ 1 }>
                                     { props.item.title }
                                 </Text>
-
-                                <FAB visible small style={[ styles.action, { flex : 1 } ]} icon='dots-vertical'
-                                     onPress={ () => setShowPopover(true) }
-                                />
                             </View>
                         )
                     }

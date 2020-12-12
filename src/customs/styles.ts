@@ -45,6 +45,43 @@ const styles = StyleSheet.create({
     menuRow : {
         flex : 1,
         marginBottom : BASE_HEIGHT * 0.35
+    },
+    datetime : {
+        padding : BASE_HEIGHT * 0.25,
+        marginHorizontal : BASE_HEIGHT * 0.25,
+        borderRadius : BASE_HEIGHT * 0.2,
+        backgroundColor : '#dedede'
+    },
+    imageWrapper : {
+        margin : 0,
+        padding : 0,
+        width : BASE_HEIGHT * 3,
+        height : BASE_HEIGHT * 4,
+    },
+    imageThumb : {
+        width : BASE_HEIGHT * 3,
+        height : BASE_HEIGHT * 4,
+        borderRadius : BASE_HEIGHT * 0.2
+    },
+    iconThumb : {
+        position : 'absolute',
+        left : 3,
+        top : 3,
+        elevation : 2,
+        borderRadius : BASE_HEIGHT * 0.2
+    },
+    iconTouchable : {
+        position : 'absolute',
+        left : 0,
+        top : 0,
+        padding : BASE_HEIGHT * 0.75
+    },
+    fileType : {
+        position : 'absolute',
+        textTransform : 'uppercase',
+        left : BASE_HEIGHT * 0.25,
+        bottom : BASE_HEIGHT * 0.25,
+        color : '#fff'
     }
 });
 

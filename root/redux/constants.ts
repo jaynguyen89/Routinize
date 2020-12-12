@@ -1,0 +1,2 @@
+export const SET_AUTH_STATUS = 'SET_AUTH_STATUS';
+export type T_SET_AUTH_STATUS = typeof SET_AUTH_STATUS;

@@ -2,6 +2,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
+
+import RNFS from 'react-native-fs';
 import store from '../src/providers/reducerIndex';
 
 import { getAppSettings } from '../src/features/settings/redux/actions';
@@ -34,6 +36,29 @@ store.dispatch(getAuthData());
 const Drawer = createDrawerNavigator();
 
 const App: () => React.ReactNode = () => {
+
+    React.useEffect(() => {
+        RNFS.exists(RNFS.ExternalDirectoryPath + '/images')
+            .then(isExisted => {
+                if (!isExisted) RNFS.mkdir(RNFS.ExternalDirectoryPath + '/images');
+            });
+
+        RNFS.exists(RNFS.ExternalDirectoryPath + '/videos')
+            .then(isExisted => {
+                if (!isExisted) RNFS.mkdir(RNFS.ExternalDirectoryPath + '/videos');
+            });
+
+        RNFS.exists(RNFS.ExternalDirectoryPath + '/audios')
+            .then(isExisted => {
+                if (!isExisted) RNFS.mkdir(RNFS.ExternalDirectoryPath + '/audios');
+            });
+
+        RNFS.exists(RNFS.ExternalDirectoryPath + '/files')
+            .then(isExisted => {
+                if (!isExisted) RNFS.mkdir(RNFS.ExternalDirectoryPath + '/files');
+            });
+    }, []);
+
     return (
         <Provider store={ store }>
             <NavigationContainer>

@@ -18,7 +18,7 @@ const ActionButtons = (props : IButtonGroup) => {
     return (
         <View style={[ sharedStyles.inputWrapper, { flexDirection : 'row' } ]}>
             {
-                props.actions.map((action : IDynamicButton) =>
+                props.actions.map((action : IDynamicButton, i : number) =>
                     <Pressable android_ripple={{ color : sharedStyles.btnDanger.borderColor }}
                                style={[
                                    sharedStyles.btn, sharedStyles.btnWrapper,
@@ -27,6 +27,7 @@ const ActionButtons = (props : IButtonGroup) => {
                                    )
                                ]}
                                onPress={ action.callback }
+                               key={ i }
                     >
                         <Text style={[
                             sharedStyles.btnTextWrapper,
