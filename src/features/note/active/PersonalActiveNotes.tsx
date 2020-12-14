@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { Button, ScrollView, View } from 'react-native';
+import { Button, ScrollView, TouchableOpacity, View } from "react-native";
 import { FAB } from "react-native-paper";
 import NoteRow from "../components/NoteRow";
 import { Divider } from "react-native-elements";
@@ -12,13 +12,19 @@ import IAddress from "../../../models/IAddress";
 import { IActiveNotes } from "../redux/constants";
 
 import { sharedStyles } from "../../../shared/styles";
-import { MEDIA_TYPES } from "../../../shared/enums";
+import { ACTION_TYPES, MEDIA_TYPES } from "../../../shared/enums";
 
 import { setNoteTypeToCreate } from '../redux/actions';
 import INoteSegment from "../../../models/INoteSegment";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faEllipsisV, faPlusCircle, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
+import { baseFontSize } from "../../../shared/typography";
+import PopoverMenu from "../../../customs/PopoverMenu";
+import Popover from "react-native-popover-view/dist/Popover";
 
 const mapStateToProps = (state : any) => ({
-    settings : state.settingsReducer.appSettings.settings
+    settings : state.settingsReducer.appSettings.settings,
+    authStatus : state.appReducer.authStatus
 });
 
 const mapActionsToProps = {
@@ -64,9 +70,22 @@ const items : Array<INote> = [{
 } as INote];
 
 const PersonalActiveNotes = (props : IActiveNotes) => {
-    //const [open, setOpen] = React.useState(false);
+    const [showPopover, setShowPopover] = React.useState(false);
+    const stackButton = React.useRef('stackButton');
+
+    React.useLayoutEffect(() => {
+        props.navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity ref={ stackButton as unknown as string } style={ sharedStyles.stackBtnWrapper }
+                                  onPress={ () => setShowPopover(true) }>
+                    <FontAwesomeIcon icon={ faEllipsisV } size={ baseFontSize * 2 } color={ props.settings.theme.textFill.color } />
+                </TouchableOpacity>
+            ),
+        });
+    }, [props.navigation]);
 
     const gotoNewNote = () => {
+        setShowPopover(false);
         props.setNoteTypeToCreate(true);
         props.navigation.navigate('New Note - Personal');
     }
@@ -86,40 +105,16 @@ const PersonalActiveNotes = (props : IActiveNotes) => {
                 }
             </ScrollView>
 
-            <FAB visible icon='plus'
-                 style={[ sharedStyles.fab, props.settings.theme.invert ]}
-                 onPress={ () => gotoNewNote() }
-            />
-
-            {/*<Provider>*/}
-            {/*    <Portal>*/}
-            {/*        <FAB.Group visible*/}
-            {/*            open={open}*/}
-            {/*            style={[ styles.fab]}*/}
-            {/*            icon={ require('../../../../assets/images/add_icon.png') }*/}
-            {/*            actions={[*/}
-            {/*                { icon: require('../../../../assets/images/add_icon.png'), onPress: () => console.log('Pressed add') },*/}
-            {/*                {*/}
-            {/*                    icon: require('../../../../assets/images/add_icon.png'),*/}
-            {/*                    label: 'Star',*/}
-            {/*                    onPress: () => console.log('Pressed star'),*/}
-            {/*                },*/}
-            {/*                {*/}
-            {/*                    icon: require('../../../../assets/images/add_icon.png'),*/}
-            {/*                    label: 'Email',*/}
-            {/*                    onPress: () => console.log('Pressed email'),*/}
-            {/*                },*/}
-            {/*                {*/}
-            {/*                    icon: require('../../../../assets/images/add_icon.png'),*/}
-            {/*                    label: 'Remind',*/}
-            {/*                    onPress: () => console.log('Pressed notifications'),*/}
-            {/*                },*/}
-            {/*            ]}*/}
-            {/*            onStateChange={() => setOpen(!open)}*/}
-            {/*            onPress={ () => {} }*/}
-            {/*        />*/}
-            {/*    </Portal>*/}
-            {/*</Provider>*/}
+            <Popover isVisible={ showPopover } onRequestClose={ () => setShowPopover(false) }
+                     from={ stackButton } arrowStyle={{ backgroundColor : 'transparent' }}>
+                <PopoverMenu actions={(
+                    props.authStatus && [
+                        { name : 'Add New Note', icon : faPlusCircle, type : ACTION_TYPES.NORMAL, callback : () => gotoNewNote() },
+                        { name : 'Sync Data', icon : faSyncAlt, type : ACTION_TYPES.NORMAL, callback : () => console.log('Sync') }
+                    ]) || [
+                    { name : 'Add New Note', icon : faPlusCircle, type : ACTION_TYPES.NORMAL, callback : () => gotoNewNote() }
+                ]} />
+            </Popover>
         </>
     );
 }

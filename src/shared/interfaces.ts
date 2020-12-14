@@ -42,3 +42,8 @@ export interface IAttachmentsList {
         removeAttachment : any
     }
 }
+
+export interface IEditor {
+    settings? : any,
+    callback : any
+}

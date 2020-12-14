@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { ScrollView, View } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { Icon, Input } from 'react-native-elements';
 import DynamicButtons from '../../../customs/DynamicButtons';
 import { FAB } from 'react-native-paper';
@@ -13,8 +13,9 @@ import { INoteDetail } from '../redux/constants';
 
 import styles from '../styles';
 import { sharedStyles } from '../../../shared/styles';
-import { Typography } from '../../../shared/typography';
+import { baseFontSize, Typography } from '../../../shared/typography';
 import {
+    faEllipsisV,
     faFileImport,
     faMapMarkerAlt,
     faMinusCircle,
@@ -23,6 +24,7 @@ import {
     faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
 import INoteSegment from '../../../models/INoteSegment';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,
@@ -32,6 +34,18 @@ const mapStateToProps = (state : any) => ({
 
 const NoteDetail = (props : INoteDetail) => {
     const [showPopover, setShowPopover] = React.useState(false);
+    const stackButton = React.useRef('stackButton');
+
+    React.useLayoutEffect(() => {
+        props.navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity ref={ stackButton as unknown as string } style={ sharedStyles.stackBtnWrapper }
+                                  onPress={ () => setShowPopover(true) }>
+                    <FontAwesomeIcon icon={ faEllipsisV } size={ baseFontSize * 2 } color={ props.settings.theme.textFill.color } />
+                </TouchableOpacity>
+            ),
+        });
+    }, [props.navigation]);
 
     return (
         <>

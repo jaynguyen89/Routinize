@@ -48,13 +48,13 @@ const styles = StyleSheet.create({
         marginTop : BASE_HEIGHT * 0.25
     },
     segmentWrapper : {
-        minHeight : BASE_HEIGHT * 7.5,
+        //height : BASE_HEIGHT * 10,
         marginTop : BASE_HEIGHT * 0.5,
         marginHorizontal : BASE_HEIGHT * 0.25
     },
     segmentEditorWrapper : {
-        flex : 1,
-        flexDirection : 'row'
+        // flex : 1,
+        // flexDirection : 'row'
     },
     textContainer : {
         flex : 3,

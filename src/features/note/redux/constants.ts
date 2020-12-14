@@ -5,6 +5,7 @@ export interface IActiveNotes {
     settings : any,
     items : INote,
     navigation : any,
+    authStatus : boolean,
     setNoteTypeToCreate : any
 }
 
@@ -16,6 +17,7 @@ export interface INoteRow {
 }
 
 export interface INoteDetail {
+    navigation : any,
     settings? : any,
     item : INote,
     isPersonal : boolean
