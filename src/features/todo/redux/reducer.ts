@@ -4,12 +4,22 @@ import ITodo from "../../../models/ITodo";
 
 interface ITodoStore {
     isPersonal : boolean,
-    todoItem : ITodo | null
+    todoItem : ITodo | null,
+    newItem : {
+        //isAdding : boolean,
+        addingSuccess : boolean,
+        item : ITodo | null
+    }
 }
 
 const initialState : ITodoStore = {
     isPersonal : true,
-    todoItem : null
+    todoItem : null,
+    newItem : {
+        //isAdding : false,
+        addingSuccess : false,
+        item : null
+    }
 }
 
 const reducer = produce((state, action) => {
@@ -20,6 +30,16 @@ const reducer = produce((state, action) => {
             return;
         case todoConstants.SET_TODO_DETAIL_ITEM:
             state.todoItem = action.payload;
+            return;
+        case todoConstants.CREATE_TODO_SUCCESS:
+            //state.newItem.isAdding = false;
+            state.newItem.addingSuccess = true;
+            state.newItem.item = action.payload;
+            return;
+        case todoConstants.CREATE_TODO_FAILED:
+            //state.newItem.isAdding = false;
+            state.newItem.addingSuccess = false;
+            state.newItem.item = null;
             return;
         default:
             return;

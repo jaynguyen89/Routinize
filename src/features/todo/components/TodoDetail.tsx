@@ -26,15 +26,19 @@ import AttachmentsList from '../../../customs/AttachmentsList';
 import RichTextEditor from '../../../customs/rte/RichTextEditor';
 import styles from '../styles';
 
+import { createLocalTodo, updateLocalTodo } from '../redux/actions';
+
 const mapStateToProps = (state : any) => ({
     authStatus : state.appReducer.authStatus,
     settings : state.settingsReducer.appSettings.settings,
     isPersonal : state.todoReducer.isPersonal,
-    item : state.todoReducer.todoItem
+    item : state.todoReducer.todoItem,
+    newItem : state.todoReducer.newItem
 });
 
 const mapActionsToProps = {
-
+    createLocalTodo,
+    updateLocalTodo
 };
 
 const TodoDetail = (props : ITodoDetail) => {
@@ -53,6 +57,18 @@ const TodoDetail = (props : ITodoDetail) => {
         setPersonal((props.item && props.item.isPersonal) || !props.authStatus || props.isPersonal);
         setItem(props.item || EMPTY_TODO);
     }, [props]);
+
+    React.useEffect(() => {
+        Alert.alert(
+            props.newItem.addingSuccess ? 'Success!' : 'Todo saving failed!',
+            props.newItem.addingSuccess ? 'Your Todo has been saved.' : 'An issue happened while saving your Todo. Please try again.',
+            [{
+                text: 'OK',
+                onPress: () => { props.newItem.addingSuccess ? props.navigation.goBack() : console.log('Todo saving failed') }
+            }],
+            { cancelable: false }
+        );
+    }, [props.newItem]);
 
     React.useEffect(() => {
         if (date && time) {
@@ -200,8 +216,8 @@ const TodoDetail = (props : ITodoDetail) => {
         );
 
     const confirmCreateOrUpdateTodo = () => {
-        if (item.id === 0) console.log('create todo');
-        else console.log('update todo')
+        if (item.id === 0) props.createLocalTodo(item);
+        else props.updateLocalTodo(item);
     }
 
     return (
@@ -209,22 +225,20 @@ const TodoDetail = (props : ITodoDetail) => {
             <ScrollView style={ sharedStyles.scroller }>
                 <View style={ sharedStyles.inputWrapper }>
                     <Text style={[ Typography.regular, props.settings.theme.black, sharedStyles.inputLabel ]}>{ 'Todo Title' }</Text>
-                    <Input placeholder='Max. 75 characters' style={[ Typography.regular ]}
+                    <Input placeholder='Title' style={[ Typography.regular ]}
                            value={ item.title || EMPTY_STRING }
                            leftIcon={ <Icon name='bookmark' size={ 24 } color={ props.settings.theme.invert.backgroundColor } /> }
                            onChangeText={ (val : string) => handleItemDetailsChanged(val, 'title') }
                     />
-                    <Text style={[ Typography.tiny, sharedStyles.charCount, props.settings.theme.black ]}>(empty)</Text>
                 </View>
 
                 <View style={ sharedStyles.inputWrapper }>
                     <Text style={[ Typography.regular, props.settings.theme.black, sharedStyles.inputLabel ]}>Brief Description</Text>
-                    <Input placeholder='Max. 150 characters' style={[ Typography.regular ]}
+                    <Input placeholder='Briefly tell what to do' style={[ Typography.regular ]}
                            value={ item.description }
                            leftIcon={ <Icon name='edit' size={ 24 } color={ props.settings.theme.invert.backgroundColor } /> }
                            onChangeText={ (val : string) => handleItemDetailsChanged(val, 'description') }
                     />
-                    <Text style={[ Typography.tiny, sharedStyles.charCount, props.settings.theme.black ]}>(empty)</Text>
                 </View>
 
                 <View style={ sharedStyles.inputWrapper }>

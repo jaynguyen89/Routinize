@@ -101,3 +101,12 @@ CREATE TABLE "noteSegments" (
     FOREIGN KEY ("noteId") REFERENCES "notes"("id")
 );
 
+CREATE TABLE "attachments" (
+    id INTEGER NOT NULL UNIQUE,
+    "type" INTEGER NOT NULL,
+    "assetId" INTEGER NOT NULL,
+    "assetType" TEXT NOT NULL,
+    "name" TEXT DEFAULT NULL,
+    "url" TEXT DEFAULT NULL,
+    PRIMARY KEY("id" AUTOINCREMENT)
+);

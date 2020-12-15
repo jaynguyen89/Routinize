@@ -43,6 +43,7 @@ const RichTextEditor = (props: IEditor) => {
     return (
         <>
             <RichEditor ref={ editor as unknown as string }
+                initialContentHTML={ props.initialContent }
                 containerStyle={ props.settings.theme.border }
                 editorStyle={ props.settings.theme.backgroundSecondary }
                 placeholder={ props.placeHolder }

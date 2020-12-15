@@ -1,5 +1,6 @@
 import ITodo from "../../../models/ITodo";
 import { EMPTY_STRING } from '../../../helpers/Constants';
+import { createLocalTodo, updateLocalTodo } from './actions';
 
 export interface ITodos {
     navigation : any,
@@ -22,7 +23,10 @@ export interface ITodoDetail {
     authStatus : boolean,
     settings? : any,
     item : ITodo,
-    isPersonal : boolean
+    newItem : any,
+    isPersonal : boolean,
+    createLocalTodo : any,
+    updateLocalTodo : any
 }
 
 export const EMPTY_TODO : ITodo = {
@@ -47,3 +51,21 @@ export type T_GOTO_NEW_TODO_PERSONAL = typeof GOTO_NEW_TODO_PERSONAL;
 
 export const SET_TODO_DETAIL_ITEM = 'SET_TODO_DETAIL_ITEM';
 export type T_SET_TODO_DETAIL_ITEM = typeof SET_TODO_DETAIL_ITEM;
+
+export const CREATE_TODO_LOCAL = 'CREATE_TODO_LOCAL';
+export type T_CREATE_TODO_LOCAL = typeof CREATE_TODO_LOCAL;
+
+export const CREATE_TODO_SUCCESS = 'CREATE_TODO_SUCCESS';
+export type T_CREATE_TODO_SUCCESS = typeof CREATE_TODO_SUCCESS;
+
+export const CREATE_TODO_FAILED = 'CREATE_TODO_FAILED';
+export type T_CREATE_TODO_FAILED = typeof CREATE_TODO_FAILED;
+
+export const UPDATE_TODO_LOCAL = 'UPDATE_TODO_LOCAL';
+export type T_UPDATE_TODO_LOCAL = typeof UPDATE_TODO_LOCAL;
+
+export const UPDATE_TODO_SUCCESS = 'UPDATE_TODO_SUCCESS';
+export type T_UPDATE_TODO_SUCCESS = typeof UPDATE_TODO_SUCCESS;
+
+export const UPDATE_TODO_FAILED = 'UPDATE_TODO_FAILED';
+export type T_UPDATE_TODO_FAILED = typeof UPDATE_TODO_FAILED;

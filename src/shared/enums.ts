@@ -5,7 +5,8 @@ export enum DATABASE_TABLES {
     ADDRESS = 'address',
     NOTES = 'notes',
     TODOS = 'todos',
-    SEGMENTS = 'noteSegments'
+    SEGMENTS = 'noteSegments',
+    ATTACHMENTS = 'attachments'
 }
 
 export enum STORAGE_KEYS {
