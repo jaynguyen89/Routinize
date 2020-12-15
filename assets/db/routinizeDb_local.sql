@@ -43,6 +43,7 @@ CREATE TABLE "user" (
 );
 
 CREATE TABLE "address" (
+    "id" INTEGER NOT NULL UNIQUE,
     "addressName" TEXT DEFAULT NULL,
     "building" TEXT DEFAULT NULL,
     "street" TEXT DEFAULT NULL,
@@ -51,7 +52,8 @@ CREATE TABLE "address" (
     "state" TEXT DEFAULT NULL,
     "country" TEXT DEFAULT NULL,
     "latitude" TEXT NOT NULL,
-    "longitude" TEXT NOT NULL
+    "longitude" TEXT NOT NULL,
+    PRIMARY KEY("id" AUTOINCREMENT)
 );
 
 INSERT INTO "auth" (

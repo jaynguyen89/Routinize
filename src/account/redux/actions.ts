@@ -1,6 +1,6 @@
 import * as accountConstants from './constants';
 import * as accountServices from './services';
-import IAccount from '../../models/local/IAccount';
+import IAccount from '../../models/IAccount';
 
 export const getLocalAccount = () => {
     return (dispatch : any) => {

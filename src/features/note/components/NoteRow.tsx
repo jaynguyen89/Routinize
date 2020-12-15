@@ -49,7 +49,7 @@ const NoteRow = (props : INoteRow) => {
 
                             <Text style={[ styles.title, Typography.regular ]} numberOfLines={ 1 }>
                                 {
-                                    (props.item.title && props.item.title) || props.item.segments[0].body
+                                    (props.item.title && props.item.title) || (props.item.segments && props.item.segments[0].body)
                                 }
                             </Text>
                         </View>

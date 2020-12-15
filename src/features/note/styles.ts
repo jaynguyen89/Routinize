@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     },
     switcher : {
         alignSelf : "flex-start",
-        marginTop : BASE_HEIGHT * 0.25
+        flex : 1
     },
     segmentWrapper : {
         marginTop : BASE_HEIGHT * 0.1,

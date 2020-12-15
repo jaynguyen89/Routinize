@@ -23,6 +23,8 @@ import PopoverContent from '../../../customs/PopoverContent';
 import Popover from 'react-native-popover-view/dist/Popover';
 import { IFile, IMedia } from '../../../models/others';
 import AttachmentsList from '../../../customs/AttachmentsList';
+import RichTextEditor from '../../../customs/rte/RichTextEditor';
+import styles from '../styles';
 
 const mapStateToProps = (state : any) => ({
     authStatus : state.appReducer.authStatus,
@@ -59,10 +61,13 @@ const TodoDetail = (props : ITodoDetail) => {
         }
     }, [date, time]);
 
+    const updateDetails = (content : string) => {
+        setItem({ ...item, details : content });
+    }
+
     const handleItemDetailsChanged = (value : string, field : string) => {
         if (field === 'title') setItem({ ...item, title : value });
         if (field === 'description') setItem({ ...item, description : value });
-        if (field === 'details') setItem({ ...item, details : value });
     }
 
     const addItemAttachments = (attachment : IMedia | IFile) => {
@@ -228,13 +233,6 @@ const TodoDetail = (props : ITodoDetail) => {
                               actions={{ dateAction : openDatePicker, timeAction : openTimePicker }} />
                 </View>
 
-                <View style={ sharedStyles.inputWrapper }>
-                    <Text style={[ Typography.regular, props.settings.theme.black, sharedStyles.inputLabel ]}>More Details</Text>
-                    <Input placeholder='Give more information to help yourself later'
-                           value={ item.details } onChangeText={ (val : string) => handleItemDetailsChanged(val, 'details') }
-                           style={[ Typography.regular, sharedStyles.textarea ]} multiline numberOfLines={ 5 } />
-                </View>
-
                 <ActionButtons actions={[
                     { name : 'Add Media', icon : faPhotoVideo, type : ACTION_TYPES.NORMAL, callback : () => setShowPopover(true) },
                     { name : 'Add File', icon : faFileImport, type : ACTION_TYPES.NORMAL, callback : () => selectFiles() }
@@ -276,6 +274,19 @@ const TodoDetail = (props : ITodoDetail) => {
                                              style={[ props.settings.theme.btnPrimary, sharedStyles.inputFieldBtn ] as ViewStyle }
                            /> }
                     />
+                </View>
+
+
+
+                <View style={ styles.editorWrapper }>
+                    <View style={[ { flex : 1 }, props.settings.theme.backgroundSecondary ]}>
+                        <RichTextEditor
+                            initialContent={ item.details }
+                            updateContent={ updateDetails }
+                            placeHolder='Add more details to help yourself later'
+                            extraActions={ false }
+                        />
+                    </View>
                 </View>
 
                 <ActionButtons actions={[

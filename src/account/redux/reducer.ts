@@ -1,12 +1,11 @@
 import * as accountConstants from './constants';
 import produce from 'immer';
 import IAccount from '../../models/IAccount';
-import ILocalAccount from '../../models/local/IAccount';
 
 interface IAccountStore {
     isRetrieving : boolean,
     isSuccess : boolean,
-    account : IAccount | ILocalAccount | null | string
+    account : IAccount | null | string
 }
 
 const initialState : IAccountStore = {

@@ -143,6 +143,8 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
                     <RichTextEditor
                         initialContent={ segment.body }
                         updateContent={ updateContent }
+                        placeHolder='Note content'
+                        extraActions={ true }
                         removeSegment={ props.removeSegment }
                         handleAttachmentAdding={ () => setShowPopover(true) }
                         handlePlaceAdding={ handlePlace }

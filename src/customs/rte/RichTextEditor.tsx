@@ -45,7 +45,7 @@ const RichTextEditor = (props: IEditor) => {
             <RichEditor ref={ editor as unknown as string }
                 containerStyle={ props.settings.theme.border }
                 editorStyle={ props.settings.theme.backgroundSecondary }
-                placeholder={'Note content'}
+                placeholder={ props.placeHolder }
                 onHeightChange={() => {}}
                 // @ts-ignore
                 onChange={ async () => props.updateContent(await editor.current?.getContentHtml()) }
@@ -58,10 +58,10 @@ const RichTextEditor = (props: IEditor) => {
                     iconTint={ props.settings.theme.black.color }
                     selectedIconTint={ sharedStyles.btnDanger.backgroundColor }
                     editor={ editor }
-                    actions={[
+                    actions={ (props.extraActions && [
                         'bold', 'italic', 'unorderedList', 'orderedList', 'insertVideo',
                         'image', 'link', 'attachMediaOrFile', 'attachPlace', 'removeSegment'
-                    ]}
+                    ]) || ['bold', 'italic', 'unorderedList', 'orderedList', 'insertVideo', 'image', 'link']}
                     iconMap={{
                         insertVideo : require('../../../assets/video_icon.png'),
                         attachMediaOrFile : require('../../../assets/attach_files.png'),

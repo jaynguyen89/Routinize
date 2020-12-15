@@ -47,9 +47,11 @@ export interface IEditor {
     settings? : any,
     initialContent : string,
     updateContent : any,
-    handleAttachmentAdding : any,
-    handlePlaceAdding : any
-    removeSegment : any
+    placeHolder : string,
+    extraActions : boolean,
+    handleAttachmentAdding? : any,
+    handlePlaceAdding? : any
+    removeSegment? : any
 }
 
 export interface IRteDialog {

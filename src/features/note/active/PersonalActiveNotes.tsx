@@ -1,14 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { Button, ScrollView, TouchableOpacity, View } from "react-native";
-import { FAB } from "react-native-paper";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import NoteRow from "../components/NoteRow";
 import { Divider } from "react-native-elements";
 import INote from "../../../models/INote";
 import ICollaborator from "../../../models/ICollaborator";
 import { IMedia } from "../../../models/others";
-import IAddress from "../../../models/IAddress";
 import { IActiveNotes } from "../redux/constants";
 
 import { sharedStyles } from "../../../shared/styles";
@@ -34,13 +32,8 @@ const mapActionsToProps = {
 const items : Array<INote> = [{
     id : 1, title : null, emphasized : false, createdOn : '30 Nov 2020 00:46', isPersonal : true,
     author : {
-        id : 1, firstName : 'Jay', lastName : 'Nguyen', gender : true, phoneNumber : '04422357488', title : 'Software Developer',
-        address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IAddress
+        id : 1, firstName : 'Jay', lastName : 'Nguyen', gender : true, phoneNumber : '04422357488', title : 'Software Developer', address : null
     } as ICollaborator,
-    // assignees : [{
-    //     id : 1, firstName : 'Jay', lastName : 'Nguyen', gender : true, phoneNumber : '04422357488', title : 'Software Developer',
-    //     address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IPlace
-    // } as ICollaborator],
     segments : [{ id : 1,
         body : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec eleifend risus. Phasellus sit amet mollis arcu, quis ornare velit. Aliquam id risus euismod, volutpat ante vitae, porttitor augue. Cras leo ligula, consequat ac dui id, venenatis placerat libero. Etiam mollis ultrices justo, ut rhoncus ligula tempor eu. Morbi sed lacus eget augue dapibus vulputate sed eu metus. Vivamus pretium faucibus est, a finibus nulla placerat id. Fusce at laoreet libero. Cras id metus sit amet diam ultrices facilisis. Fusce scelerisque facilisis mauris nec cursus. Cras malesuada est auctor ipsum dictum, dapibus euismod odio blandit. Sed pharetra diam et arcu porttitor, at bibendum leo aliquet. Fusce laoreet vulputate augue. Duis facilisis risus quis congue sollicitudin.\n' +
             '\n' +
@@ -50,12 +43,8 @@ const items : Array<INote> = [{
     id : 2, title : 'Integer eget aliquet nibh praesent tristique.', emphasized : true, createdOn : '21 Oct 2020 18:37', isPersonal : true,
     author : {
         id : 1, firstName : 'Jay', lastName : 'Nguyen', gender : true, phoneNumber : '04422357488', title : 'Software Developer',
-        address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IAddress
+        address : null
     } as ICollaborator,
-    // assignees : [{
-    //     id : 1, firstName : 'Jay', lastName : 'Nguyen', gender : true, phoneNumber : '04422357488', title : 'Software Developer',
-    //     address : { id : 1, name : 'Home', address : '1 15 Haven Cl, Sunshine West, VIC 3020', coordination : { lat : -37.7931399, long : 144.8049009 } } as IPlace
-    // } as ICollaborator],
     segments : [{ id : 1,
         body : 'Tellus molestie nunc non blandit. Id aliquet risus feugiat in ante metus. Magna eget est lorem ipsum dolor sit amet. Lectus magna fringilla urna porttitor rhoncus dolor purus non. Neque convallis a cras semper auctor. Risus pretium quam vulputate dignissim suspendisse. Lobortis elementum nibh tellus molestie nunc. Etiam dignissim diam quis enim. Sem fringilla ut morbi tincidunt augue interdum velit euismod. Donec ultrices tincidunt arcu non sodales. Sem nulla pharetra diam sit amet nisl suscipit adipiscing bibendum. Sit amet justo donec enim diam. Enim tortor at auctor urna.\n' +
             '\n' +
@@ -80,7 +69,7 @@ const PersonalActiveNotes = (props : IActiveNotes) => {
                                   onPress={ () => setShowPopover(true) }>
                     <FontAwesomeIcon icon={ faEllipsisV } size={ baseFontSize * 2 } color={ props.settings.theme.textFill.color } />
                 </TouchableOpacity>
-            ),
+            )
         });
     }, [props.navigation]);
 

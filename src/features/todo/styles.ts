@@ -46,6 +46,11 @@ const styles = StyleSheet.create({
         backgroundColor : '#fff',
         opacity : 0.5,
         elevation : 0
+    },
+    editorWrapper : {
+        marginTop : BASE_HEIGHT * -0.5,
+        marginHorizontal : BASE_HEIGHT * 0.75,
+        marginBottom : BASE_HEIGHT
     }
 });
 

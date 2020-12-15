@@ -1,8 +1,8 @@
 import IAddress from "./IAddress";
 import IThing from "./IThing";
 import { IFile, IMedia } from "./others";
-import { RELATIONSHIPS } from '../shared/enums';
 import ICollaborator from './ICollaborator';
+import { IRelationship } from './IRelationship';
 
 interface ITodo extends IThing {
     description : string,
@@ -16,9 +16,3 @@ interface ITodo extends IThing {
 }
 
 export default ITodo;
-
-export interface IRelationship {
-    itemId : number,
-    type : string, //TODO or NOTE
-    relationType : RELATIONSHIPS
-}

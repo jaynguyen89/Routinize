@@ -16,10 +16,10 @@ const reducer = produce((state, action) => {
     switch (action.type) {
         case noteConstants.GOTO_NEW_NOTE_PERSONAL:
             state.isPersonal = action.payload;
-            state.todoItem = null;
+            state.noteItem = null;
             return;
-        case noteConstants.SET_NEW_TODO_DETAIL_ITEM:
-            state.todoItem = action.payload;
+        case noteConstants.SET_NOTE_DETAIL_ITEM:
+            state.noteItem = action.payload;
             return;
         default:
             return;

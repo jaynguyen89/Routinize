@@ -10,10 +10,10 @@ import { sharedStyles } from '../../shared/styles';
 import { IAuth } from '../../models/others';
 import { getLocalAccount } from '../redux/actions';
 import { setAuthStatus } from '../../../root/redux/actions';
-import ILocalAccount from '../../models/local/IAccount';
 import { makeShortName } from '../../helpers/Helpers';
 import { NAME_FORMAT } from '../../shared/enums';
 import { EMPTY_OBJ, EMPTY_STRING } from '../../helpers/Constants';
+import IAccount from '../../models/IAccount';
 
 interface IAccountInfo {
     navigation : any,
@@ -36,7 +36,7 @@ const mapActionsToProps = {
 };
 
 const AccountInfo = (props: IAccountInfo) => {
-    const [account, setAccount] = React.useState(EMPTY_OBJ as ILocalAccount);
+    const [account, setAccount] = React.useState(EMPTY_OBJ as IAccount);
 
     React.useEffect(() => {
         if (!props.auth.isRetrieving && !props.auth.isSuccess)
@@ -73,7 +73,7 @@ const AccountInfo = (props: IAccountInfo) => {
             props.setAuthStatus(false);
         }
         else
-            setAccount(null as unknown as ILocalAccount);
+            setAccount(null as unknown as IAccount);
     }, [props.accountData]);
 
     return (

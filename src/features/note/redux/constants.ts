@@ -25,6 +25,10 @@ export interface INoteDetail {
     isPersonal : boolean
 }
 
+export interface INoteSharing {
+    settings? : any
+}
+
 export interface INoteSegmentCard {
     settings? : any,
     segment : INoteSegment,
@@ -38,8 +42,18 @@ export const EMPTY_SEGMENT : INoteSegment = {
     places : null
 }
 
+export const EMPTY_NOTE : INote = {
+    id : 0,
+    author : null,
+    isPersonal : true,
+    emphasized : false,
+    title : null,
+    segments : null,
+    createdOn : EMPTY_STRING
+}
+
 export const GOTO_NEW_NOTE_PERSONAL = 'GOTO_NEW_NOTE_PERSONAL';
 export type T_GOTO_NEW_NOTE_PERSONAL = typeof GOTO_NEW_NOTE_PERSONAL;
 
-export const SET_NEW_TODO_DETAIL_ITEM = 'SET_NEW_TODO_DETAIL_ITEM';
-export type T_SET_NEW_TODO_DETAIL_ITEM = typeof SET_NEW_TODO_DETAIL_ITEM;
+export const SET_NOTE_DETAIL_ITEM = 'SET_NOTE_DETAIL_ITEM';
+export type T_SET_NOTE_DETAIL_ITEM = typeof SET_NOTE_DETAIL_ITEM;

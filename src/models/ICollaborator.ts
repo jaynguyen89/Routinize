@@ -10,7 +10,7 @@ interface ICollaborator {
     shortName : string | null,
     gender : boolean, //true for Male
     title : string,
-    address : IAddress,
+    address : IAddress | null,
     phoneNumber : string
 }
 

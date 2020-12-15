@@ -5,15 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ec84dc4e-cb97-40bc-803b-02313ebaa727" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/customs/rte/IntertionPopup.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/app/src/main/assets/routinizeDb.db-journal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/db/routinizeDb_local.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/db/routinizeDb_local.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/db/routinizeDb_online.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/db/routinizeDb_online.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/IRelationship.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/customs/DynamicButtons.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/DynamicButtons.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/assets/routinizeDb.db" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/assets/routinizeDb.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/routinizeDb_local.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/routinizeDb_local.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/routinizeDb_online.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/routinizeDb_online.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/account/components/AccountInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/account/components/AccountInfo.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/account/redux/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/account/redux/actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/account/redux/reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/account/redux/reducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/account/redux/services.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/account/redux/services.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/auth/redux/services.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth/redux/services.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/customs/rte/RichTextEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/rte/RichTextEditor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/customs/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/note/active/PersonalActiveNotes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/active/PersonalActiveNotes.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/note/components/NoteDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/components/NoteDetail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/note/components/NotePreference.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/note/components/NoteRow.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/components/NoteRow.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/note/components/NoteSegmentCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/components/NoteSegmentCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/note/redux/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/redux/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/note/redux/reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/redux/reducer.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/note/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/todo/active/PersonalActiveTodos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/active/PersonalActiveTodos.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/todo/components/TodoDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/components/TodoDetail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/todo/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ICollaborator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ICollaborator.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/INote.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/INote.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ITodo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ITodo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/local/IAccount.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/local/IAddress.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/shared/interfaces.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/interfaces.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,6 +51,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -43,6 +70,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -71,7 +99,8 @@
       <workItem from="1607847649261" duration="16431000" />
       <workItem from="1607910424640" duration="88000" />
       <workItem from="1607916259388" duration="19733000" />
-      <workItem from="1607992129612" duration="9793000" />
+      <workItem from="1607992129612" duration="10337000" />
+      <workItem from="1608005768111" duration="8872000" />
     </task>
     <servers />
   </component>
