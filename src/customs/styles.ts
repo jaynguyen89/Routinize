@@ -82,6 +82,19 @@ const styles = StyleSheet.create({
         left : BASE_HEIGHT * 0.25,
         bottom : BASE_HEIGHT * 0.25,
         color : '#fff'
+    },
+    rteDialog : {
+        width : BASE_HEIGHT * 15,
+        marginVertical : 0,
+        marginHorizontal : BASE_HEIGHT * 0.5
+    },
+    rteTitle : {
+        marginVertical : BASE_HEIGHT * 0.2,
+        marginTop : BASE_HEIGHT * 0.5,
+        fontWeight : 'bold'
+    },
+    rteError : {
+        marginVertical : 0
     }
 });
 

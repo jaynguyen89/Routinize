@@ -5,27 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ec84dc4e-cb97-40bc-803b-02313ebaa727" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/attach_files.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/attach_media.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/attach_place.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/heading1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/heading2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/remove.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/underline_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/video_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/customs/rte/RichTextEditor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/routinize/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/com/routinize/MainApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/note/active/PersonalActiveNotes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/active/PersonalActiveNotes.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customs/rte/IntertionPopup.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/customs/DynamicButtons.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/DynamicButtons.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/customs/rte/RichTextEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/rte/RichTextEditor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/customs/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/styles.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/note/components/NoteDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/components/NoteDetail.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/note/components/NoteSegmentCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/components/NoteSegmentCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/note/redux/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/redux/constants.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/note/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/styles.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/shared/interfaces.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/interfaces.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +70,8 @@
       <workItem from="1607676838985" duration="16612000" />
       <workItem from="1607847649261" duration="16431000" />
       <workItem from="1607910424640" duration="88000" />
-      <workItem from="1607916259388" duration="13345000" />
+      <workItem from="1607916259388" duration="19733000" />
+      <workItem from="1607992129612" duration="9793000" />
     </task>
     <servers />
   </component>

@@ -45,5 +45,15 @@ export interface IAttachmentsList {
 
 export interface IEditor {
     settings? : any,
-    callback : any
+    initialContent : string,
+    updateContent : any,
+    handleAttachmentAdding : any,
+    handlePlaceAdding : any
+    removeSegment : any
+}
+
+export interface IRteDialog {
+    settings? : any,
+    type : string,
+    actions : { done : any, cancel : any }
 }

@@ -48,54 +48,12 @@ const styles = StyleSheet.create({
         marginTop : BASE_HEIGHT * 0.25
     },
     segmentWrapper : {
-        //height : BASE_HEIGHT * 10,
-        marginTop : BASE_HEIGHT * 0.5,
-        marginHorizontal : BASE_HEIGHT * 0.25
-    },
-    segmentEditorWrapper : {
-        // flex : 1,
-        // flexDirection : 'row'
-    },
-    textContainer : {
-        flex : 3,
-        textAlignVertical : 'top',
-        paddingHorizontal : BASE_HEIGHT * 0.5,
-        paddingVertical : BASE_HEIGHT * 0.3,
-        borderTopWidth : 0.5,
-        borderLeftWidth : 0.5,
-        borderBottomWidth : 0.5,
-        borderRightWidth : 0.75
-    },
-    attachmentContainer : {
-        flex : 1
-    },
-    editorIconWrapper : {
-        flex : 1,
-        flexDirection : 'row',
-        margin : 0,
-        padding : 0
-    },
-    editorIcon : {
-        alignSelf : "center",
-        margin : 7.5
-    },
-    firstBtn : {
-        borderWidth : 0.35
-    },
-    secondBtn : {
-        borderWidth : 0.35,
-        borderTopRightRadius : BASE_HEIGHT * 0.25
-    },
-    thirdBtn : {
-        borderWidth : 0.35
-    },
-    fourthBtn : {
-        borderWidth : 0.35
+        marginTop : BASE_HEIGHT * 0.1,
+        marginBottom : BASE_HEIGHT * 0.65,
+        marginHorizontal : BASE_HEIGHT * 0.3
     },
     attachmentWrapper : {
-        borderTopWidth : 0.5,
-        borderRightWidth : 0.5,
-        borderBottomWidth : 0.5,
+        height : BASE_HEIGHT * 5,
         padding : BASE_HEIGHT * 0.25
     }
 });

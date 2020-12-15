@@ -1,5 +1,6 @@
 import INote from "../../../models/INote";
 import INoteSegment from "../../../models/INoteSegment";
+import { EMPTY_STRING } from '../../../helpers/Constants';
 
 export interface IActiveNotes {
     settings : any,
@@ -18,6 +19,7 @@ export interface INoteRow {
 
 export interface INoteDetail {
     navigation : any,
+    authStatus : boolean,
     settings? : any,
     item : INote,
     isPersonal : boolean
@@ -25,7 +27,15 @@ export interface INoteDetail {
 
 export interface INoteSegmentCard {
     settings? : any,
-    segment? : INoteSegment
+    segment : INoteSegment,
+    removeSegment : any
+}
+
+export const EMPTY_SEGMENT : INoteSegment = {
+    id : 0,
+    body : EMPTY_STRING,
+    attachments : null,
+    places : null
 }
 
 export const GOTO_NEW_NOTE_PERSONAL = 'GOTO_NEW_NOTE_PERSONAL';

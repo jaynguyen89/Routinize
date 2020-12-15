@@ -11,10 +11,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import styles from "./styles";
 import { baseFontSize } from "../shared/typography";
 import { sharedStyles } from "../shared/styles";
+import {
+    faFileImport,
+    faMapMarkerAlt, faMinusCircle,
+    faPhotoVideo,
+    faPlusCircle,
+    faTrashAlt
+} from '@fortawesome/free-solid-svg-icons';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
 });
+
+// Example usage:
+// <DynamicButtons actions={[
+//     { icon : faPlusCircle, type : ACTION_TYPES.NORMAL, callback : () => console.log('Add Segment') },
+//     { icon : faPhotoVideo, type : ACTION_TYPES.NORMAL, callback : () => console.log('Add Media') },
+//     { icon : faFileImport, type : ACTION_TYPES.NORMAL, callback : () => console.log('Add File') },
+//     { icon : faMapMarkerAlt, type : ACTION_TYPES.NORMAL, callback : () => console.log('Add Location') },
+//     { icon : faTrashAlt, type : ACTION_TYPES.CAUTIOUS, callback : () => console.log('Remove Attachment') },
+//     { icon : faMinusCircle, type : ACTION_TYPES.DANGEROUS, callback : () => console.log('Remove Segment') }
+// ]} />
 
 const DynamicButtons = (props : IButtonGroup) => {
     return (
