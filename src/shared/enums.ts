@@ -1,12 +1,21 @@
+export enum ACTIONS {
+    NONE,
+    GET,
+    CREATE,
+    UPDATE,
+    DELETE
+}
+
 export enum DATABASE_TABLES {
     SETTINGS = 'settings',
     AUTH = 'auth',
     USER = 'user',
-    ADDRESS = 'address',
+    ADDRESS = 'addresses',
     NOTES = 'notes',
     TODOS = 'todos',
     SEGMENTS = 'noteSegments',
-    ATTACHMENTS = 'attachments'
+    ATTACHMENTS = 'attachments',
+    PLACES = 'places'
 }
 
 export enum STORAGE_KEYS {

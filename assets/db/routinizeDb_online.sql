@@ -89,6 +89,7 @@ CREATE TABLE "todos" (
     "userId" INTEGER NOT NULL,
     "isPersonal" INTEGER NOT NULL DEFAULT 1,
     "emphasized" INTEGER NOT NULL DEFAULT 0,
+    "cover" TEXT DEFAULT NULL,
     "title" TEXT DEFAULT NULL,
     "description" TEXT DEFAULT NULL,
     "details" TEXT DEFAULT NULL,

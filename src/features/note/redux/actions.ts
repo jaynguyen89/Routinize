@@ -14,7 +14,7 @@ export const setNoteTypeToCreate = (isPersonal : boolean) => {
 export const setNoteDetailItem = (item : INote) => {
     return (dispatch : any) => {
         dispatch({
-            type : noteConstants.SET_NEW_TODO_DETAIL_ITEM,
+            type : noteConstants.SET_NOTE_DETAIL_ITEM,
             payload : item
         });
     }

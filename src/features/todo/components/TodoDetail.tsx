@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import md5 from 'md5';
 
-import { Alert, ScrollView, View, ViewStyle } from "react-native";
+import { Alert, ScrollView, View, ViewStyle } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Icon, Input, Text } from 'react-native-elements';
 import ActionButtons from '../../../customs/ActionButtons';
@@ -11,9 +11,9 @@ import DTPicker from '../../../customs/DTPicker';
 import * as ImagePicker from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
 import DocumentPicker from 'react-native-document-picker';
-import { ACTION_TYPES, FILE_TYPES, MEDIA_TYPES } from '../../../shared/enums';
-import { EMPTY_TODO, ITodoDetail } from '../redux/constants';
-import ITodo from '../../../models/ITodo';
+import { ACTION_TYPES, ACTIONS, FILE_TYPES, MEDIA_TYPES } from '../../../shared/enums';
+import { ITodoDetail } from '../redux/constants';
+import ITodo, { EMPTY_TODO } from '../../../models/ITodo';
 
 import { Typography } from '../../../shared/typography';
 import { sharedStyles } from '../../../shared/styles';
@@ -26,22 +26,29 @@ import AttachmentsList from '../../../customs/AttachmentsList';
 import RichTextEditor from '../../../customs/rte/RichTextEditor';
 import styles from '../styles';
 
-import { createLocalTodo, updateLocalTodo } from '../redux/actions';
+import { createLocalTodo, updateLocalTodo, getLocalTodoAttachments } from '../redux/actions';
+import ScreenCover from '../../../customs/ScreenCover';
+import Loading from '../../../customs/Loading';
 
 const mapStateToProps = (state : any) => ({
     authStatus : state.appReducer.authStatus,
     settings : state.settingsReducer.appSettings.settings,
     isPersonal : state.todoReducer.isPersonal,
     item : state.todoReducer.todoItem,
-    newItem : state.todoReducer.newItem
+    newItem : state.todoReducer.newItem,
+    updateItem : state.todoReducer.updateItem,
+    getAttachments : state.todoReducer.getAttachments
 });
 
 const mapActionsToProps = {
     createLocalTodo,
-    updateLocalTodo
+    updateLocalTodo,
+    getLocalTodoAttachments
 };
 
 const TodoDetail = (props : ITodoDetail) => {
+    const [action, setAction] = React.useState(ACTIONS.NONE);
+    const [screenCover, setScreenCover] = React.useState({ message : EMPTY_STRING, visible : false });
     const [showPopover, setShowPopover] = React.useState(false);
 
     const [showDatePicker, setShowDatePicker] = React.useState(false);
@@ -56,19 +63,50 @@ const TodoDetail = (props : ITodoDetail) => {
     React.useEffect(() => {
         setPersonal((props.item && props.item.isPersonal) || !props.authStatus || props.isPersonal);
         setItem(props.item || EMPTY_TODO);
-    }, [props]);
+
+        if (props.item) props.getLocalTodoAttachments(props.item.id);
+    }, [props.item]);
 
     React.useEffect(() => {
-        Alert.alert(
-            props.newItem.addingSuccess ? 'Success!' : 'Todo saving failed!',
-            props.newItem.addingSuccess ? 'Your Todo has been saved.' : 'An issue happened while saving your Todo. Please try again.',
-            [{
-                text: 'OK',
-                onPress: () => { props.newItem.addingSuccess ? props.navigation.goBack() : console.log('Todo saving failed') }
-            }],
-            { cancelable: false }
-        );
+        setScreenCover({ message : EMPTY_STRING, visible : false });
+
+        if (action === ACTIONS.CREATE)
+            Alert.alert(
+                props.newItem.addingSuccess ? 'Success!' : 'Todo saving failed!',
+                props.newItem.addingSuccess ? 'Your Todo has been saved.' : 'An issue happened while saving your Todo. Please try again.',
+                [{
+                    text: 'OK',
+                    onPress: () => {
+                        setAction(ACTIONS.NONE);
+                        if (props.newItem.addingSuccess) props.navigation.goBack();
+                    }
+                }],
+                { cancelable: false }
+            );
     }, [props.newItem]);
+
+    React.useEffect(() => {
+        if (!props.getAttachments.isRetrieving && props.getAttachments.retrievingSuccess)
+            setItem({ ...item, attachments : props.getAttachments.attachments });
+    }, [props.getAttachments]);
+
+    React.useEffect(() => {
+        setScreenCover({ message : EMPTY_STRING, visible : false });
+
+        if (action === ACTIONS.UPDATE && !props.updateItem.isUpdating)
+            Alert.alert(
+                props.updateItem.updateResult ? 'Success!' : 'Todo updating failed!',
+                props.updateItem.updateResult ? 'Your Todo has been updated.' : 'An issue happened while updating your Todo. Please try again.',
+                [{
+                    text: 'OK',
+                    onPress: () => {
+                        setAction(ACTIONS.NONE);
+                        if (props.updateItem.updateSuccess) props.navigation.goBack();
+                    }
+                }],
+                { cancelable: false }
+            );
+    }, [props.updateItem]);
 
     React.useEffect(() => {
         if (date && time) {
@@ -216,8 +254,16 @@ const TodoDetail = (props : ITodoDetail) => {
         );
 
     const confirmCreateOrUpdateTodo = () => {
-        if (item.id === 0) props.createLocalTodo(item);
-        else props.updateLocalTodo(item);
+        if (item.id === 0) {
+            setScreenCover({ message : 'Saving changes', visible : true });
+            props.createLocalTodo(item);
+            setAction(ACTIONS.CREATE);
+        }
+        else {
+            setScreenCover({ message : 'Updating changes', visible : true });
+            props.updateLocalTodo(item);
+            setAction(ACTIONS.UPDATE);
+        }
     }
 
     return (
@@ -253,15 +299,26 @@ const TodoDetail = (props : ITodoDetail) => {
                 ]} />
 
                 {
-                    item.attachments &&
-                    <View style={ sharedStyles.inputWrapper }>
-                        <AttachmentsList attachments={ item.attachments }
-                                         actions={{
-                                             viewAttachment : () => console.log('view'),
-                                             removeAttachment : () => console.log('remove')
-                                         }}
-                        />
-                    </View>
+                    (
+                        props.getAttachments.isRetrieving && <Loading message='Finding attachments.' />
+                    ) || (
+                        !props.getAttachments.isRetrieving && !props.getAttachments.retrievingSuccess &&
+                        <View style={ sharedStyles.inputWrapper }>
+                            <Text style={[ Typography.small, { textAlign : 'center', color : sharedStyles.btnDanger.backgroundColor } ]}>
+                                An issue happened while looking for the attachments. Please refresh the screen to retry.
+                            </Text>
+                        </View>
+                    ) || (
+                        !props.getAttachments.isRetrieving && props.getAttachments.retrievingSuccess && item.attachments &&
+                        <View style={ sharedStyles.inputWrapper }>
+                            <AttachmentsList attachments={ item.attachments }
+                                             actions={{
+                                                 viewAttachment : () => console.log('view'),
+                                                 removeAttachment : () => console.log('remove')
+                                             }}
+                            />
+                        </View>
+                    )
                 }
 
                 {
@@ -295,7 +352,7 @@ const TodoDetail = (props : ITodoDetail) => {
                 <View style={ styles.editorWrapper }>
                     <View style={[ { flex : 1 }, props.settings.theme.backgroundSecondary ]}>
                         <RichTextEditor
-                            initialContent={ item.details }
+                            initialContent={ item.details || EMPTY_STRING }
                             updateContent={ updateDetails }
                             placeHolder='Add more details to help yourself later'
                             extraActions={ false }
@@ -333,6 +390,8 @@ const TodoDetail = (props : ITodoDetail) => {
                     ]}
                 />
             </Popover>
+
+            <ScreenCover message={ screenCover.message } visible={ screenCover.visible } />
         </>
     );
 }

@@ -28,3 +28,34 @@ export interface IAuth {
     authToken : string,
     timeStamp : number
 }
+
+export const refineLocalAttachments = (things : Array<any>) : Array<IMedia | IFile> | null => {
+    if (things == null) return null;
+
+    let attachments : Array<IMedia | IFile> = [];
+    things.forEach(thing => {
+        if (
+            thing.type === MEDIA_TYPES.PHOTO ||
+            thing.type === MEDIA_TYPES.VIDEO ||
+            thing.type === MEDIA_TYPES.AUDIO
+        ) {
+            let media : IMedia = { id : thing.id, type : thing.type } as IMedia;
+
+            if (thing.name) media.name = thing.name;
+            if (thing.url) media.url = thing.url;
+
+            attachments.push(media);
+            return;
+        }
+
+        let file : IFile = { id : thing.id, type : thing.type } as IFile;
+
+        if (thing.name) file.name = thing.name;
+        if (thing.url) file.url = thing.url;
+
+        attachments.push(file);
+        return;
+    });
+
+    return attachments;
+}

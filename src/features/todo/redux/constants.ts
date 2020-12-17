@@ -1,13 +1,17 @@
 import ITodo from "../../../models/ITodo";
-import { EMPTY_STRING } from '../../../helpers/Constants';
-import { createLocalTodo, updateLocalTodo } from './actions';
 
 export interface ITodos {
     navigation : any,
+    todoRetrieval : {
+        isRetrieving : false,
+        retrievingSuccess : false,
+        items : null
+    },
     items : Array<ITodo> | null,
     authStatus : boolean,
     settings : any,
-    setTodoTypeToCreate : any
+    setTodoTypeToCreate : any,
+    getAllLocalTodos : any
 }
 
 export interface ITodoCard {
@@ -24,26 +28,12 @@ export interface ITodoDetail {
     settings? : any,
     item : ITodo,
     newItem : any,
+    updateItem : any,
+    getAttachments : any,
     isPersonal : boolean,
     createLocalTodo : any,
-    updateLocalTodo : any
-}
-
-export const EMPTY_TODO : ITodo = {
-    id : 0,
-    author : null,
-    isPersonal : true,
-    emphasized : false,
-    title : null,
-    createdOn : EMPTY_STRING,
-    description : EMPTY_STRING,
-    details : EMPTY_STRING,
-    dueDate : null,
-    places : null,
-    attachments : null,
-    related : null,
-    doneDate : null,
-    doneBy : null
+    updateLocalTodo : any,
+    getLocalTodoAttachments : any
 }
 
 export const GOTO_NEW_TODO_PERSONAL = 'GOTO_NEW_TODO_PERSONAL';
@@ -69,3 +59,21 @@ export type T_UPDATE_TODO_SUCCESS = typeof UPDATE_TODO_SUCCESS;
 
 export const UPDATE_TODO_FAILED = 'UPDATE_TODO_FAILED';
 export type T_UPDATE_TODO_FAILED = typeof UPDATE_TODO_FAILED;
+
+export const GET_ALL_TODOS_LOCAL = 'GET_ALL_TODOS_LOCAL';
+export type T_GET_ALL_TODOS = typeof GET_ALL_TODOS_LOCAL;
+
+export const GET_ALL_TODOS_LOCAL_SUCCESS = 'GET_ALL_TODOS_LOCAL_SUCCESS';
+export type T_GET_ALL_TODOS_LOCAL_SUCCESS = typeof GET_ALL_TODOS_LOCAL_SUCCESS;
+
+export const GET_ALL_TODOS_LOCAL_FAILED = 'GET_ALL_TODOS_LOCAL_FAILED';
+export type T_GET_ALL_TODOS_LOCAL_FAILED = typeof GET_ALL_TODOS_LOCAL_FAILED;
+
+export const GET_LOCAL_TODO_ATTACHMENTS = 'GET_LOCAL_TODO_ATTACHMENTS';
+export type T_GET_LOCAL_TODO_ATTACHMENTS = typeof GET_LOCAL_TODO_ATTACHMENTS;
+
+export const GET_LOCAL_TODO_ATTACHMENTS_FAILED = 'GET_LOCAL_TODO_ATTACHMENTS_FAILED';
+export type T_GET_LOCAL_TODO_ATTACHMENTS_FAILED = typeof GET_LOCAL_TODO_ATTACHMENTS_FAILED;
+
+export const GET_LOCAL_TODO_ATTACHMENTS_SUCCESS = 'GET_LOCAL_TODO_ATTACHMENTS_SUCCESS';
+export type T_GET_LOCAL_TODO_ATTACHMENTS_SUCCESS = typeof GET_LOCAL_TODO_ATTACHMENTS_SUCCESS;

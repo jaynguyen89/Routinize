@@ -1,4 +1,4 @@
-import { MOMENT_FORMATS, NAME_FORMAT } from '../shared/enums';
+import { DATETIME_FORMATS, MOMENT_FORMATS, NAME_FORMAT } from '../shared/enums';
 import { EMPTY_STRING, SPACE_MONO } from './Constants';
 import moment from 'moment';
 
@@ -37,7 +37,7 @@ export const makeShortName = (
 export const processDateTimeChange = (
     current : string | null, newVal : string, field : string, format : string
 ) : string => {alert('helper newVal = ' + newVal);
-    let newDateTime = EMPTY_STRING;
+    let newDateTime : string;
     format = format.indexOf('_A_') !== -1 || format.indexOf('_HA_') !== -1 ||
              format.indexOf('_SA_') !== -1 ? MOMENT_FORMATS.HMA : MOMENT_FORMATS.HM;
 alert(format);
@@ -52,4 +52,46 @@ alert(format);
         newDateTime = moment(newVal).format(format);
 
     return newDateTime;
+}
+
+export const getTimeElapse = (start : string, end : string) : string => {
+    const duration = moment.duration(Math.abs(
+        moment(start, DATETIME_FORMATS.COMPACT_H_DMY)
+            .diff(moment(end, DATETIME_FORMATS.COMPACT_H_DMY))
+    ));
+
+    let elapse = EMPTY_STRING;
+
+    const years = duration.asYears();
+    if (years >= 1) {
+        elapse += (Math.floor(years) + 'y' + (Math.floor((years - Math.floor(years)) * 12) > 0 ? SPACE_MONO + Math.floor((years - Math.floor(years)) * 12) + 'm' : EMPTY_STRING));
+        return elapse;
+    }
+
+    const months = duration.asMonths();
+    if (months >= 1) {
+        elapse += (Math.floor(months) + 'm' + (Math.floor((months - Math.floor(months)) * 30) > 0 ? SPACE_MONO + Math.floor((months - Math.floor(months)) * 30) + 'd' : EMPTY_STRING));
+        return elapse;
+    }
+
+    const weeks = duration.asWeeks();
+    if (weeks >= 1) {
+        elapse += (Math.floor(weeks) + 'w' + (Math.floor((weeks - Math.floor(weeks)) * 7) > 0 ? SPACE_MONO + Math.floor((weeks - Math.floor(weeks)) * 7) + 'd' : EMPTY_STRING));
+        return elapse;
+    }
+
+    const days = duration.asDays();
+    if (days >= 1) {
+        elapse += (Math.floor(days) + 'd' + (Math.floor((days - Math.floor(days)) * 24) > 0 ? SPACE_MONO + Math.floor((days - Math.floor(days)) * 24) + 'h' : EMPTY_STRING));
+        return elapse;
+    }
+
+    const hours = duration.asHours();
+    if (hours >= 1) {
+        elapse += (Math.floor(hours) + 'h' + (Math.floor((hours - Math.floor(hours)) * 60) > 0 ? SPACE_MONO + Math.floor((hours - Math.floor(hours)) * 60) + 'm' : EMPTY_STRING));
+        return elapse;
+    }
+
+    const minutes = duration.asMinutes();
+    return minutes > 0 ? minutes + 'm' : 'Expired';
 }

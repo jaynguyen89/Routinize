@@ -36,10 +36,10 @@ const AttachmentsList = (props: IAttachmentsList) => {
                                                style={ styles.imageThumb }
                                         />
                                     ) ||
-                                    <FontAwesomeIcon icon={ faFile } color={ '#616161' } width={ BASE_HEIGHT * 3 } height={ BASE_HEIGHT * 4 } />
+                                        <Image source={ require('../../assets/file_attachment.png') } style={{ width : BASE_HEIGHT * 3, height : BASE_HEIGHT * 4, resizeMode : 'stretch' }} />
                                 }
 
-                                <Text style={[ styles.fileType, Typography.thirdHeader ]}>{ item.name?.split('.')[1] }</Text>
+                                <Text style={[ styles.fileType, Typography.fourthHeader, { fontWeight : 'bold' } ]}>{ item.name?.split('.')[1] }</Text>
                             </View>
                         </TouchableRipple>
 

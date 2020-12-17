@@ -5,16 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ec84dc4e-cb97-40bc-803b-02313ebaa727" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/app/src/main/assets/routinizeDb.db-journal" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/file_attachment.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customs/Loading.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customs/ScreenCover.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/app/src/main/assets/routinizeDb.db" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/assets/routinizeDb.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/assets/routinizeDb.db-journal" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/db/routinizeDb_local.sql" beforeDir="false" afterPath="$PROJECT_DIR$/assets/db/routinizeDb_local.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/customs/rte/RichTextEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/rte/RichTextEditor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/db/routinizeDb_online.sql" beforeDir="false" afterPath="$PROJECT_DIR$/assets/db/routinizeDb_online.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/customs/AttachmentsList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/AttachmentsList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/note/redux/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/redux/actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/todo/active/PersonalActiveTodos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/active/PersonalActiveTodos.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/todo/components/TodoCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/components/TodoCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/todo/components/TodoDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/components/TodoDetail.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/todo/redux/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/redux/actions.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/todo/redux/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/redux/constants.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/todo/redux/reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/redux/reducer.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/todo/redux/services.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/redux/services.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/Helpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/Helpers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/IAddress.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/IAddress.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ICollaborator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ICollaborator.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ITodo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ITodo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/others.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/others.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/providers/databaseReader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/providers/databaseReader.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/shared/enums.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/enums.ts" afterDir="false" />
     </list>
@@ -26,8 +40,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -76,7 +90,9 @@
       <workItem from="1607910424640" duration="88000" />
       <workItem from="1607916259388" duration="19733000" />
       <workItem from="1607992129612" duration="10337000" />
-      <workItem from="1608005768111" duration="25302000" />
+      <workItem from="1608005768111" duration="25504000" />
+      <workItem from="1608079936922" duration="24870000" />
+      <workItem from="1608175587577" duration="16573000" />
     </task>
     <servers />
   </component>

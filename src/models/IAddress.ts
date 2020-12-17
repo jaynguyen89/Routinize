@@ -16,3 +16,13 @@ export interface ICoordination {
     lat : number,
     long : number
 }
+
+export const refineAddress = (thing : any) : IAddress => {
+    return {
+        ...thing,
+        coordination : {
+            lat : thing.latitude,
+            long : thing.longitude
+        }
+    } as IAddress;
+}

@@ -31,18 +31,7 @@ CREATE TABLE "auth" (
     "timeStamp" TEXT NOT NULL
 );
 
-CREATE TABLE "user" (
-    "username" TEXT NOT NULL,
-    "avatar" TEXT DEFAULT NULL,
-    "uniqueId" TEXT NOT NULL,
-    "firstName" TEXT NOT NULL,
-    "lastName" TEXT NOT NULL,
-    "shortName" TEXT DEFAULT NULL,
-    "gender" INTEGER NOT NULL DEFAULT 0,
-    "phoneNumber" TEXT DEFAULT NULL
-);
-
-CREATE TABLE "address" (
+CREATE TABLE "addresses" (
     "id" INTEGER NOT NULL UNIQUE,
     "addressName" TEXT DEFAULT NULL,
     "building" TEXT DEFAULT NULL,
@@ -53,7 +42,20 @@ CREATE TABLE "address" (
     "country" TEXT DEFAULT NULL,
     "latitude" TEXT NOT NULL,
     "longitude" TEXT NOT NULL,
-    PRIMARY KEY("id" AUTOINCREMENT)
+    PRIMARY KEY ("id" AUTOINCREMENT)
+);
+
+CREATE TABLE "user" (
+    "username" TEXT NOT NULL,
+    "avatar" TEXT DEFAULT NULL,
+    "uniqueId" TEXT NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
+    "shortName" TEXT DEFAULT NULL,
+    "gender" INTEGER NOT NULL DEFAULT 0,
+    "phoneNumber" TEXT DEFAULT NULL,
+    "addressId" INTEGER DEFAULT NULL,
+    FOREIGN KEY ("addressId") REFERENCES "addresses"("id")
 );
 
 INSERT INTO "auth" (
@@ -69,12 +71,13 @@ INSERT INTO "user" (
     "username", "avatar", "uniqueId", "firstName", "lastName", "shortName", "gender", "phoneNumber"
 ) VALUES ('jay.nguyen', null, '', 'Jay', 'Nguyen', null, 1, '0422 357 488');
 
-INSERT INTO "address" (
+INSERT INTO "addresses" (
     "addressName", "building", "street", "suburb", "postcode", "state", "country", "latitude", "longitude"
 ) VALUES ('Home', null, '1/15 Haven Close', 'Sunshine West', '3020', 'VIC', 'Australia', '-37.7931211', '144.8049022');
 
 CREATE TABLE "todos" (
      "id" INTEGER NOT NULL UNIQUE,
+     "cover" TEXT DEFAULT NULL,
      "emphasized" INTEGER NOT NULL DEFAULT 0,
      "title" TEXT DEFAULT NULL,
      "description" TEXT DEFAULT NULL,
@@ -82,7 +85,7 @@ CREATE TABLE "todos" (
      "createdOn" TEXT DEFAULT NULL,
      "dueDate" TEXT DEFAULT NULL,
      "doneDate" TEXT DEFAULT NULL,
-     PRIMARY KEY("id" AUTOINCREMENT)
+     PRIMARY KEY ("id" AUTOINCREMENT)
 );
 
 CREATE TABLE "notes" (
@@ -90,14 +93,14 @@ CREATE TABLE "notes" (
      "emphasized" INTEGER NOT NULL DEFAULT 0,
      "title" TEXT DEFAULT NULL,
      "createdOn" TEXT DEFAULT NULL,
-     PRIMARY KEY("id" AUTOINCREMENT)
+     PRIMARY KEY ("id" AUTOINCREMENT)
 );
 
 CREATE TABLE "noteSegments" (
     "id" INTEGER NOT NULL UNIQUE,
     "noteId" INTEGER NOT NULL,
     "body" TEXT DEFAULT NULL,
-    PRIMARY KEY("id" AUTOINCREMENT),
+    PRIMARY KEY ("id" AUTOINCREMENT),
     FOREIGN KEY ("noteId") REFERENCES "notes"("id")
 );
 
@@ -108,5 +111,14 @@ CREATE TABLE "attachments" (
     "assetType" TEXT NOT NULL,
     "name" TEXT DEFAULT NULL,
     "url" TEXT DEFAULT NULL,
-    PRIMARY KEY("id" AUTOINCREMENT)
+    PRIMARY KEY ("id" AUTOINCREMENT)
+);
+
+CREATE TABLE "places" (
+    "id" INTEGER NOT NULL UNIQUE,
+    "addressId" INTEGER NOT NULL,
+    "assetId" INTEGER NOT NULL,
+    "assetType" TEXT NOT NULL,
+    PRIMARY KEY ("id" AUTOINCREMENT),
+    FOREIGN KEY ("addressId") REFERENCES "addresses"("id")
 );
