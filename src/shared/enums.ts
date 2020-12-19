@@ -49,8 +49,7 @@ export enum FILE_TYPES {
     ARCHIVE = 8,
     CSV = 9,
     SRC = 10,
-    AUDIO = 11,
-    OTHERS = 12
+    OTHERS = 11
 }
 
 export enum ACTION_TYPES {

@@ -5,32 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ec84dc4e-cb97-40bc-803b-02313ebaa727" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/app/src/main/assets/routinizeDb.db-journal" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/file_attachment.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/customs/Loading.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/customs/ScreenCover.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/attachments/Attachments.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/attachments/redux/actions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/attachments/redux/constants.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/attachments/redux/reducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/attachments/redux/services.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/attachments/styles.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/assets/routinizeDb.db" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/assets/routinizeDb.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/db/routinizeDb_local.sql" beforeDir="false" afterPath="$PROJECT_DIR$/assets/db/routinizeDb_local.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/db/routinizeDb_online.sql" beforeDir="false" afterPath="$PROJECT_DIR$/assets/db/routinizeDb_online.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/customs/AttachmentsList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/AttachmentsList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/note/redux/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/redux/actions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/todo/active/PersonalActiveTodos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/active/PersonalActiveTodos.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/todo/components/TodoCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/components/TodoCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/customs/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/note/components/NoteSegmentCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/components/NoteSegmentCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/note/redux/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/redux/constants.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/todo/components/TodoDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/components/TodoDetail.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/todo/redux/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/redux/actions.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/todo/redux/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/redux/constants.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/todo/redux/reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/redux/reducer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/todo/redux/services.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/redux/services.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/Generators.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/Assistants.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/helpers/Helpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/Helpers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/IAddress.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/IAddress.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/ICollaborator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ICollaborator.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/ITodo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ITodo.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/others.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/others.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/providers/databaseReader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/providers/databaseReader.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/providers/reducerIndex.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/providers/reducerIndex.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/shared/enums.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/enums.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/interfaces.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/interfaces.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +86,9 @@
       <workItem from="1607992129612" duration="10337000" />
       <workItem from="1608005768111" duration="25504000" />
       <workItem from="1608079936922" duration="24870000" />
-      <workItem from="1608175587577" duration="16573000" />
+      <workItem from="1608175587577" duration="18842000" />
+      <workItem from="1608249333237" duration="21080000" />
+      <workItem from="1608363813367" duration="5376000" />
     </task>
     <servers />
   </component>

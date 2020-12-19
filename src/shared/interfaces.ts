@@ -40,7 +40,8 @@ export interface IAttachmentsList {
     actions : {
         viewAttachment : any,
         removeAttachment : any
-    }
+    },
+    removal : number
 }
 
 export interface IEditor {

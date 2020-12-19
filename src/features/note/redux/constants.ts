@@ -32,7 +32,8 @@ export interface INoteSharing {
 export interface INoteSegmentCard {
     settings? : any,
     segment : INoteSegment,
-    removeSegment : any
+    removeSegment : any,
+    removeLocalAttachment : any
 }
 
 export const EMPTY_SEGMENT : INoteSegment = {

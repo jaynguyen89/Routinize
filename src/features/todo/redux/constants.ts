@@ -33,7 +33,10 @@ export interface ITodoDetail {
     isPersonal : boolean,
     createLocalTodo : any,
     updateLocalTodo : any,
-    getLocalTodoAttachments : any
+    getLocalTodoAttachments : any,
+    removeLocalAttachment : any,
+    atmSelection : any,
+    removal : any
 }
 
 export const GOTO_NEW_TODO_PERSONAL = 'GOTO_NEW_TODO_PERSONAL';

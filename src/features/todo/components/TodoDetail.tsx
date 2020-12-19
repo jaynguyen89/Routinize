@@ -2,18 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import md5 from 'md5';
+import RNFS from 'react-native-fs';
+import * as ImagePicker from 'react-native-image-picker';
+import DocumentPicker from 'react-native-document-picker';
 
 import { Alert, ScrollView, View, ViewStyle } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Icon, Input, Text } from 'react-native-elements';
+import ScreenCover from '../../../customs/ScreenCover';
+import Loading from '../../../customs/Loading';
 import ActionButtons from '../../../customs/ActionButtons';
 import DTPicker from '../../../customs/DTPicker';
-import * as ImagePicker from 'react-native-image-picker';
-import RNFS from 'react-native-fs';
-import DocumentPicker from 'react-native-document-picker';
 import { ACTION_TYPES, ACTIONS, FILE_TYPES, MEDIA_TYPES } from '../../../shared/enums';
 import { ITodoDetail } from '../redux/constants';
 import ITodo, { EMPTY_TODO } from '../../../models/ITodo';
+import { IRemovalStatus } from '../../attachments/redux/constants';
 
 import { Typography } from '../../../shared/typography';
 import { sharedStyles } from '../../../shared/styles';
@@ -22,13 +25,15 @@ import { DATE_FORMATS, EMPTY_STRING, SPACE_MONO, TIME_FORMATS } from '../../../h
 import PopoverContent from '../../../customs/PopoverContent';
 import Popover from 'react-native-popover-view/dist/Popover';
 import { IFile, IMedia } from '../../../models/others';
-import AttachmentsList from '../../../customs/AttachmentsList';
 import RichTextEditor from '../../../customs/rte/RichTextEditor';
+import * as attachmentConstants from '../../attachments/redux/constants';
 import styles from '../styles';
 
-import { createLocalTodo, updateLocalTodo, getLocalTodoAttachments } from '../redux/actions';
-import ScreenCover from '../../../customs/ScreenCover';
-import Loading from '../../../customs/Loading';
+import { createLocalTodo, getLocalTodoAttachments, updateLocalTodo } from '../redux/actions';
+import { removeLocalAttachment } from '../../attachments/redux/actions';
+import { getAttachmentFolder } from '../../../helpers/Helpers';
+import AttachmentsList from '../../../customs/AttachmentsList';
+import { ActivityIndicator } from 'react-native-paper';
 
 const mapStateToProps = (state : any) => ({
     authStatus : state.appReducer.authStatus,
@@ -37,13 +42,15 @@ const mapStateToProps = (state : any) => ({
     item : state.todoReducer.todoItem,
     newItem : state.todoReducer.newItem,
     updateItem : state.todoReducer.updateItem,
-    getAttachments : state.todoReducer.getAttachments
+    getAttachments : state.todoReducer.getAttachments,
+    removal : state.attachmentReducer.removal
 });
 
 const mapActionsToProps = {
     createLocalTodo,
     updateLocalTodo,
-    getLocalTodoAttachments
+    getLocalTodoAttachments,
+    removeLocalAttachment
 };
 
 const TodoDetail = (props : ITodoDetail) => {
@@ -56,6 +63,7 @@ const TodoDetail = (props : ITodoDetail) => {
 
     const [personal, setPersonal] = React.useState(true);
     const [item, setItem] = React.useState(EMPTY_TODO as ITodo);
+    const [attachmentRemovalStatus, setAttachmentRemovalStatus] = React.useState({ id : -1, progress : EMPTY_STRING } as IRemovalStatus);
 
     const [date, setDate] = React.useState(EMPTY_STRING);
     const [time, setTime] = React.useState(EMPTY_STRING);
@@ -109,6 +117,34 @@ const TodoDetail = (props : ITodoDetail) => {
     }, [props.updateItem]);
 
     React.useEffect(() => {
+        if (props.removal.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT) {
+            setAttachmentRemovalStatus({ id : props.removal.removedId, progress : null } as IRemovalStatus);
+            return;
+        }
+
+        if (props.removal.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_FAILED) {
+            setAttachmentRemovalStatus({ id : props.removal.removedId, progress : props.removal.removedId } as IRemovalStatus);
+            return;
+        }
+
+        if (
+            props.removal.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS &&
+            typeof props.removal.removedId === 'number' && item
+        ) {
+            setAttachmentRemovalStatus({ id : props.removal.removedId, progress : true });
+            const removedAttachment = item.attachments?.filter(attachment => attachment.id === props.removal.removedId)[0];
+            const otherAttachments = item.attachments?.filter(attachment => attachment.id !== props.removal.removedId) as Array<IMedia | IFile>;
+
+            setItem({ ...item, attachments : otherAttachments.length === 0 ? null : otherAttachments });
+
+            if (removedAttachment) {
+                const attachmentFolder = getAttachmentFolder(removedAttachment.type);
+                if (removedAttachment.name) RNFS.unlink(RNFS.ExternalDirectoryPath + attachmentFolder + removedAttachment.name);
+            }
+        }
+    }, [props.removal]);
+
+    React.useEffect(() => {
         if (date && time) {
             let dateVal = date + SPACE_MONO + time;
             setItem({ ...item, dueDate : dateVal });
@@ -124,13 +160,13 @@ const TodoDetail = (props : ITodoDetail) => {
         if (field === 'description') setItem({ ...item, description : value });
     }
 
-    const addItemAttachments = (attachment : IMedia | IFile) => {
+    const addItemAttachments = (attachment: IMedia | IFile) => {
         let attachments = item.attachments;
         if (!attachments) attachments = new Array<IMedia | IFile>();
 
         attachments.push(attachment);
-        setItem({ ...item, attachments : attachments });
-    }
+        setItem({ ...item, attachments });
+    };
 
     const handleDatePicker = (event : any, date : any) => {
         if (date != undefined) setDate(moment(date).format(DATE_FORMATS[props.settings.dateTimeFormat]));
@@ -206,7 +242,7 @@ const TodoDetail = (props : ITodoDetail) => {
             RNFS.copyFile(
                 response.uri,
                 RNFS.ExternalDirectoryPath + (type === 'image' ? '/images/' : '/videos/') + fileName
-                )
+            )
                 .then(() => {
                     let media: IMedia = { id : 0, name : fileName } as IMedia;
                     media.type = type === 'image' ? MEDIA_TYPES.PHOTO : MEDIA_TYPES.VIDEO;
@@ -224,15 +260,20 @@ const TodoDetail = (props : ITodoDetail) => {
             RNFS.copyFile(
                 file.uri,
                 RNFS.ExternalDirectoryPath + (type === 'audio' ? '/audios/' : '/files/') + fileName
-                )
+            )
                 .then(() => {
-                    let attachment: IFile = { id : 0, name : fileName } as IFile;
-                    attachment.type = type === 'audio' ? FILE_TYPES.AUDIO : FILE_TYPES.OTHERS;
+                    let attachment : IMedia | IFile;
+                    if (type === 'audio') attachment = { id : 0, name : fileName, type : MEDIA_TYPES.AUDIO } as IMedia;
+                    else attachment = { id : 0, name : fileName, type : FILE_TYPES.OTHERS } as IFile;
 
                     addItemAttachments(attachment);
                 })
                 .catch(err => alert('Permission Required: Please enable Storage Permission to use this feature.'));
         }
+    }
+
+    const showPopoverForUrl = () => {
+
     }
 
     const confirmAndCancel = () =>
@@ -298,27 +339,62 @@ const TodoDetail = (props : ITodoDetail) => {
                     { name : 'Add File', icon : faFileImport, type : ACTION_TYPES.NORMAL, callback : () => selectFiles() }
                 ]} />
 
+                { props.getAttachments.isRetrieving && <Loading message='Finding attachments.' /> }
                 {
-                    (
-                        props.getAttachments.isRetrieving && <Loading message='Finding attachments.' />
-                    ) || (
-                        !props.getAttachments.isRetrieving && !props.getAttachments.retrievingSuccess &&
-                        <View style={ sharedStyles.inputWrapper }>
-                            <Text style={[ Typography.small, { textAlign : 'center', color : sharedStyles.btnDanger.backgroundColor } ]}>
-                                An issue happened while looking for the attachments. Please refresh the screen to retry.
+                    !props.getAttachments.isRetrieving && !props.getAttachments.retrievingSuccess && props.getAttachments.attachments &&
+                    <View style={ sharedStyles.inputWrapper }>
+                      <Text style={[ Typography.small, { textAlign : 'center', color : sharedStyles.btnDanger.backgroundColor } ]}>
+                        An issue happened while looking for the attachments. Please refresh the screen to retry.
+                      </Text>
+                    </View>
+                }
+
+                {
+                    item.attachments &&
+                    <View style={ sharedStyles.inputWrapper }>
+                        <AttachmentsList attachments={ item.attachments }
+                                       actions={{
+                                           viewAttachment : () => console.log('view'),
+                                           removeAttachment : props.removeLocalAttachment
+                                       }}
+                                       removal={ attachmentRemovalStatus.id }
+                        />
+
+                        {
+                            typeof attachmentRemovalStatus.progress !== 'string' &&
+                            <Text style={[
+                                {
+                                    textAlign: 'center',
+                                    color: (
+                                        typeof attachmentRemovalStatus.progress === 'object' &&
+                                        attachmentRemovalStatus.progress != null && sharedStyles.btnDanger.backgroundColor
+                                    ) || sharedStyles.btnSuccess.backgroundColor
+                                }, Typography.tiny
+                            ]}>
+                                {
+                                    attachmentRemovalStatus.progress == null &&
+                                    <>
+                                      <ActivityIndicator size={12.5}
+                                                         color={props.settings.theme.backgroundPrimary.backgroundColor} />
+                                        { SPACE_MONO + 'Removing attachment...' }
+                                    </>
+                                }
+
+                                {
+                                    typeof attachmentRemovalStatus.progress === 'object' && attachmentRemovalStatus.progress != null &&
+                                    <>
+                                      <ActivityIndicator size={12.5} color={sharedStyles.btnDanger.backgroundColor} />
+                                        { SPACE_MONO + 'Attachment removal failed.' }
+                                    </>
+                                }
+
+                                {
+                                    typeof attachmentRemovalStatus.progress === 'boolean' && attachmentRemovalStatus.progress &&
+                                    <>{ 'Attachment has been removed.' }</>
+                                }
                             </Text>
-                        </View>
-                    ) || (
-                        !props.getAttachments.isRetrieving && props.getAttachments.retrievingSuccess && item.attachments &&
-                        <View style={ sharedStyles.inputWrapper }>
-                            <AttachmentsList attachments={ item.attachments }
-                                             actions={{
-                                                 viewAttachment : () => console.log('view'),
-                                                 removeAttachment : () => console.log('remove')
-                                             }}
-                            />
-                        </View>
-                    )
+                        }
+                    </View>
                 }
 
                 {
@@ -386,7 +462,8 @@ const TodoDetail = (props : ITodoDetail) => {
                         { name : 'Take Photo', icon : 'camera', type : ACTION_TYPES.NORMAL, callback : () => openCamera('image') },
                         { name : 'Select Photos', icon : 'image-search', type : ACTION_TYPES.NORMAL, callback : () => openGallery('image') },
                         { name : 'Record Video', icon : 'video-plus', type : ACTION_TYPES.NORMAL, callback : () => openCamera('video') },
-                        { name : 'Select Videos', icon : 'video-image', type : ACTION_TYPES.NORMAL, callback : () => openGallery('video') }
+                        { name : 'Select Videos', icon : 'video-image', type : ACTION_TYPES.NORMAL, callback : () => openGallery('video') },
+                        { name : 'Enter URL', icon : 'link-plus', type : ACTION_TYPES.NORMAL, callback : () => showPopoverForUrl() }
                     ]}
                 />
             </Popover>

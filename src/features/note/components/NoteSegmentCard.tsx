@@ -15,14 +15,26 @@ import * as ImagePicker from 'react-native-image-picker';
 import DocumentPicker from 'react-native-document-picker';
 import md5 from 'md5';
 import RNFS from 'react-native-fs';
+import { EMPTY_STRING, SPACE_MONO } from '../../../helpers/Constants';
+import { IRemovalStatus } from '../../attachments/redux/constants';
+import { sharedStyles } from '../../../shared/styles';
+import { Text } from 'react-native-elements';
+import { Typography } from '../../../shared/typography';
+import { removeLocalAttachment } from '../../attachments/redux/actions';
+import { ActivityIndicator } from 'react-native-paper';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
 });
 
+const mapActionsToProps = {
+    removeLocalAttachment
+};
+
 const NoteSegmentCard = (props : INoteSegmentCard) => {
     const [showPopover, setShowPopover] = React.useState(false);
     const [segment, setSegment] = React.useState(EMPTY_SEGMENT);
+    const [attachmentRemovalStatus, setAttachmentRemovalStatus] = React.useState({ id : -1, progress : EMPTY_STRING } as IRemovalStatus);
 
     React.useEffect(() => {
         setSegment(props.segment);
@@ -119,8 +131,9 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
                 RNFS.ExternalDirectoryPath + (type === 'audio' ? '/audios/' : '/files/') + fileName
             )
                 .then(() => {
-                    let attachment: IFile = { id : 0, name : fileName } as IFile;
-                    attachment.type = type === 'audio' ? FILE_TYPES.AUDIO : FILE_TYPES.OTHERS;
+                    let attachment : IMedia | IFile;
+                    if (type === 'audio') attachment = { id : 0, name : fileName, type : MEDIA_TYPES.AUDIO } as IMedia;
+                    else attachment = { id : 0, name : fileName, type : FILE_TYPES.OTHERS } as IFile;
 
                     addSegmentAttachment(attachment);
                 })
@@ -132,7 +145,7 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
         let attachments = segment.attachments;
         if (!attachments) attachments = new Array<IMedia | IFile>();
 
-        attachments.push(attachment);console.log('attachment length = ' + attachments.length)
+        attachments.push(attachment);
         setSegment({ ...segment, attachments : attachments });
     }
 
@@ -152,15 +165,50 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
                 </View>
 
                 {
-                    segment && (segment.attachments || segment.places) &&
-                    <View style={[styles.attachmentWrapper, props.settings.theme.backgroundSecondary, props.settings.theme.border]}>
-                        <AttachmentsList
-                            attachments={ segment.attachments || Array<IMedia | IFile>() }
-                            actions={{
-                                viewAttachment: () => console.log('view'),
-                                removeAttachment: () => console.log('remove')
-                            }}
+                    segment && segment.attachments &&
+                    <View style={ sharedStyles.inputWrapper }>
+                        <AttachmentsList attachments={ segment.attachments }
+                                       actions={{
+                                           viewAttachment : () => console.log('view'),
+                                           removeAttachment : props.removeLocalAttachment
+                                       }}
+                                       removal={ attachmentRemovalStatus.id }
                         />
+
+                        {
+                            typeof attachmentRemovalStatus.progress !== 'string' &&
+                            <Text style={[
+                                {
+                                    textAlign: 'center',
+                                    color: (
+                                        typeof attachmentRemovalStatus.progress === 'object' &&
+                                        attachmentRemovalStatus.progress != null && sharedStyles.btnDanger.backgroundColor
+                                    ) || sharedStyles.btnSuccess.backgroundColor
+                                }, Typography.tiny
+                            ]}>
+                                {
+                                    attachmentRemovalStatus.progress == null &&
+                                    <>
+                                      <ActivityIndicator size={12.5}
+                                                         color={props.settings.theme.backgroundPrimary.backgroundColor} />
+                                        { SPACE_MONO + 'Removing attachment...' }
+                                    </>
+                                }
+
+                                {
+                                    typeof attachmentRemovalStatus.progress === 'object' && attachmentRemovalStatus.progress != null &&
+                                    <>
+                                      <ActivityIndicator size={12.5} color={sharedStyles.btnDanger.backgroundColor} />
+                                        { SPACE_MONO + 'Attachment removal failed.' }
+                                    </>
+                                }
+
+                                {
+                                    typeof attachmentRemovalStatus.progress === 'boolean' && attachmentRemovalStatus.progress &&
+                                    <>{ 'Attachment has been removed.' }</>
+                                }
+                            </Text>
+                        }
                     </View>
                 }
             </View>
@@ -181,5 +229,6 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
 }
 
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    mapActionsToProps
 )(NoteSegmentCard);

@@ -76,6 +76,12 @@ const styles = StyleSheet.create({
         top : 0,
         padding : BASE_HEIGHT * 0.75
     },
+    actionMarkerIcon : {
+        position : 'absolute',
+        left : BASE_HEIGHT * 0.25,
+        top : BASE_HEIGHT * 0.25,
+        padding : BASE_HEIGHT * 0.75
+    },
     fileType : {
         position : 'absolute',
         textTransform : 'uppercase',

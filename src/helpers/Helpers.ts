@@ -1,4 +1,4 @@
-import { DATETIME_FORMATS, MOMENT_FORMATS, NAME_FORMAT } from '../shared/enums';
+import { DATETIME_FORMATS, FILE_TYPES, MEDIA_TYPES, MOMENT_FORMATS, NAME_FORMAT } from '../shared/enums';
 import { EMPTY_STRING, SPACE_MONO } from './Constants';
 import moment from 'moment';
 
@@ -94,4 +94,12 @@ export const getTimeElapse = (start : string, end : string) : string => {
 
     const minutes = duration.asMinutes();
     return minutes > 0 ? minutes + 'm' : 'Expired';
+}
+
+export const getAttachmentFolder = (type : MEDIA_TYPES | FILE_TYPES) : string => {
+    return type === MEDIA_TYPES.AUDIO ? '/audios/' : (
+        type === MEDIA_TYPES.VIDEO ? '/videos/' : (
+            type === MEDIA_TYPES.PHOTO ? '/images/' : '/files/'
+        )
+    );
 }

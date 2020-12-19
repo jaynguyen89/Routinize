@@ -108,7 +108,7 @@ const reducer = produce((state, action) => {
             state.getAttachments.attachments = refineLocalAttachments(action.payload);
             return;
         case todoConstants.GET_LOCAL_TODO_ATTACHMENTS_FAILED:
-            state.getAttachments.isRetrieving = true;
+            state.getAttachments.isRetrieving = false;
             state.getAttachments.retrievingSuccess = false;
             state.getAttachments.attachments = action.error;
             return;
