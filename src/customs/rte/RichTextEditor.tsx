@@ -61,19 +61,19 @@ const RichTextEditor = (props: IEditor) => {
                     editor={ editor }
                     actions={ (props.extraActions && [
                         'bold', 'italic', 'unorderedList', 'orderedList', 'insertVideo',
-                        'image', 'link', 'attachMediaOrFile', 'attachPlace', 'removeSegment'
+                        'image', 'link', 'attachMediaOrFile', 'attachPlace', 'remove'
                     ]) || ['bold', 'italic', 'unorderedList', 'orderedList', 'insertVideo', 'image', 'link']}
                     iconMap={{
                         insertVideo : require('../../../assets/video_icon.png'),
                         attachMediaOrFile : require('../../../assets/attach_files.png'),
                         attachPlace : require('../../../assets/attach_place.png'),
-                        removeSegment : require('../../../assets/remove.png')
+                        remove : require('../../../assets/remove.png')
                     }}
                     // @ts-ignore
                     insertVideo={ () => handleInsertion('video') }
                     attachMediaOrFile={ props.handleAttachmentAdding }
                     addPlace={ props.handlePlaceAdding }
-                    remove={ props.removeSegment }
+                    remove={ () => props.removeSegment(props.id) }
                 />
             </KeyboardAvoidingView>
 

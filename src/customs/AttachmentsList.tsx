@@ -11,7 +11,6 @@ import { faBan, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { sharedStyles } from '../shared/styles';
 import { ActivityIndicator, TouchableRipple } from 'react-native-paper';
 import { MEDIA_TYPES } from '../shared/enums';
-import { EMPTY_STRING } from "../helpers/Constants";
 import { IFile, IMedia } from '../models/others';
 
 const mapStateToProps = (state: any) => ({
@@ -20,7 +19,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapActionsToProps = {};
 
-const AttachmentsList = (props: IAttachmentsList) => {console.log('attachment list ' + JSON.stringify(props.attachments))
+const AttachmentsList = (props: IAttachmentsList) => {
     return (
         <View style={{ margin : 0, flexDirection : 'row' }}>
             <FlatList data={ props.attachments } keyExtractor={ (item : IMedia | IFile) => item.name as string } horizontal={ true }

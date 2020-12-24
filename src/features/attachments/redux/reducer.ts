@@ -5,7 +5,7 @@ import { IFile, IMedia } from '../../../models/others';
 
 interface IAttachmentStore {
     selection : object | null,
-    removal : {
+    atmRemoval : {
         action : string,
         removedId : number | object
     }
@@ -13,7 +13,7 @@ interface IAttachmentStore {
 
 const initialState : IAttachmentStore = {
     selection : null,
-    removal : {
+    atmRemoval : {
         action : EMPTY_STRING,
         removedId : 0
     }
@@ -22,16 +22,16 @@ const initialState : IAttachmentStore = {
 const reducer = produce((state, action) => {
     switch (action.type) {
         case attachmentConstants.REMOVE_LOCAL_ATTACHMENT:
-            state.removal.action = attachmentConstants.REMOVE_LOCAL_ATTACHMENT;
-            state.removal.removedId = action.payload;
+            state.atmRemoval.action = attachmentConstants.REMOVE_LOCAL_ATTACHMENT;
+            state.atmRemoval.removedId = action.payload;
             return;
         case attachmentConstants.REMOVE_LOCAL_ATTACHMENT_FAILED:
-            state.removal.action = attachmentConstants.REMOVE_LOCAL_ATTACHMENT_FAILED;
-            state.removal.removedId = action.error;
+            state.atmRemoval.action = attachmentConstants.REMOVE_LOCAL_ATTACHMENT_FAILED;
+            state.atmRemoval.removedId = action.error;
             return;
         case attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS:
-            state.removal.action = attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS;
-            state.removal.removedId = action.payload;
+            state.atmRemoval.action = attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS;
+            state.atmRemoval.removedId = action.payload;
             return;
         default:
             return;

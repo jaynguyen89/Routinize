@@ -45,6 +45,7 @@ export interface IAttachmentsList {
 }
 
 export interface IEditor {
+    id? : number,
     settings? : any,
     initialContent : string,
     updateContent : any,

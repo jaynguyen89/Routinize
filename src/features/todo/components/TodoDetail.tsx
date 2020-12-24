@@ -43,7 +43,7 @@ const mapStateToProps = (state : any) => ({
     newItem : state.todoReducer.newItem,
     updateItem : state.todoReducer.updateItem,
     getAttachments : state.todoReducer.getAttachments,
-    removal : state.attachmentReducer.removal
+    atmRemoval : state.attachmentReducer.atmRemoval
 });
 
 const mapActionsToProps = {
@@ -117,23 +117,23 @@ const TodoDetail = (props : ITodoDetail) => {
     }, [props.updateItem]);
 
     React.useEffect(() => {
-        if (props.removal.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT) {
-            setAttachmentRemovalStatus({ id : props.removal.removedId, progress : null } as IRemovalStatus);
+        if (props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT) {
+            setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : null } as IRemovalStatus);
             return;
         }
 
-        if (props.removal.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_FAILED) {
-            setAttachmentRemovalStatus({ id : props.removal.removedId, progress : props.removal.removedId } as IRemovalStatus);
+        if (props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_FAILED) {
+            setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : props.atmRemoval.removedId } as IRemovalStatus);
             return;
         }
 
         if (
-            props.removal.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS &&
-            typeof props.removal.removedId === 'number' && item
+            props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS &&
+            typeof props.atmRemoval.removedId === 'number' && item
         ) {
-            setAttachmentRemovalStatus({ id : props.removal.removedId, progress : true });
-            const removedAttachment = item.attachments?.filter(attachment => attachment.id === props.removal.removedId)[0];
-            const otherAttachments = item.attachments?.filter(attachment => attachment.id !== props.removal.removedId) as Array<IMedia | IFile>;
+            setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : true });
+            const removedAttachment = item.attachments?.filter(attachment => attachment.id === props.atmRemoval.removedId)[0];
+            const otherAttachments = item.attachments?.filter(attachment => attachment.id !== props.atmRemoval.removedId) as Array<IMedia | IFile>;
 
             setItem({ ...item, attachments : otherAttachments.length === 0 ? null : otherAttachments });
 
@@ -142,7 +142,7 @@ const TodoDetail = (props : ITodoDetail) => {
                 if (removedAttachment.name) RNFS.unlink(RNFS.ExternalDirectoryPath + attachmentFolder + removedAttachment.name);
             }
         }
-    }, [props.removal]);
+    }, [props.atmRemoval]);
 
     React.useEffect(() => {
         if (date && time) {
@@ -237,7 +237,7 @@ const TodoDetail = (props : ITodoDetail) => {
 
     const saveMediaToLocalStorage = (response : any, type : string) => {
         if (response.uri) {
-            const fileName = md5(response.fileName) + '.' + response.fileName.split('.')[response.fileName.split('.').length - 1];
+            const fileName = md5(response.fileName) + moment().unix() + '.' + response.fileName.split('.')[response.fileName.split('.').length - 1];
 
             RNFS.copyFile(
                 response.uri,
@@ -255,7 +255,7 @@ const TodoDetail = (props : ITodoDetail) => {
 
     const saveFileToLocalStorage = (file : any, type : string) => {
         if (file.uri) {
-            const fileName = md5(file.name) + '.' + file.name.split('.')[file.name.split('.').length - 1];
+            const fileName = md5(file.name) + moment().unix() + '.' + file.name.split('.')[file.name.split('.').length - 1];
 
             RNFS.copyFile(
                 file.uri,

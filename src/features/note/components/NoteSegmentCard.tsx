@@ -22,9 +22,13 @@ import { Text } from 'react-native-elements';
 import { Typography } from '../../../shared/typography';
 import { removeLocalAttachment } from '../../attachments/redux/actions';
 import { ActivityIndicator } from 'react-native-paper';
+import * as attachmentConstants from '../../attachments/redux/constants';
+import { getAttachmentFolder } from '../../../helpers/Helpers';
+import moment from 'moment';
 
 const mapStateToProps = (state : any) => ({
-    settings : state.settingsReducer.appSettings.settings
+    settings : state.settingsReducer.appSettings.settings,
+    atmRemoval : state.attachmentReducer.atmRemoval
 });
 
 const mapActionsToProps = {
@@ -35,13 +39,45 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
     const [showPopover, setShowPopover] = React.useState(false);
     const [segment, setSegment] = React.useState(EMPTY_SEGMENT);
     const [attachmentRemovalStatus, setAttachmentRemovalStatus] = React.useState({ id : -1, progress : EMPTY_STRING } as IRemovalStatus);
+    const [isMounted, setIsMounted] = React.useState(false);
 
     React.useEffect(() => {
-        setSegment(props.segment);
+        setIsMounted(true);
+        isMounted && setSegment(props.segment);
+
+        return () => setIsMounted(false);
     }, [props.segment]);
 
+    React.useEffect(() => {
+        if (props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT) {
+            setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : null } as IRemovalStatus);
+            return;
+        }
+
+        if (props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_FAILED) {
+            setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : props.atmRemoval.removedId } as IRemovalStatus);
+            return;
+        }
+
+        if (
+            props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS &&
+            typeof props.atmRemoval.removedId === 'number'
+        ) {
+            setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : true });
+            const removedAttachment = segment.attachments?.filter(attachment => attachment.id === props.atmRemoval.removedId)[0];
+            const otherAttachments = segment.attachments?.filter(attachment => attachment.id !== props.atmRemoval.removedId) as Array<IMedia | IFile>;
+
+            props.updateNoteSegment(props.segmentIndex, 'attachments', otherAttachments.length === 0 ? null : otherAttachments);
+
+            if (removedAttachment) {
+                const attachmentFolder = getAttachmentFolder(removedAttachment.type);
+                if (removedAttachment.name) RNFS.unlink(RNFS.ExternalDirectoryPath + attachmentFolder + removedAttachment.name);
+            }
+        }
+    }, [props.atmRemoval]);
+
     const updateContent = (content : string) => {
-        setSegment({ ...segment, body : content });
+        props.updateNoteSegment(props.segmentIndex, 'body', content);
     }
 
     const handlePlace = () => {
@@ -106,7 +142,7 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
 
     const saveMediaToLocalStorage = (response : any, type : string) => {
         if (response.uri) {
-            const fileName = md5(response.fileName) + '.' + response.fileName.split('.')[response.fileName.split('.').length - 1];
+            const fileName = md5(response.fileName) + moment().unix() + '.' + response.fileName.split('.')[response.fileName.split('.').length - 1];
 
             RNFS.copyFile(
                 response.uri,
@@ -116,7 +152,7 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
                     let media: IMedia = { id : 0, name : fileName } as IMedia;
                     media.type = type === 'image' ? MEDIA_TYPES.PHOTO : MEDIA_TYPES.VIDEO;
 
-                    addSegmentAttachment(media);
+                    props.updateNoteSegment(props.segmentIndex, 'attachments', media);
                 })
                 .catch(err => alert('Permission Required: Please enable Storage Permission to use this feature.'));
         }
@@ -124,7 +160,7 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
 
     const saveFileToLocalStorage = (file : any, type : string) => {
         if (file.uri) {
-            const fileName = md5(file.name) + '.' + file.name.split('.')[file.name.split('.').length - 1];
+            const fileName = md5(file.name) + moment().unix() + '.' + file.name.split('.')[file.name.split('.').length - 1];
 
             RNFS.copyFile(
                 file.uri,
@@ -135,25 +171,18 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
                     if (type === 'audio') attachment = { id : 0, name : fileName, type : MEDIA_TYPES.AUDIO } as IMedia;
                     else attachment = { id : 0, name : fileName, type : FILE_TYPES.OTHERS } as IFile;
 
-                    addSegmentAttachment(attachment);
+                    props.updateNoteSegment(props.segmentIndex, 'attachments', attachment);
                 })
                 .catch(err => alert('Permission Required: Please enable Storage Permission to use this feature.'));
         }
-    }
-
-    const addSegmentAttachment = (attachment : IMedia | IFile) => {
-        let attachments = segment.attachments;
-        if (!attachments) attachments = new Array<IMedia | IFile>();
-
-        attachments.push(attachment);
-        setSegment({ ...segment, attachments : attachments });
     }
 
     return (
         <>
             <View style={ styles.segmentWrapper }>
                 <View style={[ { flex : 1 }, props.settings.theme.backgroundSecondary ]}>
-                    <RichTextEditor
+                    <RichTextEditor key={ props.segmentIndex }
+                        id={ props.segmentIndex }
                         initialContent={ segment.body }
                         updateContent={ updateContent }
                         placeHolder='Note content'
@@ -189,8 +218,8 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
                                 {
                                     attachmentRemovalStatus.progress == null &&
                                     <>
-                                      <ActivityIndicator size={12.5}
-                                                         color={props.settings.theme.backgroundPrimary.backgroundColor} />
+                                      <ActivityIndicator size={ 12.5 }
+                                                         color={ props.settings.theme.backgroundPrimary.backgroundColor } />
                                         { SPACE_MONO + 'Removing attachment...' }
                                     </>
                                 }

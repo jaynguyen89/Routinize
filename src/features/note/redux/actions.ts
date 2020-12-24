@@ -1,6 +1,5 @@
 import * as noteConstants from './constants';
 import INote from "../../../models/INote";
-import * as todoConstants from "../../todo/redux/constants";
 
 export const setNoteTypeToCreate = (isPersonal : boolean) => {
     return (dispatch : any) => {

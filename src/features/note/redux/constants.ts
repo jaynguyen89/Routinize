@@ -1,6 +1,8 @@
 import INote from "../../../models/INote";
 import INoteSegment from "../../../models/INoteSegment";
 import { EMPTY_STRING } from '../../../helpers/Constants';
+import { IFile, IMedia } from '../../../models/others';
+import IAddress from '../../../models/IAddress';
 
 export interface IActiveNotes {
     settings : any,
@@ -31,9 +33,12 @@ export interface INoteSharing {
 
 export interface INoteSegmentCard {
     settings? : any,
+    segmentIndex : number,
     segment : INoteSegment,
     removeSegment : any,
-    removeLocalAttachment : any
+    removeLocalAttachment : any,
+    atmRemoval : any,
+    updateNoteSegment : (segmentIndex : number, field : string, data : string | IMedia | IFile | IAddress | null | Array<IMedia | IFile | IAddress>) => void
 }
 
 export const EMPTY_SEGMENT : INoteSegment = {
@@ -49,7 +54,7 @@ export const EMPTY_NOTE : INote = {
     isPersonal : true,
     emphasized : false,
     title : null,
-    segments : null,
+    segments : new Array<INoteSegment> (EMPTY_SEGMENT),
     createdOn : EMPTY_STRING
 }
 

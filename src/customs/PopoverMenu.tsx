@@ -25,6 +25,7 @@ const PopoverMenu = (props : IPopoverContent) => {
         <View style={ props.settings.theme.backgroundSecondary }>
             {
                 props.actions.map((action : IDynamicButton, i : number) =>
+                    action &&
                     <TouchableRipple key={ i } rippleColor={ props.settings.theme.btnPrimary.backgroundColor } onPress={ action.callback }>
                         <View style={ styles.popover }>
                             <Text style={[

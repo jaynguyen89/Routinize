@@ -36,7 +36,7 @@ export interface ITodoDetail {
     getLocalTodoAttachments : any,
     removeLocalAttachment : any,
     atmSelection : any,
-    removal : any
+    atmRemoval : any
 }
 
 export const GOTO_NEW_TODO_PERSONAL = 'GOTO_NEW_TODO_PERSONAL';
