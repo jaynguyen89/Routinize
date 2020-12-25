@@ -282,7 +282,7 @@ const TodoDetail = (props : ITodoDetail) => {
             "Your Todo has not been saved. All details you have entered will be lost.\n\nAre you sure?",
             [
                 {
-                    text: "No, go back.",
+                    text: "No, back to my Todo.",
                     onPress: () => console.log("Cancel Pressed"),
                     style: "cancel"
                 },
@@ -435,12 +435,12 @@ const TodoDetail = (props : ITodoDetail) => {
                         />
                     </View>
                 </View>
-
-                <ActionButtons actions={[
-                    { name : 'Cancel', icon : faTimesCircle, type : ACTION_TYPES.DANGEROUS, callback : () => confirmAndCancel() },
-                    { name : 'Done', icon : faCheckCircle, type : ACTION_TYPES.NORMAL, callback : () => confirmCreateOrUpdateTodo() }
-                ]} />
             </ScrollView>
+
+            <ActionButtons actions={[
+                { name : 'Cancel', icon : faTimesCircle, type : ACTION_TYPES.DANGEROUS, callback : () => confirmAndCancel() },
+                { name : 'Done', icon : faCheckCircle, type : ACTION_TYPES.NORMAL, callback : () => confirmCreateOrUpdateTodo() }
+            ]} />
 
             {
                 showDatePicker &&

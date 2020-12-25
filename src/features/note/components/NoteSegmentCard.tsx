@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { View } from 'react-native';
-import { EMPTY_SEGMENT, INoteSegmentCard } from '../redux/constants';
+import { INoteSegmentCard } from '../redux/constants';
 import RichTextEditor from '../../../customs/rte/RichTextEditor';
 
 import styles from '../styles';
@@ -25,6 +25,7 @@ import { ActivityIndicator } from 'react-native-paper';
 import * as attachmentConstants from '../../attachments/redux/constants';
 import { getAttachmentFolder } from '../../../helpers/Helpers';
 import moment from 'moment';
+import { EMPTY_SEGMENT } from '../../../models/INote';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,

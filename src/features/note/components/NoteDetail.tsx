@@ -4,25 +4,36 @@ import _ from 'lodash';
 
 import { Alert, ScrollView, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { Icon, Input, Text } from 'react-native-elements';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { Switch } from 'react-native-paper';
 import NoteSegmentCard from './NoteSegmentCard';
 import Popover from 'react-native-popover-view/dist/Popover';
-import { ACTION_TYPES } from '../../../shared/enums';
-import { EMPTY_NOTE, EMPTY_SEGMENT, INoteDetail } from '../redux/constants';
-
-import { sharedStyles } from '../../../shared/styles';
-import { BASE_HEIGHT, baseFontSize, Typography } from '../../../shared/typography';
-import {
-    faEllipsisV, faPlusCircle, faSyncAlt, faUndo, faUsers
-} from '@fortawesome/free-solid-svg-icons';
-import INoteSegment from '../../../models/INoteSegment';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import PopoverMenu from '../../../customs/PopoverMenu';
-import { Switch } from 'react-native-paper';
-import styles from '../styles';
+import { ACTION_TYPES, ACTIONS } from '../../../shared/enums';
+import { INoteDetail } from '../redux/constants';
 import { IFile, IMedia } from '../../../models/others';
 import IAddress from '../../../models/IAddress';
 import { IDynamicButton } from '../../../shared/interfaces';
+import INoteSegment from '../../../models/INoteSegment';
+
+import styles from '../styles';
+import { sharedStyles } from '../../../shared/styles';
+import { BASE_HEIGHT, baseFontSize, Typography } from '../../../shared/typography';
+import {
+    faCheckCircle,
+    faEllipsisV,
+    faPlusCircle,
+    faSyncAlt,
+    faTimesCircle,
+    faUndo,
+    faUsers
+} from '@fortawesome/free-solid-svg-icons';
 import { EMPTY_STRING } from '../../../helpers/Constants';
+import { EMPTY_NOTE, EMPTY_SEGMENT } from '../../../models/INote';
+import ActionButtons from '../../../customs/ActionButtons';
+import ScreenCover from '../../../customs/ScreenCover';
+
+import { saveLocalNote, updateLocalNote } from '../redux/actions';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,
@@ -31,9 +42,17 @@ const mapStateToProps = (state : any) => ({
     item : state.todoReducer.todoItem
 });
 
+const mapActionsToProps = {
+    saveLocalNote,
+    updateLocalNote
+};
+
 const NoteDetail = (props : INoteDetail) => {
+    const [action, setAction] = React.useState(ACTIONS.NONE);
     const [item, setItem] = React.useState(_.cloneDeep(EMPTY_NOTE));
     const [segmentIndexesToRemove, setSegmentIndexesToRemove] = React.useState(new Array<number>());
+    const [screenCover, setScreenCover] = React.useState({ message : EMPTY_STRING, visible : false });
+
     const [personal, setPersonal] = React.useState(true);
     const [showMenuPopover, setShowMenuPopover] = React.useState(false);
     const [showPrefPopover, setShowPrefPopover] = React.useState(false);
@@ -147,6 +166,42 @@ const NoteDetail = (props : INoteDetail) => {
         setItem({ ...item, segments });
     }
 
+    const confirmAndGoBack = () =>
+        Alert.alert(
+            "Cancel Note",
+            "Your Note has not been saved. All details you have entered will be lost.\n\nAre you sure?",
+            [
+                {
+                    text: "No, back to my Note.",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                {
+                    text: 'Yes, I\'m sure.',
+                    onPress: () => props.navigation.goBack()
+                }
+            ],
+            { cancelable: false }
+        );
+
+    const createOrUpdateNote = () => {
+        if (item.segments.length === 1 && item.segments[0].body.length === 0) {
+            alert('Note has no content to save.');
+            return;
+        }
+
+        if (item.id === 0) {
+            setScreenCover({ message : 'Saving Note...', visible : true });
+            props.saveLocalNote(item, segmentIndexesToRemove);
+            setAction(ACTIONS.CREATE);
+        }
+        else {
+            setScreenCover({ message : 'Updating Note...', visible : true });
+            props.updateLocalNote(item, segmentIndexesToRemove);
+            setAction(ACTIONS.UPDATE);
+        }
+    }
+
     return (
         <>
             <ScrollView style={ sharedStyles.scroller }>
@@ -181,6 +236,11 @@ const NoteDetail = (props : INoteDetail) => {
                 }
             </ScrollView>
 
+            <ActionButtons actions={[
+                { name : 'Cancel', icon : faTimesCircle, type : ACTION_TYPES.DANGEROUS, callback : () => confirmAndGoBack() },
+                { name : 'Done', icon : faCheckCircle, type : ACTION_TYPES.NORMAL, callback : () => createOrUpdateNote() }
+            ]} />
+
             <Popover isVisible={ showPrefPopover } onRequestClose={ () => setShowPrefPopover(false) }>
                 <View style={ styles.notePrefDialog }>
                     <Text style={[ Typography.thirdHeader, styles.notePrefTitle ]}>Collaborators</Text>
@@ -211,10 +271,13 @@ const NoteDetail = (props : INoteDetail) => {
                     (segmentIndexesToRemove.length !== 0 && { name : 'Undo segment removal', icon : faUndo, type : ACTION_TYPES.NORMAL, callback : () => undoSegmentRemoval() }) || null as unknown as IDynamicButton
                 ]} />
             </Popover>
+
+            <ScreenCover message={ screenCover.message } visible={ screenCover.visible } />
         </>
     );
 }
 
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    mapActionsToProps
 )(NoteDetail);

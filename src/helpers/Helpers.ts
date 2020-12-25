@@ -40,7 +40,7 @@ export const processDateTimeChange = (
     let newDateTime : string;
     format = format.indexOf('_A_') !== -1 || format.indexOf('_HA_') !== -1 ||
              format.indexOf('_SA_') !== -1 ? MOMENT_FORMATS.HMA : MOMENT_FORMATS.HM;
-alert(format);
+
     if (current) {alert('current')
         const currentDate = moment(current).format(MOMENT_FORMATS.DMY);
         const currentTime = moment(current).format(format);

@@ -6,6 +6,9 @@ import ITodo from '../models/ITodo';
 import moment from 'moment';
 import { IFile, IMedia } from '../models/others';
 import IAddress from '../models/IAddress';
+import INote from '../models/INote';
+import { EMPTY_STRING } from '../helpers/Constants';
+import INoteSegment from '../models/INoteSegment';
 
 //SQLite.enablePromise(false);
 const DB_TIMESTAMP_FORMAT : string = DATETIME_FORMATS.COMPACT_H_DMY;
@@ -22,7 +25,7 @@ const connection = {
 };
 
 export const insertTodo = async (table : DATABASE_TABLES, data : ITodo) : Promise<number> => {
-    const query = getInsertQuery(table);
+    const query = getQueryFor(table, 'insert');
     const response : any = await executeQuery(query, [
         data.emphasized ? 1 : 0,
         data.title,
@@ -49,7 +52,7 @@ export const insertTodo = async (table : DATABASE_TABLES, data : ITodo) : Promis
 };
 
 export const updateTodo = async (table : DATABASE_TABLES, data : ITodo) : Promise<boolean> => {
-    const query = getUpdateQuery(table);
+    const query = getQueryFor(table, 'update');
     const result : any = await executeQuery(query, [
         data.emphasized ? 1 : 0,
         data.title,
@@ -63,6 +66,59 @@ export const updateTodo = async (table : DATABASE_TABLES, data : ITodo) : Promis
     return result.rowsAffected !== 0;
 };
 
+export const insertNote = async (table : DATABASE_TABLES, data : INote) : Promise<number> => {
+    const query = getQueryFor(table, 'insert');
+    const response : any = await executeQuery(query, [
+        data.emphasized ? 1 : 0,
+        data.title,
+        moment().format(DB_TIMESTAMP_FORMAT)
+    ]);
+
+    if (response.rowsAffected === 0) return 0;
+
+    let insertId = response.insertId;
+    let result : boolean = true;
+
+    let insertedSegmentIds = new Array<number>();
+    for (let i = 0; i < data.segments.length; i++) {
+        const segmentId = await insertNoteSegment(data.segments[i], insertId);
+        result = segmentId !== 0;
+
+        if (!result) break;
+        insertedSegmentIds.push(segmentId);
+    }
+
+    if (!result) removeInsertedData(DATABASE_TABLES.SEGMENTS, insertedSegmentIds);
+    return insertId;
+}
+
+export const updateNote = async (table : DATABASE_TABLES, data : INote) : Promise<boolean> => {
+    const query = getQueryFor(table, 'update');
+    const result : any = await executeQuery(query, [data.emphasized, data.title, data.id]);
+
+    return result.rowsAffected !== 0;
+}
+
+const insertNoteSegment = async (segment : INoteSegment, noteId : number) : Promise<number> => {
+    const query = getQueryFor(DATABASE_TABLES.SEGMENTS);
+    const response : any = await executeQuery(query, [noteId, segment.body]);
+
+    if (response.rowsAffected === 0) return 0;
+
+    let insertId : number = response.insertId;
+    let result : boolean = true;
+
+    if (segment.places) result = await insertPlaces(segment.places, DATABASE_TABLES.SEGMENTS, insertId);
+    if (result && segment.attachments) result = await insertAttachments(segment.attachments, DATABASE_TABLES.SEGMENTS, insertId);
+
+    if (!result) {
+        await deleteEntry(DATABASE_TABLES.SEGMENTS, insertId);
+        return 0;
+    }
+
+    return insertId;
+}
+
 export const insertAttachments = async (
     attachments : Array<IMedia | IFile>, assetType : string, assetId : number
 ) : Promise<boolean> => {
@@ -71,7 +127,7 @@ export const insertAttachments = async (
     for (let i = 0; i < attachments.length; i++) {
         const attachment = attachments[i];
 
-        const query = getInsertQuery(DATABASE_TABLES.ATTACHMENTS);
+        const query = getQueryFor(DATABASE_TABLES.ATTACHMENTS, 'insert');
         const response : any = await executeQuery(query, [
             attachment.type,
             assetId,
@@ -113,7 +169,7 @@ export const insertPlaces = async (
     for (let i = 0; i < places.length; i++) {
         const address = places[i];
 
-        const addressQuery = getInsertQuery(DATABASE_TABLES.ADDRESS);
+        const addressQuery = getQueryFor(DATABASE_TABLES.ADDRESS, 'insert');
         const addressResponse : any = await executeQuery(addressQuery, [
             address.name,
             address.building,
@@ -131,7 +187,7 @@ export const insertPlaces = async (
             return false;
         }
 
-        const placeQuery = getInsertQuery(DATABASE_TABLES.PLACES);
+        const placeQuery = getQueryFor(DATABASE_TABLES.PLACES, 'insert');
         const placeResponse : any = await executeQuery(placeQuery, [
             addressResponse.insertId,
             assetId,
@@ -243,35 +299,49 @@ const removeInsertedData = (table : DATABASE_TABLES, insertedIds : Array<number>
     insertedIds.forEach(async (id : number) => await deleteEntry(table, id));
 }
 
-const getInsertQuery = (table : DATABASE_TABLES) : string => {
-    return table === DATABASE_TABLES.TODOS ? 'INSERT INTO "todos" ("emphasized", "title", "description", "details", "createdOn", "dueDate") VALUES (?, ?, ?, ?, ?, ?);' : (
-           table === DATABASE_TABLES.SEGMENTS ? 'INSERT INTO "noteSegments" ("noteId", "body") VALUES (?, ?);' : (
-               table === DATABASE_TABLES.USER ? 'INSERT INTO "user" ("email", "username", "avatar", "uniqueId", "firstName", "lastName", "shortName", "gender", "phoneNumber") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);' : (
-                   table === DATABASE_TABLES.AUTH ? 'INSERT INTO "auth" ("email", "sessionId", "authToken", "timeStamp") VALUES (?, ?, ?, ?);' : (
-                       table === DATABASE_TABLES.ADDRESS ? 'INSERT INTO "address" ("addressName", "building", "street", "suburb", "postcode", "state", "country", "latitude", "longitude") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);' : (
-                           table === DATABASE_TABLES.NOTES ? 'INSERT INTO "notes" ("emphasized", "title", "createdOn") VALUES (?, ?, ?);' : (
-                               table === DATABASE_TABLES.ATTACHMENTS ? 'INSERT INTO "attachments" ("type", "assetId", "assetType", "name", "url") VALUES (?, ?, ?, ?, ?);'
-                                                                     : 'INSERT INTO "places" ("addressId", "assetId", "assetType") VALUES (?, ?, ?);'
-                           )
-                       )
-                   )
-               )
-           )
-    );
-}
+const getQueryFor = (table : DATABASE_TABLES, task = 'insert') : string => {
+    let query = EMPTY_STRING;
 
-const getUpdateQuery = (table : DATABASE_TABLES) : string => {
-    return table === DATABASE_TABLES.TODOS ? 'UPDATE "todos" SET "emphasized" = ?, "title" = ?, "description" = ?, "details" = ?, "createdOn" = ?, "dueDate" = ?, "doneDate" = ? WHERE "id" = ?;' : (
-        table === DATABASE_TABLES.SEGMENTS ? 'UPDATE "noteSegments" SET "body" = ? WHERE "id" = ?;' : (
-            table === DATABASE_TABLES.USER ? 'UPDATE "user" SET "email" = ?, "username" = ?, "avatar" = ?, "uniqueId" = ?, "firstName" = ?, "lastName" = ?, "shortName" = ?, "gender" = ?, "phoneNumber" = ?;' : (
-                table === DATABASE_TABLES.AUTH ? 'UPDATE "auth" SET "email" = ?, "sessionId" = ?, "authToken" = ?, "timeStamp" = ?;' : (
-                    table === DATABASE_TABLES.ADDRESS ? 'UPDATE "address" SET "addressName" = ?, "building" = ?, "street" = ?, "suburb" = ?, "postcode" = ?, "state" = ?, "country" = ?, "latitude" = ?, "longitude" = ? WHERE "id" = ?;' : (
-                        table === DATABASE_TABLES.NOTES ? 'UPDATE "notes" SET "emphasized" = ?, "title" = ?, "createdOn" = ? WHERE "id" = ?;' : (
-                            table === DATABASE_TABLES.ATTACHMENTS ? 'UPDATE "attachments" SET "type" = ?, "name" = ?, "url" = ? WHERE "id" = ?;'
-                                                                  : 'UPDATE places SET "addressId" = ? WHERE "id" = ?;')
-                    )
-                )
-            )
-        )
-    );
+    switch (table) {
+        case DATABASE_TABLES.NOTES:
+            query = task === 'insert' ? 'INSERT INTO "notes" ("emphasized", "title", "createdOn") VALUES (?, ?, ?);'
+                                      : 'UPDATE "notes" SET "emphasized" = ?, "title" = ? WHERE "id" = ?;';
+            break;
+        case DATABASE_TABLES.ATTACHMENTS:
+            query = task === 'insert' ? 'INSERT INTO "attachments" ("type", "assetId", "assetType", "name", "url") VALUES (?, ?, ?, ?, ?);'
+                                      : 'UPDATE "attachments" SET "type" = ?, "name" = ?, "url" = ? WHERE "id" = ?;';
+            break;
+        case DATABASE_TABLES.TODOS:
+            query = task === 'insert' ? 'INSERT INTO "todos" ("emphasized", "title", "description", "details", "createdOn", "dueDate") VALUES (?, ?, ?, ?, ?, ?);'
+                                      : 'UPDATE "todos" SET "emphasized" = ?, "title" = ?, "description" = ?, "details" = ?, "createdOn" = ?, "dueDate" = ?, "doneDate" = ? WHERE "id" = ?;';
+            break;
+        case DATABASE_TABLES.PLACES:
+            query = task === 'insert' ? 'INSERT INTO "places" ("addressId", "assetId", "assetType") VALUES (?, ?, ?);'
+                                      : 'UPDATE places SET "addressId" = ? WHERE "id" = ?;';
+            break;
+        case DATABASE_TABLES.ADDRESS:
+            query = task === 'insert' ? 'INSERT INTO "address" ("addressName", "building", "street", "suburb", "postcode", "state", "country", "latitude", "longitude") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);'
+                                      : 'UPDATE "address" SET "addressName" = ?, "building" = ?, "street" = ?, "suburb" = ?, "postcode" = ?, "state" = ?, "country" = ?, "latitude" = ?, "longitude" = ? WHERE "id" = ?;';
+            break;
+        case DATABASE_TABLES.AUTH:
+            query = task === 'insert' ? 'INSERT INTO "auth" ("email", "sessionId", "authToken", "timeStamp") VALUES (?, ?, ?, ?);'
+                                      : 'UPDATE "auth" SET "email" = ?, "sessionId" = ?, "authToken" = ?, "timeStamp" = ?;';
+            break;
+        case DATABASE_TABLES.USER:
+            query = task === 'insert' ? 'INSERT INTO "user" ("email", "username", "avatar", "uniqueId", "firstName", "lastName", "shortName", "gender", "phoneNumber") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);'
+                                      : 'UPDATE "user" SET "email" = ?, "username" = ?, "avatar" = ?, "uniqueId" = ?, "firstName" = ?, "lastName" = ?, "shortName" = ?, "gender" = ?, "phoneNumber" = ?;';
+            break;
+        case DATABASE_TABLES.SEGMENTS:
+            query = task === 'insert' ? 'INSERT INTO "noteSegments" ("noteId", "body") VALUES (?, ?);'
+                                      : 'UPDATE "noteSegments" SET "body" = ? WHERE "id" = ?;';
+            break;
+        case DATABASE_TABLES.SETTINGS:
+            query = task === 'insert' ? ''
+                                      : '';
+            break;
+        default:
+            break;
+    }
+
+    return query;
 }

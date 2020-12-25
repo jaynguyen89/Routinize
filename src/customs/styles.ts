@@ -101,6 +101,16 @@ const styles = StyleSheet.create({
     },
     rteError : {
         marginVertical : 0
+    },
+    mainMessage : {
+        textAlign : 'center',
+        marginTop : BASE_HEIGHT * 2.5
+    },
+    otherMessage : {
+        width : BASE_HEIGHT * 10,
+        marginTop : BASE_HEIGHT * 0.5,
+        alignSelf : 'center',
+        textAlign : 'center'
     }
 });
 

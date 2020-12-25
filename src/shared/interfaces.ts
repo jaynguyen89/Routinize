@@ -61,3 +61,9 @@ export interface IRteDialog {
     type : string,
     actions : { done : any, cancel : any }
 }
+
+export interface IMessage {
+    settings? : any,
+    mainMessage : string,
+    otherMessage : string
+}
