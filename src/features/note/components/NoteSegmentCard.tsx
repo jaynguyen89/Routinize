@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { View } from 'react-native';
 import { INoteSegmentCard } from '../redux/constants';
@@ -38,7 +39,7 @@ const mapActionsToProps = {
 
 const NoteSegmentCard = (props : INoteSegmentCard) => {
     const [showPopover, setShowPopover] = React.useState(false);
-    const [segment, setSegment] = React.useState(EMPTY_SEGMENT);
+    const [segment, setSegment] = React.useState(_.cloneDeep(EMPTY_SEGMENT));
     const [attachmentRemovalStatus, setAttachmentRemovalStatus] = React.useState({ id : -1, progress : EMPTY_STRING } as IRemovalStatus);
     const [isMounted, setIsMounted] = React.useState(false);
 

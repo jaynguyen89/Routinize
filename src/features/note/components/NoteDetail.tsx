@@ -37,9 +37,9 @@ import { saveLocalNote, updateLocalNote } from '../redux/actions';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,
-    isPersonal : state.todoReducer.isPersonal,
+    isPersonal : state.noteReducer.isPersonal,
     authStatus : state.appReducer.authStatus,
-    item : state.todoReducer.todoItem
+    item : state.noteReducer.noteItem
 });
 
 const mapActionsToProps = {

@@ -274,7 +274,6 @@ export const getData = async (table : DATABASE_TABLES): Promise<Array<any> | any
 
 export const executeRaw = async (query : string) : Promise<any> => {
     const result : any = await executeQuery(query);
-    if (result.rowsAffected === 0) return null;
 
     let data : Array<any> = [];
     for (let i = 0; i < result.rows.length; i++)

@@ -49,7 +49,7 @@ const reducer = produce((state, action) => {
             state.saveNote.action = noteConstants.SAVE_LOCAL_NOTE;
             state.saveNote.newNoteId = 0;
             return;
-        case noteConstants.SAVE_LOCAL_NOTE_SUCCESS:
+        case noteConstants.SAVE_LOCAL_NOTE_SUCCESS:4
             state.saveNote.action = noteConstants.SAVE_LOCAL_NOTE_SUCCESS;
             state.saveNote.newNoteId = action.payload;
             return;
@@ -79,7 +79,7 @@ const reducer = produce((state, action) => {
             return;
         case noteConstants.GET_ALL_LOCAL_NOTES_FAILED:
             state.getNotes.action = noteConstants.GET_ALL_LOCAL_NOTES_FAILED;
-            state.getNotes.items = action.error;
+        state.getNotes.items = action.error;
             return;
         default:
             return;
