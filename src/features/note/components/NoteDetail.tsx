@@ -223,16 +223,16 @@ const NoteDetail = (props : INoteDetail) => {
                 </View>
 
                 {
-                    item.segments.map((segment : INoteSegment, i : number) =>
-                        <View key={ i } style={{ display :  (_.includes(segmentIndexesToRemove, i) && 'none') || 'flex' }}>
-                            <NoteSegmentCard
+                    item.segments
+                        .filter((segment : INoteSegment, i : number) => !segmentIndexesToRemove.includes(i))
+                        .map((segment : INoteSegment, i : number) =>
+                            <NoteSegmentCard key={ i }
                                 segmentIndex={ i }
                                 segment={ segment }
                                 removeSegment={ removeSegment }
                                 updateNoteSegment={ updateNoteSegment }
                             />
-                        </View>
-                    )
+                        )
                 }
             </ScrollView>
 

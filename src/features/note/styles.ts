@@ -53,8 +53,11 @@ const styles = StyleSheet.create({
         marginHorizontal : BASE_HEIGHT * 0.3
     },
     attachmentWrapper : {
-        height : BASE_HEIGHT * 5,
-        padding : BASE_HEIGHT * 0.25
+        borderWidth : 0.5,
+        borderColor : '#ccc',
+        marginBottom : BASE_HEIGHT * 0.5,
+        borderBottomRightRadius : BASE_HEIGHT * 0.2,
+        borderBottomLeftRadius : BASE_HEIGHT * 0.2
     }
 });
 

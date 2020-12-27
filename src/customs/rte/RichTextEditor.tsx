@@ -20,6 +20,12 @@ const RichTextEditor = (props: IEditor) => {
     const [showPopover, setShowPopover] = React.useState(false);
     const [popoverType, setPopoverType] = React.useState(EMPTY_STRING);
 
+    const [initialContent, setInitialContent] = React.useState(EMPTY_STRING);
+
+    React.useEffect(() => {
+        setInitialContent(props.initialContent);
+    }, [props]);
+
     const handleInsertion = (type : string) => {
         setPopoverType(type);
         setShowPopover(true);
@@ -43,7 +49,7 @@ const RichTextEditor = (props: IEditor) => {
     return (
         <>
             <RichEditor ref={ editor as unknown as string }
-                initialContentHTML={ props.initialContent }
+                initialContentHTML={ initialContent }
                 containerStyle={ props.settings.theme.border }
                 editorStyle={ props.settings.theme.backgroundSecondary }
                 placeholder={ props.placeHolder }
@@ -71,8 +77,8 @@ const RichTextEditor = (props: IEditor) => {
                     }}
                     // @ts-ignore
                     insertVideo={ () => handleInsertion('video') }
-                    attachMediaOrFile={ props.handleAttachmentAdding }
-                    addPlace={ props.handlePlaceAdding }
+                    attachMediaOrFile={ () => props.handleAttachmentAdding() }
+                    addPlace={ () => props.handlePlaceAdding() }
                     remove={ () => props.removeSegment(props.id) }
                 />
             </KeyboardAvoidingView>

@@ -11,13 +11,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import styles from "./styles";
 import { baseFontSize } from "../shared/typography";
 import { sharedStyles } from "../shared/styles";
-import {
-    faFileImport,
-    faMapMarkerAlt, faMinusCircle,
-    faPhotoVideo,
-    faPlusCircle,
-    faTrashAlt
-} from '@fortawesome/free-solid-svg-icons';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -35,19 +28,19 @@ const mapStateToProps = (state : any) => ({
 
 const DynamicButtons = (props : IButtonGroup) => {
     return (
-        <View style={ styles.dynamicBtnWrapper }>
+        <View style={[ styles.dynamicBtnWrapper, { flexDirection : props.vertical ? 'column' : 'row' } ]}>
             {
                 props.actions.map((action : IDynamicButton, i : number) =>
                     <View key={ i } style={[
-                        styles.dynamicBtn,
+                        props.vertical ? styles.dynamicBtnVertical : styles.dynamicBtnHorizontal,
                         action.type === ACTION_TYPES.NORMAL ? props.settings.theme.btnPrimary : (
                             action.type === ACTION_TYPES.CAUTIOUS ? sharedStyles.btnWarning : sharedStyles.btnDanger
                         ),
-                        i === 0 ? styles.firstBtn : (
+                        props.vertical ? styles.lastBtn : (i === 0 ? styles.firstBtn : (
                             i === props.actions.length - 1 ? styles.lastBtn : styles.nthBtn
-                        )
+                        ))
                     ]}>
-                        <TouchableRipple onPress={ action.callback } style={[ sharedStyles.touchable, styles.dynamicBtn]}>
+                        <TouchableRipple onPress={ action.callback } style={[ sharedStyles.touchable, props.vertical ? styles.dynamicBtnVertical : styles.dynamicBtnHorizontal]}>
                             <FontAwesomeIcon icon={ action.icon as IconDefinition } size={ baseFontSize * 1.5 }
                                              style={ styles.iconCenter } color={ props.settings.theme.textFill.color } />
                         </TouchableRipple>

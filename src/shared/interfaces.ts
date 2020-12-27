@@ -8,7 +8,8 @@ export interface IAppDrawer {
 }
 
 export interface IButtonGroup {
-    settings? : any
+    settings? : any,
+    vertical? : boolean,
     actions : Array<IDynamicButton>
 }
 
@@ -42,6 +43,15 @@ export interface IAttachmentsList {
         removeAttachment : any
     },
     removal : number
+}
+
+export interface ITextArea {
+    withButtons? : boolean,
+    buttonsVertical? : boolean,
+    placeHolder : string,
+    initialContent : string,
+    getContent : any,
+    actions? : Array<{ callback : any, type : ACTION_TYPES }>
 }
 
 export interface IEditor {

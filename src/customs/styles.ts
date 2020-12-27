@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from 'react-native';
 import { BASE_HEIGHT } from "../shared/typography";
 
 const styles = StyleSheet.create({
@@ -16,14 +16,18 @@ const styles = StyleSheet.create({
         margin : 0,
         padding : 0,
         flex : 1,
-        flexDirection : "row",
         height : BASE_HEIGHT * 1.75
     },
-    dynamicBtn : {
+    dynamicBtnHorizontal : {
         flex : 1,
         lineHeight : BASE_HEIGHT * 1.5,
         textAlign : "center",
         justifyContent : "center"
+    },
+    dynamicBtnVertical : {
+        justifyContent : 'center',
+        marginBottom : 0.5,
+        height : BASE_HEIGHT * 2.25
     },
     iconCenter : {
         alignSelf : "center"
@@ -111,6 +115,10 @@ const styles = StyleSheet.create({
         marginTop : BASE_HEIGHT * 0.5,
         alignSelf : 'center',
         textAlign : 'center'
+    },
+    textArea : {
+        minHeight : Dimensions.get('screen').height * 0.2,
+        padding : BASE_HEIGHT * 0.5
     }
 });
 

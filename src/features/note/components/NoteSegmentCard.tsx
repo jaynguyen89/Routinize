@@ -4,7 +4,6 @@ import _ from 'lodash';
 
 import { View } from 'react-native';
 import { INoteSegmentCard } from '../redux/constants';
-import RichTextEditor from '../../../customs/rte/RichTextEditor';
 
 import styles from '../styles';
 import AttachmentsList from '../../../customs/AttachmentsList';
@@ -17,16 +16,17 @@ import DocumentPicker from 'react-native-document-picker';
 import md5 from 'md5';
 import RNFS from 'react-native-fs';
 import { EMPTY_STRING, SPACE_MONO } from '../../../helpers/Constants';
+import * as attachmentConstants from '../../attachments/redux/constants';
 import { IRemovalStatus } from '../../attachments/redux/constants';
 import { sharedStyles } from '../../../shared/styles';
 import { Text } from 'react-native-elements';
 import { Typography } from '../../../shared/typography';
 import { removeLocalAttachment } from '../../attachments/redux/actions';
 import { ActivityIndicator } from 'react-native-paper';
-import * as attachmentConstants from '../../attachments/redux/constants';
 import { getAttachmentFolder } from '../../../helpers/Helpers';
 import moment from 'moment';
 import { EMPTY_SEGMENT } from '../../../models/INote';
+import TextArea from '../../../customs/rte/TextArea';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,
@@ -41,13 +41,9 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
     const [showPopover, setShowPopover] = React.useState(false);
     const [segment, setSegment] = React.useState(_.cloneDeep(EMPTY_SEGMENT));
     const [attachmentRemovalStatus, setAttachmentRemovalStatus] = React.useState({ id : -1, progress : EMPTY_STRING } as IRemovalStatus);
-    const [isMounted, setIsMounted] = React.useState(false);
 
     React.useEffect(() => {
-        setIsMounted(true);
-        isMounted && setSegment(props.segment);
-
-        return () => setIsMounted(false);
+        setSegment(props.segment);
     }, [props.segment]);
 
     React.useEffect(() => {
@@ -183,21 +179,33 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
         <>
             <View style={ styles.segmentWrapper }>
                 <View style={[ { flex : 1 }, props.settings.theme.backgroundSecondary ]}>
-                    <RichTextEditor key={ props.segmentIndex }
-                        id={ props.segmentIndex }
+                    <TextArea
+                        getContent={ updateContent }
                         initialContent={ segment.body }
-                        updateContent={ updateContent }
-                        placeHolder='Note content'
-                        extraActions={ true }
-                        removeSegment={ props.removeSegment }
-                        handleAttachmentAdding={ () => setShowPopover(true) }
-                        handlePlaceAdding={ handlePlace }
+                        placeHolder='Note content.'
+                        withButtons={ true }
+                        buttonsVertical={ true }
+                        actions={[
+                            { callback : () => setShowPopover(true), type : ACTION_TYPES.NORMAL },
+                            { callback : () => handlePlace(), type : ACTION_TYPES.NORMAL },
+                            { callback : () => props.removeSegment(props.segmentIndex), type : ACTION_TYPES.DANGEROUS }
+                        ]}
                     />
+                    {/*<RichTextEditor key={ props.segmentIndex }*/}
+                    {/*    id={ props.segmentIndex }*/}
+                    {/*    initialContent={ segment.body }*/}
+                    {/*    updateContent={ updateContent }*/}
+                    {/*    placeHolder='Note content'*/}
+                    {/*    extraActions={ true }*/}
+                    {/*    removeSegment={ props.removeSegment }*/}
+                    {/*    handleAttachmentAdding={ () => setShowPopover(true) }*/}
+                    {/*    handlePlaceAdding={ handlePlace }*/}
+                    {/*/>*/}
                 </View>
 
                 {
                     segment && segment.attachments &&
-                    <View style={ sharedStyles.inputWrapper }>
+                    <View style={ styles.attachmentWrapper }>
                         <AttachmentsList attachments={ segment.attachments }
                                        actions={{
                                            viewAttachment : () => console.log('view'),
