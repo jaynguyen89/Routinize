@@ -50,4 +50,3 @@ FILE_FORMATS['archive'] = ['rar', 'zip', 'tar', 'gz', '7z'];
 FILE_FORMATS['csv'] = ['csv'];
 FILE_FORMATS['src'] = ['exe', 'msi'];
 FILE_FORMATS['audio'] = ['aac', 'mp3', 'wav', 'wma', 'flac'];
-

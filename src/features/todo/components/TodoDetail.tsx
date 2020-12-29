@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import moment from 'moment';
 import md5 from 'md5';
 import RNFS from 'react-native-fs';
@@ -13,27 +14,35 @@ import ScreenCover from '../../../customs/ScreenCover';
 import Loading from '../../../customs/Loading';
 import ActionButtons from '../../../customs/ActionButtons';
 import DTPicker from '../../../customs/DTPicker';
-import { ACTION_TYPES, ACTIONS, FILE_TYPES, MEDIA_TYPES } from '../../../shared/enums';
+import {
+    ACTION_TYPES,
+    ACTIONS,
+    DATETIME_FORMATS,
+    FILE_TYPES,
+    MEDIA_TYPES,
+    MOMENT_FORMATS
+} from '../../../shared/enums';
 import { ITodoDetail } from '../redux/constants';
 import ITodo, { EMPTY_TODO } from '../../../models/ITodo';
+import * as attachmentConstants from '../../attachments/redux/constants';
 import { IRemovalStatus } from '../../attachments/redux/constants';
 
 import { Typography } from '../../../shared/typography';
 import { sharedStyles } from '../../../shared/styles';
-import { faCheckCircle, faFileImport, faPhotoVideo, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faFileImport, faLink, faPhotoVideo, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { DATE_FORMATS, EMPTY_STRING, SPACE_MONO, TIME_FORMATS } from '../../../helpers/Constants';
 import PopoverContent from '../../../customs/PopoverContent';
 import Popover from 'react-native-popover-view/dist/Popover';
 import { IFile, IMedia } from '../../../models/others';
-import RichTextEditor from '../../../customs/rte/RichTextEditor';
-import * as attachmentConstants from '../../attachments/redux/constants';
 import styles from '../styles';
 
 import { createLocalTodo, getLocalTodoAttachments, updateLocalTodo } from '../redux/actions';
 import { removeLocalAttachment } from '../../attachments/redux/actions';
 import { getAttachmentFolder } from '../../../helpers/Helpers';
 import AttachmentsList from '../../../customs/AttachmentsList';
-import { ActivityIndicator } from 'react-native-paper';
+import UrlAttacher from '../../../customs/UrlAttacher';
+import TextArea from '../../../customs/rte/TextArea';
+import { isObjectContentChanged } from '../../../helpers/Assistant';
 
 const mapStateToProps = (state : any) => ({
     authStatus : state.appReducer.authStatus,
@@ -57,12 +66,14 @@ const TodoDetail = (props : ITodoDetail) => {
     const [action, setAction] = React.useState(ACTIONS.NONE);
     const [screenCover, setScreenCover] = React.useState({ message : EMPTY_STRING, visible : false });
     const [showPopover, setShowPopover] = React.useState(false);
+    const [showUrlPopover, setShowUrlPopover] = React.useState(false);
 
     const [showDatePicker, setShowDatePicker] = React.useState(false);
     const [showTimePicker, setShowTimePicker] = React.useState(false);
 
     const [personal, setPersonal] = React.useState(true);
-    const [item, setItem] = React.useState(EMPTY_TODO as ITodo);
+    const [item, setItem] = React.useState(_.cloneDeep(EMPTY_TODO) as ITodo);
+    const [itemBackup, setItemBackup] = React.useState(_.cloneDeep(EMPTY_TODO) as ITodo);
     const [attachmentRemovalStatus, setAttachmentRemovalStatus] = React.useState({ id : -1, progress : EMPTY_STRING } as IRemovalStatus);
 
     const [date, setDate] = React.useState(EMPTY_STRING);
@@ -70,9 +81,26 @@ const TodoDetail = (props : ITodoDetail) => {
 
     React.useEffect(() => {
         setPersonal((props.item && props.item.isPersonal) || !props.authStatus || props.isPersonal);
-        setItem(props.item || EMPTY_TODO);
 
-        if (props.item) props.getLocalTodoAttachments(props.item.id);
+        if (props.item) {
+            props.getLocalTodoAttachments(props.item.id);
+
+            setDate((
+                props.item &&
+                moment(
+                    props.item.dueDate,
+                    MOMENT_FORMATS.DMY
+                ).format(DATE_FORMATS[props.settings.dateTimeFormat])
+            ) || EMPTY_STRING);
+
+            setTime((
+                props.item &&
+                moment(
+                    props.item.dueDate,
+                    `${ MOMENT_FORMATS.DMY } ${ MOMENT_FORMATS.HM }`
+                ).format(TIME_FORMATS[props.settings.dateTimeFormat])
+            ) || EMPTY_STRING);
+        }
     }, [props.item]);
 
     React.useEffect(() => {
@@ -94,22 +122,44 @@ const TodoDetail = (props : ITodoDetail) => {
     }, [props.newItem]);
 
     React.useEffect(() => {
-        if (!props.getAttachments.isRetrieving && props.getAttachments.retrievingSuccess)
-            setItem({ ...item, attachments : props.getAttachments.attachments });
+        if (!props.getAttachments.isRetrieving && props.getAttachments.retrievingSuccess) {
+            setItem({ ...props.item, attachments: props.getAttachments.attachments });
+            setItemBackup({ ...props.item, attachments : props.getAttachments.attachments });
+        }
     }, [props.getAttachments]);
 
     React.useEffect(() => {
         setScreenCover({ message : EMPTY_STRING, visible : false });
 
-        if (action === ACTIONS.UPDATE && !props.updateItem.isUpdating)
+        if (action === ACTIONS.UPDATE && typeof props.updateItem.updateResult === 'number' && props.updateItem.updateResult > 0)
             Alert.alert(
-                props.updateItem.updateResult ? 'Success!' : 'Todo updating failed!',
-                props.updateItem.updateResult ? 'Your Todo has been updated.' : 'An issue happened while updating your Todo. Please try again.',
+                'Success!', 'Your Todo has been updated.',
                 [{
                     text: 'OK',
                     onPress: () => {
                         setAction(ACTIONS.NONE);
-                        if (props.updateItem.updateSuccess) props.navigation.goBack();
+                        props.navigation.goBack();
+                    }
+                }],
+                { cancelable: false }
+            );
+
+        if (action === ACTIONS.UPDATE && !props.updateItem.isUpdating)
+            Alert.alert(
+                typeof props.updateItem.updateResult === 'number'
+                    ? (props.updateItem.updateResult > 0 ? 'Success!' : 'Issue while updating!')
+                    : 'Todo updating failed!',
+                typeof props.updateItem.updateResult === 'number'
+                    ? (
+                        props.updateItem.updateResult > 0
+                            ? 'Your Todo has been updated.'
+                            : 'The details of your Todo have been updated. But the attachments you have just added were failed to save. Please check your attachments.'
+                    ) : 'A problem occurred while saving changes. Please try again.',
+                [{
+                    text: 'OK',
+                    onPress: () => {
+                        setAction(ACTIONS.NONE);
+                        if (typeof props.updateItem.updateResult === 'number' && props.updateItem.updateResult > 0) props.navigation.goBack();
                     }
                 }],
                 { cancelable: false }
@@ -117,21 +167,9 @@ const TodoDetail = (props : ITodoDetail) => {
     }, [props.updateItem]);
 
     React.useEffect(() => {
-        if (props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT) {
-            setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : null } as IRemovalStatus);
-            return;
-        }
+        setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : props.atmRemoval.action } as IRemovalStatus);
 
-        if (props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_FAILED) {
-            setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : props.atmRemoval.removedId } as IRemovalStatus);
-            return;
-        }
-
-        if (
-            props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS &&
-            typeof props.atmRemoval.removedId === 'number' && item
-        ) {
-            setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : true });
+        if (props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS) {
             const removedAttachment = item.attachments?.filter(attachment => attachment.id === props.atmRemoval.removedId)[0];
             const otherAttachments = item.attachments?.filter(attachment => attachment.id !== props.atmRemoval.removedId) as Array<IMedia | IFile>;
 
@@ -272,29 +310,49 @@ const TodoDetail = (props : ITodoDetail) => {
         }
     }
 
-    const showPopoverForUrl = () => {
+    const updateUrl = (url : any) => {
+        setShowUrlPopover(false);
+        if (url.type <= 2) {
+            const media = { type : url.type, url : url.value } as IMedia;
+            addItemAttachments(media);
+            return;
+        }
 
+        const file = { type : url.type, url : url.value } as IFile;
+        addItemAttachments(file);
     }
 
-    const confirmAndCancel = () =>
-        Alert.alert(
-            "Cancel Todo",
-            "Your Todo has not been saved. All details you have entered will be lost.\n\nAre you sure?",
-            [
-                {
-                    text: "No, back to my Todo.",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                },
-                {
-                    text: 'Yes, I\'m sure.',
-                    onPress: () => props.navigation.goBack()
-                }
-            ],
-            { cancelable: false }
-        );
+    const confirmAndCancel = () => {
+        const hasChanges = isObjectContentChanged(_.cloneDeep(item), _.cloneDeep(itemBackup));
+
+        if (hasChanges)
+            Alert.alert(
+                "Cancel Todo",
+                "Your Todo has not been saved. All details you have entered will be lost.\n\nAre you sure?",
+                [
+                    {
+                        text: "No, back to my Todo.",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                    },
+                    {
+                        text: 'Yes, I\'m sure.',
+                        onPress: () => props.navigation.goBack()
+                    }
+                ],
+                { cancelable: false }
+            );
+        else
+            props.navigation.goBack();
+    }
 
     const confirmCreateOrUpdateTodo = () => {
+        const hasChanges = isObjectContentChanged(_.cloneDeep(item), _.cloneDeep(itemBackup));
+        if (!hasChanges) {
+            alert('No changes was made to the content.');
+            return;
+        }
+
         if (item.id === 0) {
             setScreenCover({ message : 'Saving changes', visible : true });
             props.createLocalTodo(item);
@@ -334,20 +392,24 @@ const TodoDetail = (props : ITodoDetail) => {
                               actions={{ dateAction : openDatePicker, timeAction : openTimePicker }} />
                 </View>
 
-                <ActionButtons actions={[
-                    { name : 'Add Media', icon : faPhotoVideo, type : ACTION_TYPES.NORMAL, callback : () => setShowPopover(true) },
-                    { name : 'Add File', icon : faFileImport, type : ACTION_TYPES.NORMAL, callback : () => selectFiles() }
-                ]} />
+                <View style={ sharedStyles.inputWrapper }>
+                    <Text style={[ Typography.regular, props.settings.theme.black, sharedStyles.inputLabel ]}>Attachments</Text>
+                    <ActionButtons actions={[
+                        { name : 'Media', icon : faPhotoVideo, type : ACTION_TYPES.NORMAL, callback : () => setShowPopover(true) },
+                        { name : 'File', icon : faFileImport, type : ACTION_TYPES.NORMAL, callback : () => selectFiles() },
+                        { name : 'URL', icon : faLink, type : ACTION_TYPES.NORMAL, callback : () => setShowUrlPopover(true) }
+                    ]} />
 
-                { props.getAttachments.isRetrieving && <Loading message='Finding attachments.' /> }
-                {
-                    !props.getAttachments.isRetrieving && !props.getAttachments.retrievingSuccess && props.getAttachments.attachments &&
-                    <View style={ sharedStyles.inputWrapper }>
-                      <Text style={[ Typography.small, { textAlign : 'center', color : sharedStyles.btnDanger.backgroundColor } ]}>
-                        An issue happened while looking for the attachments. Please refresh the screen to retry.
-                      </Text>
-                    </View>
-                }
+                    { props.getAttachments.isRetrieving && <Loading message='Finding attachments.' /> }
+                    {
+                        !props.getAttachments.isRetrieving && !props.getAttachments.retrievingSuccess && props.getAttachments.attachments &&
+                        <View style={ sharedStyles.inputWrapper }>
+                          <Text style={[ Typography.small, { textAlign : 'center', color : sharedStyles.btnDanger.backgroundColor } ]}>
+                            An issue happened while looking for the attachments. Please refresh the screen to retry.
+                          </Text>
+                        </View>
+                    }
+                </View>
 
                 {
                     item.attachments &&
@@ -357,43 +419,8 @@ const TodoDetail = (props : ITodoDetail) => {
                                            viewAttachment : () => console.log('view'),
                                            removeAttachment : props.removeLocalAttachment
                                        }}
-                                       removal={ attachmentRemovalStatus.id }
+                                       removal={ attachmentRemovalStatus }
                         />
-
-                        {
-                            typeof attachmentRemovalStatus.progress !== 'string' &&
-                            <Text style={[
-                                {
-                                    textAlign: 'center',
-                                    color: (
-                                        typeof attachmentRemovalStatus.progress === 'object' &&
-                                        attachmentRemovalStatus.progress != null && sharedStyles.btnDanger.backgroundColor
-                                    ) || sharedStyles.btnSuccess.backgroundColor
-                                }, Typography.tiny
-                            ]}>
-                                {
-                                    attachmentRemovalStatus.progress == null &&
-                                    <>
-                                      <ActivityIndicator size={12.5}
-                                                         color={props.settings.theme.backgroundPrimary.backgroundColor} />
-                                        { SPACE_MONO + 'Removing attachment...' }
-                                    </>
-                                }
-
-                                {
-                                    typeof attachmentRemovalStatus.progress === 'object' && attachmentRemovalStatus.progress != null &&
-                                    <>
-                                      <ActivityIndicator size={12.5} color={sharedStyles.btnDanger.backgroundColor} />
-                                        { SPACE_MONO + 'Attachment removal failed.' }
-                                    </>
-                                }
-
-                                {
-                                    typeof attachmentRemovalStatus.progress === 'boolean' && attachmentRemovalStatus.progress &&
-                                    <>{ 'Attachment has been removed.' }</>
-                                }
-                            </Text>
-                        }
                     </View>
                 }
 
@@ -427,12 +454,17 @@ const TodoDetail = (props : ITodoDetail) => {
 
                 <View style={ styles.editorWrapper }>
                     <View style={[ { flex : 1 }, props.settings.theme.backgroundSecondary ]}>
-                        <RichTextEditor
+                        <TextArea
+                            getContent={ updateDetails }
                             initialContent={ item.details || EMPTY_STRING }
-                            updateContent={ updateDetails }
-                            placeHolder='Add more details to help yourself later'
-                            extraActions={ false }
+                            placeHolder='Add more details to help yourself later.'
                         />
+                        {/*<RichTextEditor*/}
+                        {/*    initialContent={ item.details || EMPTY_STRING }*/}
+                        {/*    updateContent={ updateDetails }*/}
+                        {/*    placeHolder='Add more details to help yourself later'*/}
+                        {/*    extraActions={ false }*/}
+                        {/*/>*/}
                     </View>
                 </View>
             </ScrollView>
@@ -462,10 +494,13 @@ const TodoDetail = (props : ITodoDetail) => {
                         { name : 'Take Photo', icon : 'camera', type : ACTION_TYPES.NORMAL, callback : () => openCamera('image') },
                         { name : 'Select Photos', icon : 'image-search', type : ACTION_TYPES.NORMAL, callback : () => openGallery('image') },
                         { name : 'Record Video', icon : 'video-plus', type : ACTION_TYPES.NORMAL, callback : () => openCamera('video') },
-                        { name : 'Select Videos', icon : 'video-image', type : ACTION_TYPES.NORMAL, callback : () => openGallery('video') },
-                        { name : 'Enter URL', icon : 'link-plus', type : ACTION_TYPES.NORMAL, callback : () => showPopoverForUrl() }
+                        // { name : 'Select Videos', icon : 'video-image', type : ACTION_TYPES.NORMAL, callback : () => openGallery('video') }
                     ]}
                 />
+            </Popover>
+
+            <Popover isVisible={ showUrlPopover } onRequestClose={ () => setShowUrlPopover(false) }>
+                <UrlAttacher getUrl={ updateUrl } />
             </Popover>
 
             <ScreenCover message={ screenCover.message } visible={ screenCover.visible } />

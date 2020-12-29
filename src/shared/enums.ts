@@ -100,7 +100,7 @@ export enum DATETIME_FORMATS {
 export enum MOMENT_FORMATS {
     DMY = 'DD-MM-YYYY',
     DMMMY = 'DD MMM YYYY',
-    HM = 'hh:mm',
+    HM = 'HH:mm',
     HMA = 'hh:mm a'
 }
 

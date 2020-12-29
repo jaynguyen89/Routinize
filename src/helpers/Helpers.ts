@@ -103,3 +103,27 @@ export const getAttachmentFolder = (type : MEDIA_TYPES | FILE_TYPES) : string =>
         )
     );
 }
+
+export const getDropdownFileTypesPicker = () => {
+    let fileTypes = [];
+
+    for (let item in MEDIA_TYPES)
+        if (isNaN(Number(item)))
+            fileTypes.push({ label : item, value : MEDIA_TYPES[item] });
+
+    for (let item in FILE_TYPES)
+        if (isNaN(Number(item)))
+            fileTypes.push({ label : item, value : FILE_TYPES[item] });
+
+    return fileTypes;
+}
+
+export const generateRandomString = (length : number = 16) => {
+    let result           = '';
+    const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (let i = 0; i < length; i++ )
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+
+    return result;
+}

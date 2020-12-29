@@ -6,7 +6,7 @@ export const saveLocalTodo = (todo : ITodo) : Promise<number> => {
     return insertTodo(DATABASE_TABLES.TODOS, todo);
 }
 
-export const updateLocalTodo = (todo : ITodo) : Promise<boolean> => {
+export const updateLocalTodo = (todo : ITodo) : Promise<number> => {
     return updateTodo(DATABASE_TABLES.TODOS, todo);
 }
 

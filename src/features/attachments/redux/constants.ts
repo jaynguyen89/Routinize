@@ -10,7 +10,7 @@ export interface IAttachments {
 
 export interface IRemovalStatus {
     id : number,
-    progress : boolean | null | object | string
+    progress : string
 }
 
 export const REMOVE_LOCAL_ATTACHMENT = 'REMOVE_LOCAL_ATTACHMENT';

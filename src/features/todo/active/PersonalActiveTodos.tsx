@@ -44,6 +44,8 @@ const PersonalActiveTodos = (props : ITodos) => {
                 </TouchableOpacity>
             )
         });
+
+        props.navigation.addListener('focus', () => props.getAllLocalTodos());
     }, [props.navigation]);
 
     const gotoNewTodo = () => {

@@ -119,6 +119,10 @@ const styles = StyleSheet.create({
     textArea : {
         minHeight : Dimensions.get('screen').height * 0.2,
         padding : BASE_HEIGHT * 0.5
+    },
+    urlError : {
+        marginHorizontal : BASE_HEIGHT * 0.5,
+        textAlign : 'center'
     }
 });
 

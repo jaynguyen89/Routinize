@@ -1,6 +1,7 @@
 import { ACTION_TYPES } from "./enums";
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { IFile, IMedia } from '../models/others';
+import { IRemovalStatus } from '../features/attachments/redux/constants';
 
 export interface IAppDrawer {
     navigation : any,
@@ -42,7 +43,7 @@ export interface IAttachmentsList {
         viewAttachment : any,
         removeAttachment : any
     },
-    removal : number
+    removal : IRemovalStatus
 }
 
 export interface ITextArea {
@@ -76,4 +77,9 @@ export interface IMessage {
     settings? : any,
     mainMessage : string,
     otherMessage : string
+}
+
+export interface IUrlAttacher {
+    settings? : any,
+    getUrl : any
 }

@@ -47,21 +47,9 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
     }, [props.segment]);
 
     React.useEffect(() => {
-        if (props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT) {
-            setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : null } as IRemovalStatus);
-            return;
-        }
+        setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : props.atmRemoval.action } as IRemovalStatus);
 
-        if (props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_FAILED) {
-            setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : props.atmRemoval.removedId } as IRemovalStatus);
-            return;
-        }
-
-        if (
-            props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS &&
-            typeof props.atmRemoval.removedId === 'number'
-        ) {
-            setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : true });
+        if (props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS) {
             const removedAttachment = segment.attachments?.filter(attachment => attachment.id === props.atmRemoval.removedId)[0];
             const otherAttachments = segment.attachments?.filter(attachment => attachment.id !== props.atmRemoval.removedId) as Array<IMedia | IFile>;
 
@@ -211,43 +199,8 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
                                            viewAttachment : () => console.log('view'),
                                            removeAttachment : props.removeLocalAttachment
                                        }}
-                                       removal={ attachmentRemovalStatus.id }
+                                       removal={ attachmentRemovalStatus }
                         />
-
-                        {
-                            typeof attachmentRemovalStatus.progress !== 'string' &&
-                            <Text style={[
-                                {
-                                    textAlign: 'center',
-                                    color: (
-                                        typeof attachmentRemovalStatus.progress === 'object' &&
-                                        attachmentRemovalStatus.progress != null && sharedStyles.btnDanger.backgroundColor
-                                    ) || sharedStyles.btnSuccess.backgroundColor
-                                }, Typography.tiny
-                            ]}>
-                                {
-                                    attachmentRemovalStatus.progress == null &&
-                                    <>
-                                      <ActivityIndicator size={ 12.5 }
-                                                         color={ props.settings.theme.backgroundPrimary.backgroundColor } />
-                                        { SPACE_MONO + 'Removing attachment...' }
-                                    </>
-                                }
-
-                                {
-                                    typeof attachmentRemovalStatus.progress === 'object' && attachmentRemovalStatus.progress != null &&
-                                    <>
-                                      <ActivityIndicator size={12.5} color={sharedStyles.btnDanger.backgroundColor} />
-                                        { SPACE_MONO + 'Attachment removal failed.' }
-                                    </>
-                                }
-
-                                {
-                                    typeof attachmentRemovalStatus.progress === 'boolean' && attachmentRemovalStatus.progress &&
-                                    <>{ 'Attachment has been removed.' }</>
-                                }
-                            </Text>
-                        }
                     </View>
                 }
             </View>
@@ -258,7 +211,7 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
                         { name : 'Take Photo', icon : 'camera', type : ACTION_TYPES.NORMAL, callback : () => openCamera('image') },
                         { name : 'Select Photos', icon : 'image-search', type : ACTION_TYPES.NORMAL, callback : () => openGallery('image') },
                         { name : 'Record Video', icon : 'video-plus', type : ACTION_TYPES.NORMAL, callback : () => openCamera('video') },
-                        { name : 'Select Videos', icon : 'video-image', type : ACTION_TYPES.NORMAL, callback : () => openGallery('video') },
+                        // { name : 'Select Videos', icon : 'video-image', type : ACTION_TYPES.NORMAL, callback : () => openGallery('video') },
                         { name : 'Select Files', icon : 'file-plus', type : ACTION_TYPES.NORMAL, callback : () => selectFiles() }
                     ]}
                 />

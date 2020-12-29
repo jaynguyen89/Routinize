@@ -7,7 +7,7 @@ interface IAttachmentStore {
     selection : object | null,
     atmRemoval : {
         action : string,
-        removedId : number | object
+        removedId : number
     }
 }
 

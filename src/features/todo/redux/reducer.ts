@@ -18,7 +18,7 @@ interface ITodoStore {
     },
     updateItem : {
         isUpdating : boolean,
-        updateResult : boolean
+        updateResult : number | object
     },
     getAttachments : {
         isRetrieving : boolean,
@@ -42,7 +42,7 @@ const initialState : ITodoStore = {
     },
     updateItem : {
         isUpdating : false,
-        updateResult : false
+        updateResult : -99
     },
     getAttachments : {
         isRetrieving : false,
@@ -56,6 +56,9 @@ const reducer = produce((state, action) => {
         case todoConstants.GOTO_NEW_TODO_PERSONAL:
             state.isPersonal = action.payload;
             state.todoItem = null;
+            state.getAttachments.isRetrieving = false;
+            state.getAttachments.retrievingSuccess = false;
+            state.getAttachments.attachments = null;
             return;
         case todoConstants.SET_TODO_DETAIL_ITEM:
             state.todoItem = action.payload;
@@ -87,7 +90,7 @@ const reducer = produce((state, action) => {
             return;
         case todoConstants.UPDATE_TODO_LOCAL:
             state.updateItem.isUpdating = true;
-            state.updateItem.updateResult = false;
+            state.updateItem.updateResult = -99;
             return;
         case todoConstants.UPDATE_TODO_SUCCESS:
             state.updateItem.isUpdating = false;

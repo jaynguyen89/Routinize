@@ -11,7 +11,7 @@ export const removeLocalAttachment = (attachmentId : number) => {
         attachmentServices.removeLocalAttachment(attachmentId)
             .then(response => dispatch({
                 type : attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS,
-                payload : response
+                payload : attachmentId
             }))
             .catch(error => dispatch({
                 type : attachmentConstants.REMOVE_LOCAL_ATTACHMENT_FAILED,

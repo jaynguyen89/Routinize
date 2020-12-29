@@ -8,7 +8,7 @@ import { IButtonGroup, IDynamicButton } from "../shared/interfaces";
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 
 import { sharedStyles } from "../shared/styles";
-import { baseFontSize } from "../shared/typography";
+import { baseFontSize, Typography } from '../shared/typography';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings

@@ -51,19 +51,28 @@ export const insertTodo = async (table : DATABASE_TABLES, data : ITodo) : Promis
     return insertId;
 };
 
-export const updateTodo = async (table : DATABASE_TABLES, data : ITodo) : Promise<boolean> => {
+export const updateTodo = async (table : DATABASE_TABLES, data : ITodo) : Promise<number> => {
     const query = getQueryFor(table, 'update');
-    const result : any = await executeQuery(query, [
+    const response : any = await executeQuery(query, [
         data.emphasized ? 1 : 0,
         data.title,
         data.description,
         data.details,
-        moment().format(DB_TIMESTAMP_FORMAT),
         moment(data.dueDate).format(DB_TIMESTAMP_FORMAT),
-        (data.doneDate && moment(data.doneDate).format(DB_TIMESTAMP_FORMAT)) || null
+        (data.doneDate && moment(data.doneDate).format(DB_TIMESTAMP_FORMAT)) || EMPTY_STRING,
+        data.id
     ]);
 
-    return result.rowsAffected !== 0;
+    if (response.rowsAffected === 0) return -1;
+
+    const newAttachments = data.attachments?.filter(attachment => attachment.id === 0);
+    const newPlaces = data.places?.filter(place => place.id === 0);
+
+    let result : boolean = true;
+    if (newAttachments) result = await insertAttachments(newAttachments, DATABASE_TABLES.TODOS, data.id);
+    if (result && newPlaces) result = await insertPlaces(newPlaces, DATABASE_TABLES.TODOS, data.id);
+
+    return !result ? 0 : data.id;
 };
 
 export const insertNote = async (table : DATABASE_TABLES, data : INote) : Promise<number> => {
@@ -312,7 +321,7 @@ const getQueryFor = (table : DATABASE_TABLES, task = 'insert') : string => {
             break;
         case DATABASE_TABLES.TODOS:
             query = task === 'insert' ? 'INSERT INTO "todos" ("emphasized", "title", "description", "details", "createdOn", "dueDate") VALUES (?, ?, ?, ?, ?, ?);'
-                                      : 'UPDATE "todos" SET "emphasized" = ?, "title" = ?, "description" = ?, "details" = ?, "createdOn" = ?, "dueDate" = ?, "doneDate" = ? WHERE "id" = ?;';
+                                      : 'UPDATE "todos" SET "emphasized" = ?, "title" = ?, "description" = ?, "details" = ?, "dueDate" = ?, "doneDate" = ? WHERE "id" = ?;';
             break;
         case DATABASE_TABLES.PLACES:
             query = task === 'insert' ? 'INSERT INTO "places" ("addressId", "assetId", "assetType") VALUES (?, ?, ?);'

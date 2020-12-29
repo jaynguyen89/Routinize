@@ -48,6 +48,8 @@ const PersonalActiveNotes = (props : IActiveNotes) => {
                 </TouchableOpacity>
             )
         });
+
+        props.navigation.addListener('focus', () => props.getLocalNotes());
     }, [props.navigation]);
 
     React.useEffect(() => {

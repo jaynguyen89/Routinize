@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import styles from './styles';
 import Popover from 'react-native-popover-view/dist/Popover';
-import Loading from './Loading';
 import { ActivityIndicator } from 'react-native-paper';
 import { BASE_HEIGHT, Typography } from '../shared/typography';
 import { Text, View } from 'react-native';

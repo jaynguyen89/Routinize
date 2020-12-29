@@ -295,5 +295,16 @@ export const sharedStyles = StyleSheet.create({
     },
     stackBtnWrapper : {
         marginRight : BASE_HEIGHT * 0.75
+    },
+    urlPopover : {
+        width : BASE_HEIGHT * 15,
+        paddingTop : BASE_HEIGHT * 0.5
+    },
+    dropdownContainer : {
+        marginHorizontal : BASE_HEIGHT * 0.5,
+        marginVertical : BASE_HEIGHT * 0.5
+    },
+    dropdown : {
+        height : BASE_HEIGHT * 4
     }
 });

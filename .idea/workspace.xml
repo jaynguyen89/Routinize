@@ -5,16 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ec84dc4e-cb97-40bc-803b-02313ebaa727" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/customs/rte/TextArea.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/url_attachment.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/customs/UrlAttacher.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/customs/DynamicButtons.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/DynamicButtons.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/customs/rte/RichTextEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/rte/RichTextEditor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/customs/ActionButtons.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/ActionButtons.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/customs/AttachmentsList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/AttachmentsList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/customs/ScreenCover.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/ScreenCover.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/customs/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/customs/styles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/note/components/NoteDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/components/NoteDetail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/attachments/redux/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/attachments/redux/actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/attachments/redux/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/attachments/redux/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/attachments/redux/reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/attachments/redux/reducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/note/active/PersonalActiveNotes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/active/PersonalActiveNotes.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/note/components/NoteSegmentCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/components/NoteSegmentCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/note/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/note/styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/todo/active/PersonalActiveTodos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/active/PersonalActiveTodos.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/todo/components/TodoDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/components/TodoDetail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/todo/redux/reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/redux/reducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/todo/redux/services.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todo/redux/services.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/Assistant.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/Assistant.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/Constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/Constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/Helpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/Helpers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/providers/databaseReader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/providers/databaseReader.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/enums.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/enums.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/shared/interfaces.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/interfaces.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/shared/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +99,9 @@
       <workItem from="1608694239258" duration="5704000" />
       <workItem from="1608782916653" duration="31701000" />
       <workItem from="1609039461640" duration="2778000" />
-      <workItem from="1609044734161" duration="10674000" />
+      <workItem from="1609044734161" duration="25485000" />
+      <workItem from="1609131657150" duration="17050000" />
+      <workItem from="1609217949775" duration="521000" />
     </task>
     <servers />
   </component>
