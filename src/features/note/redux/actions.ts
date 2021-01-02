@@ -67,3 +67,17 @@ export const getLocalNotes = () => {
             }));
     };
 }
+
+export const setLocalNoteEmphasized = (itemId : number, isEmphasized : boolean) => {
+    return (dispatch : any) => {
+        noteServices.updateLocalNoteEmphasized(itemId, isEmphasized)
+            .then(response => dispatch({
+                type : noteConstants.HIGHLIGHT_LOCAL_NOTE_SUCCESS,
+                payload : response
+            }))
+            .catch(error => dispatch({
+                type : noteConstants.HIGHLIGHT_LOCAL_NOTE_FAILED,
+                error
+            }));
+    }
+}

@@ -17,7 +17,6 @@ import DTPicker from '../../../customs/DTPicker';
 import {
     ACTION_TYPES,
     ACTIONS,
-    DATETIME_FORMATS,
     FILE_TYPES,
     MEDIA_TYPES,
     MOMENT_FORMATS
@@ -36,13 +35,16 @@ import Popover from 'react-native-popover-view/dist/Popover';
 import { IFile, IMedia } from '../../../models/others';
 import styles from '../styles';
 
-import { createLocalTodo, getLocalTodoAttachments, updateLocalTodo } from '../redux/actions';
+import { createLocalTodo, getLocalTodoAttachments, updateLocalTodo, markLocalTodoAsDoneWithDate } from '../redux/actions';
+import * as todoConstants from '../redux/constants';
 import { removeLocalAttachment } from '../../attachments/redux/actions';
 import { getAttachmentFolder } from '../../../helpers/Helpers';
 import AttachmentsList from '../../../customs/AttachmentsList';
 import UrlAttacher from '../../../customs/UrlAttacher';
 import TextArea from '../../../customs/rte/TextArea';
 import { isObjectContentChanged } from '../../../helpers/Assistant';
+import { DB_TIMESTAMP_FORMAT } from '../../../providers/databaseReader';
+import FlatDTPicker from '../../../customs/FlatDTPicker';
 
 const mapStateToProps = (state : any) => ({
     authStatus : state.appReducer.authStatus,
@@ -52,14 +54,16 @@ const mapStateToProps = (state : any) => ({
     newItem : state.todoReducer.newItem,
     updateItem : state.todoReducer.updateItem,
     getAttachments : state.todoReducer.getAttachments,
-    atmRemoval : state.attachmentReducer.atmRemoval
+    atmRemoval : state.attachmentReducer.atmRemoval,
+    setDoneWithDate : state.todoReducer.setDoneWithDate
 });
 
 const mapActionsToProps = {
     createLocalTodo,
     updateLocalTodo,
     getLocalTodoAttachments,
-    removeLocalAttachment
+    removeLocalAttachment,
+    markLocalTodoAsDoneWithDate
 };
 
 const TodoDetail = (props : ITodoDetail) => {
@@ -67,6 +71,7 @@ const TodoDetail = (props : ITodoDetail) => {
     const [screenCover, setScreenCover] = React.useState({ message : EMPTY_STRING, visible : false });
     const [showPopover, setShowPopover] = React.useState(false);
     const [showUrlPopover, setShowUrlPopover] = React.useState(false);
+    const [showDoneDatePopover, setShowDoneDatePopover] = React.useState(false);
 
     const [showDatePicker, setShowDatePicker] = React.useState(false);
     const [showTimePicker, setShowTimePicker] = React.useState(false);
@@ -181,6 +186,22 @@ const TodoDetail = (props : ITodoDetail) => {
             }
         }
     }, [props.atmRemoval]);
+
+    React.useEffect(() => {
+        if (props.setDoneWithDate.action === todoConstants.MARK_LOCAL_TODO_AS_DONE_WITH_DATE_FAILED)
+            alert('Failed! An issue happened while marking Todo as Done. Please try again.');
+
+        if (props.setDoneWithDate.action === todoConstants.MARK_LOCAL_TODO_AS_DONE_WITH_DATE_SUCCESS)
+            Alert.alert(
+                "Success!",
+                "Your Todo has been marked as Done.",
+                [{
+                    text: 'OK',
+                    onPress: () => props.navigation.goBack()
+                }],
+                { cancelable: false }
+            );
+    }, [props.setDoneWithDate]);
 
     React.useEffect(() => {
         if (date && time) {
@@ -320,6 +341,11 @@ const TodoDetail = (props : ITodoDetail) => {
 
         const file = { type : url.type, url : url.value } as IFile;
         addItemAttachments(file);
+    }
+
+    const markDoneWithDate = (date : string) => {
+        setShowDoneDatePopover(false);
+        props.markLocalTodoAsDoneWithDate(item.id, date);
     }
 
     const confirmAndCancel = () => {
@@ -470,21 +496,21 @@ const TodoDetail = (props : ITodoDetail) => {
             </ScrollView>
 
             <ActionButtons actions={[
-                { name : 'Cancel', icon : faTimesCircle, type : ACTION_TYPES.DANGEROUS, callback : () => confirmAndCancel() },
-                { name : 'Done', icon : faCheckCircle, type : ACTION_TYPES.NORMAL, callback : () => confirmCreateOrUpdateTodo() }
+                { name : 'Mark As Done', icon : faTimesCircle, type : ACTION_TYPES.CAUTIOUS, callback : () => setShowDoneDatePopover(true) },
+                { name : item.id === 0 ? 'Save' : 'Update', icon : faCheckCircle, type : ACTION_TYPES.NORMAL, callback : () => confirmCreateOrUpdateTodo() }
             ]} />
 
             {
                 showDatePicker &&
                 <DateTimePicker mode='date' minimumDate={ new Date() } maximumDate={ moment((new Date()).toString()).add(15, 'y').toDate() } onChange={ handleDatePicker }
-                                value={ (item.dueDate && moment(item.dueDate).toDate()) || (new Date()) }
+                                value={ (item.dueDate && moment(item.dueDate, DB_TIMESTAMP_FORMAT).toDate()) || (new Date()) }
                 />
             }
 
             {
                 showTimePicker &&
                 <DateTimePicker mode='time' onChange={ handleTimePicker }
-                                value={ (item.dueDate && moment(item.dueDate).toDate()) || (new Date()) }
+                                value={ (item.dueDate && moment(item.dueDate, DB_TIMESTAMP_FORMAT).toDate()) || (new Date()) }
                 />
             }
 
@@ -501,6 +527,18 @@ const TodoDetail = (props : ITodoDetail) => {
 
             <Popover isVisible={ showUrlPopover } onRequestClose={ () => setShowUrlPopover(false) }>
                 <UrlAttacher getUrl={ updateUrl } />
+            </Popover>
+
+            <Popover isVisible={ showDoneDatePopover } onRequestClose={ () => setShowDoneDatePopover(false) }>
+                <FlatDTPicker
+                    title='Set a Done Date'
+                    values={{
+                        minDate : moment(item.createdOn, DB_TIMESTAMP_FORMAT).toDate(),
+                        maxDate : new Date(),
+                        default : new Date()
+                    }}
+                    callback={ markDoneWithDate }
+                />
             </Popover>
 
             <ScreenCover message={ screenCover.message } visible={ screenCover.visible } />

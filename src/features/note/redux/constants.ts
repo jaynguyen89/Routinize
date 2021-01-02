@@ -1,6 +1,5 @@
 import INote from "../../../models/INote";
 import INoteSegment from "../../../models/INoteSegment";
-import { EMPTY_STRING } from '../../../helpers/Constants';
 import { IFile, IMedia } from '../../../models/others';
 import IAddress from '../../../models/IAddress';
 
@@ -12,7 +11,9 @@ export interface IActiveNotes {
     getNotes : any,
     getLocalNotes : any,
     setNoteTypeToCreate : any,
-    resetAttachmentRemovalStatus : any
+    resetAttachmentRemovalStatus : any,
+    setLocalNoteEmphasized : any,
+    highlightNote : any
 }
 
 export interface INoteRow {
@@ -20,7 +21,8 @@ export interface INoteRow {
     item : INote,
     navigation : any,
     setNoteDetailItem : any,
-    resetAttachmentRemovalStatus : any
+    resetAttachmentRemovalStatus : any,
+    toggleHighlight : any
 }
 
 export interface INoteDetail {
@@ -81,3 +83,9 @@ export type T_GET_ALL_LOCAL_NOTES_FAILED = typeof GET_ALL_LOCAL_NOTES_FAILED;
 
 export const GET_ALL_LOCAL_NOTES_SUCCESS = 'GET_ALL_LOCAL_NOTES_SUCCESS';
 export type T_GET_ALL_LOCAL_NOTES_SUCCESS = typeof GET_ALL_LOCAL_NOTES_SUCCESS;
+
+export const HIGHLIGHT_LOCAL_NOTE_SUCCESS = 'HIGHLIGHT_LOCAL_NOTE_SUCCESS';
+export type T_HIGHLIGHT_LOCAL_NOTE_SUCCESS = typeof HIGHLIGHT_LOCAL_NOTE_SUCCESS;
+
+export const HIGHLIGHT_LOCAL_NOTE_FAILED = 'HIGHLIGHT_LOCAL_NOTE_FAILED';
+export type T_HIGHLIGHT_LOCAL_NOTE_FAILED = typeof HIGHLIGHT_LOCAL_NOTE_FAILED;

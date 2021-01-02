@@ -85,6 +85,7 @@ CREATE TABLE "todos" (
      "createdOn" TEXT DEFAULT NULL,
      "dueDate" TEXT DEFAULT NULL,
      "doneDate" TEXT DEFAULT NULL,
+     "deletedOn" TEXT DEFAULT NULL,
      PRIMARY KEY ("id" AUTOINCREMENT)
 );
 
@@ -93,6 +94,7 @@ CREATE TABLE "notes" (
      "emphasized" INTEGER NOT NULL DEFAULT 0,
      "title" TEXT DEFAULT NULL,
      "createdOn" TEXT DEFAULT NULL,
+     "deletedOn" TEXT DEFAULT NULL,
      PRIMARY KEY ("id" AUTOINCREMENT)
 );
 

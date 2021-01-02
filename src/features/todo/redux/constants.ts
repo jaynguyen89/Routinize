@@ -12,7 +12,9 @@ export interface ITodos {
     settings : any,
     setTodoTypeToCreate : any,
     getAllLocalTodos : any,
-    resetAttachmentRemovalStatus : any
+    resetAttachmentRemovalStatus : any,
+    markLocalTodoAsDoneOrImportant : any,
+    setDoneOrImportant : any
 }
 
 export interface ITodoCard {
@@ -21,7 +23,8 @@ export interface ITodoCard {
     settings : any,
     item : ITodo,
     setTodoDetailItem : any,
-    resetAttachmentRemovalStatus : any
+    resetAttachmentRemovalStatus : any,
+    setDoneOrImportant : any
 }
 
 export interface ITodoDetail {
@@ -38,7 +41,9 @@ export interface ITodoDetail {
     getLocalTodoAttachments : any,
     removeLocalAttachment : any,
     atmSelection : any,
-    atmRemoval : any
+    atmRemoval : any,
+    markLocalTodoAsDoneWithDate : any,
+    setDoneWithDate : any
 }
 
 export const GOTO_NEW_TODO_PERSONAL = 'GOTO_NEW_TODO_PERSONAL';
@@ -82,3 +87,15 @@ export type T_GET_LOCAL_TODO_ATTACHMENTS_FAILED = typeof GET_LOCAL_TODO_ATTACHME
 
 export const GET_LOCAL_TODO_ATTACHMENTS_SUCCESS = 'GET_LOCAL_TODO_ATTACHMENTS_SUCCESS';
 export type T_GET_LOCAL_TODO_ATTACHMENTS_SUCCESS = typeof GET_LOCAL_TODO_ATTACHMENTS_SUCCESS;
+
+export const MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_SUCCESS = 'MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_SUCCESS';
+export type T_MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_SUCCESS = typeof MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_SUCCESS;
+
+export const MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_FAILED = 'MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_FAILED';
+export type T_MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_FAILED = typeof MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_FAILED;
+
+export const MARK_LOCAL_TODO_AS_DONE_WITH_DATE_SUCCESS = 'MARK_LOCAL_TODO_AS_DONE_WITH_DATE_SUCCESS';
+export type T_MARK_LOCAL_TODO_AS_DONE_WITH_DATE_SUCCESS = typeof MARK_LOCAL_TODO_AS_DONE_WITH_DATE_SUCCESS;
+
+export const MARK_LOCAL_TODO_AS_DONE_WITH_DATE_FAILED = 'MARK_LOCAL_TODO_AS_DONE_WITH_DATE_FAILED';
+export type T_MARK_LOCAL_TODO_AS_DONE_WITH_DATE_FAILED = typeof MARK_LOCAL_TODO_AS_DONE_WITH_DATE_FAILED;

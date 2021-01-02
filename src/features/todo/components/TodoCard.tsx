@@ -13,13 +13,14 @@ import ITodo from '../../../models/ITodo';
 import styles from '../styles';
 import { baseFontSize, Typography } from '../../../shared/typography';
 import { faBomb, faImage, faMapMarkerAlt, faStopwatch, faSun, faUser } from '@fortawesome/free-solid-svg-icons';
-import { SPACE_MONO } from '../../../helpers/Constants';
+import { EMPTY_STRING, SPACE_MONO } from '../../../helpers/Constants';
 import { ACTION_TYPES, DATETIME_FORMATS, MEDIA_TYPES } from '../../../shared/enums';
 
 import { setTodoDetailItem } from '../redux/actions';
 import { getTimeElapse } from '../../../helpers/Helpers';
 import RNFS from 'react-native-fs';
 import { resetAttachmentRemovalStatus } from '../../attachments/redux/actions';
+import { sharedStyles } from '../../../shared/styles';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -32,6 +33,14 @@ const mapActionsToProps = {
 
 const TodoCard = (props : ITodoCard) => {
     const [showPopover, setShowPopover] = React.useState(false);
+    const [timeElapse, setTimeElapse] = React.useState(EMPTY_STRING);
+
+    React.useEffect(() => {
+        if (props.item.dueDate)
+            setTimeElapse(
+                getTimeElapse(moment().format(DATETIME_FORMATS.COMPACT_H_DMY), props.item.dueDate)
+            );
+    }, [props.item]);
 
     const viewTodoDetails = (todo : ITodo) => {
         props.setTodoDetailItem(todo);
@@ -118,15 +127,20 @@ const TodoCard = (props : ITodoCard) => {
                             </Text>
                         }
 
-                        <Text style={[ { flex : 3 }, Typography.small ]}>
-                            <FontAwesomeIcon icon={ faStopwatch } size={ baseFontSize * 1.3 } />
-                            {
-                                (
-                                    props.item.dueDate &&
-                                    SPACE_MONO + getTimeElapse(moment().format(DATETIME_FORMATS.COMPACT_H_DMY), props.item.dueDate) + ' left'
-                                ) || '&#8734;'
-                            }
-                        </Text>
+                        {
+                            props.item.dueDate &&
+                            <Text style={[
+                                { flex : 3, color : timeElapse.toLowerCase() === 'expired' ? sharedStyles.btnDanger.backgroundColor : props.settings.theme.black.color },
+                                Typography.small ]}
+                            >
+                                <FontAwesomeIcon icon={ faStopwatch } size={ baseFontSize * 1.3 } />
+                                {
+                                    (
+                                        SPACE_MONO + (timeElapse.toLowerCase() === 'expired' ? timeElapse : timeElapse + ' left')
+                                    ) || '&#8734;'
+                                }
+                            </Text>
+                        }
 
                         {/*{//Files*/}
                         {/*    props.item.attachments &&*/}
@@ -155,8 +169,10 @@ const TodoCard = (props : ITodoCard) => {
                 <PopoverContent
                     actions={[
                         { name : 'Constraints', icon : 'file-tree', type : ACTION_TYPES.NORMAL, callback : () => console.log('View Constraints') },
-                        { name : 'Mark as Done', icon : 'check-bold', type : ACTION_TYPES.NORMAL, callback : () => console.log('Mark Done') },
-                        { name : 'Make Important', icon : 'weather-sunny', type : ACTION_TYPES.NORMAL, callback : () => console.log('Important') },
+                        { name : 'Mark as Done', icon : 'check-bold', type : ACTION_TYPES.NORMAL, callback : () => props.setDoneOrImportant(props.item.id, 'doneDate', props.item.emphasized) },
+                        props.item.emphasized ? { name : 'Un-mark Important', icon : 'weather-sunny', type : ACTION_TYPES.NORMAL, callback : () => props.setDoneOrImportant(props.item.id, 'emphasized', props.item.emphasized) }
+                                              : { name : 'Mark Important', icon : 'weather-sunny', type : ACTION_TYPES.NORMAL, callback : () => props.setDoneOrImportant(props.item.id, 'emphasized', props.item.emphasized) },
+                        { name : 'Archive', icon : 'trash-can', type : ACTION_TYPES.CAUTIOUS, callback : () => console.log('Archive') },
                         { name : 'Delete', icon : 'delete', type : ACTION_TYPES.DANGEROUS, callback : () => console.log('Delete') }
                     ]}
                 />
