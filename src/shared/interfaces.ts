@@ -43,7 +43,8 @@ export interface IAttachmentsList {
         viewAttachment : any,
         removeAttachment : any
     },
-    removal : IRemovalStatus
+    removal : IRemovalStatus,
+    segmentIndex? : number
 }
 
 export interface ITextArea {

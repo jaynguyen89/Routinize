@@ -10,7 +10,8 @@ export interface IAttachments {
 
 export interface IRemovalStatus {
     id : number,
-    progress : string
+    progress : string,
+    segmentIndex? : number
 }
 
 export const REMOVE_LOCAL_ATTACHMENT = 'REMOVE_LOCAL_ATTACHMENT';
@@ -21,6 +22,9 @@ export type T_REMOVE_LOCAL_ATTACHMENT_FAILED = typeof REMOVE_LOCAL_ATTACHMENT_FA
 
 export const REMOVE_LOCAL_ATTACHMENT_SUCCESS = 'REMOVE_LOCAL_ATTACHMENT_SUCCESS';
 export type T_REMOVE_LOCAL_ATTACHMENT_SUCCESS = typeof REMOVE_LOCAL_ATTACHMENT_SUCCESS;
+
+export const RESET_ATTACHMENT_REMOVAL_STATUS = 'RESET_ATTACHMENT_REMOVAL_STATUS';
+export  type T_RESET_ATTACHMENT_REMOVAL_STATUS = typeof RESET_ATTACHMENT_REMOVAL_STATUS;
 
 export const ADD_LOCAL_ATTACHMENT = 'ADD_LOCAL_ATTACHMENT';
 export type T_ADD_LOCAL_ATTACHMENT = typeof ADD_LOCAL_ATTACHMENT;

@@ -36,6 +36,7 @@ export const insertTodo = async (table : DATABASE_TABLES, data : ITodo) : Promis
     ]);
 
     if (response.rowsAffected === 0) return 0;
+    await executeQuery('BEGIN TRANSACTION;');
 
     let insertId = response.insertId;
     let result : boolean = true;
@@ -44,14 +45,18 @@ export const insertTodo = async (table : DATABASE_TABLES, data : ITodo) : Promis
     if (result && data.places) result = await insertPlaces(data.places, DATABASE_TABLES.TODOS, insertId);
 
     if (!result) {
+        await executeQuery('ROLLBACK; END TRANSACTION;');
         await deleteEntry(table, insertId);
         return 0;
     }
 
+    await executeQuery('COMMIT;');
     return insertId;
 };
 
 export const updateTodo = async (table : DATABASE_TABLES, data : ITodo) : Promise<number> => {
+    await executeQuery('BEGIN TRANSACTION;');
+
     const query = getQueryFor(table, 'update');
     const response : any = await executeQuery(query, [
         data.emphasized ? 1 : 0,
@@ -63,7 +68,10 @@ export const updateTodo = async (table : DATABASE_TABLES, data : ITodo) : Promis
         data.id
     ]);
 
-    if (response.rowsAffected === 0) return -1;
+    if (response.rowsAffected === 0) {
+        await executeQuery('ROLLBACK; END TRANSACTION;');
+        return -1;
+    }
 
     const newAttachments = data.attachments?.filter(attachment => attachment.id === 0);
     const newPlaces = data.places?.filter(place => place.id === 0);
@@ -72,7 +80,13 @@ export const updateTodo = async (table : DATABASE_TABLES, data : ITodo) : Promis
     if (newAttachments) result = await insertAttachments(newAttachments, DATABASE_TABLES.TODOS, data.id);
     if (result && newPlaces) result = await insertPlaces(newPlaces, DATABASE_TABLES.TODOS, data.id);
 
-    return !result ? 0 : data.id;
+    if (!result) {
+        await executeQuery('ROLLBACK; END TRANSACTION;');
+        return 0;
+    }
+
+    await executeQuery('COMMIT;');
+    return data.id;
 };
 
 export const insertNote = async (table : DATABASE_TABLES, data : INote) : Promise<number> => {
@@ -84,28 +98,66 @@ export const insertNote = async (table : DATABASE_TABLES, data : INote) : Promis
     ]);
 
     if (response.rowsAffected === 0) return 0;
+    await executeQuery('BEGIN TRANSACTION;');
 
     let insertId = response.insertId;
     let result : boolean = true;
 
-    let insertedSegmentIds = new Array<number>();
     for (let i = 0; i < data.segments.length; i++) {
         const segmentId = await insertNoteSegment(data.segments[i], insertId);
-        result = segmentId !== 0;
 
+        result = segmentId !== 0;
         if (!result) break;
-        insertedSegmentIds.push(segmentId);
     }
 
-    if (!result) removeInsertedData(DATABASE_TABLES.SEGMENTS, insertedSegmentIds);
+    if (!result) {
+        await executeQuery('ROLLBACK; END TRANSACTION;');
+        await deleteEntry(DATABASE_TABLES.NOTES, insertId);
+        return 0;
+    }
+
+    await executeQuery('COMMIT;');
     return insertId;
 }
 
 export const updateNote = async (table : DATABASE_TABLES, data : INote) : Promise<boolean> => {
+    await executeQuery('BEGIN TRANSACTION;');
+
     const query = getQueryFor(table, 'update');
     const result : any = await executeQuery(query, [data.emphasized, data.title, data.id]);
 
-    return result.rowsAffected !== 0;
+    if (result.rowsAffected === 0) {
+        await executeQuery('ROLLBACK; END TRANSACTION;');
+        return false;
+    }
+
+    const unsavedSegments = data.segments.filter(segment => segment.id === 0);
+    let saveSegmentResult : boolean = true;
+    for (let i = 0; i < unsavedSegments.length; i++) {
+        const segmentId = await insertNoteSegment(unsavedSegments[i], data.id);
+        if (segmentId === 0) break;
+    }
+
+    if (!saveSegmentResult) {
+        await executeQuery('ROLLBACK; END TRANSACTION;');
+        return false;
+    }
+
+    for (let i = 0; i < data.segments.length; i++) {
+        if (data.segments[i].id === 0) continue;
+
+        const segmentToUpdate = data.segments[i];
+        const updateSegmentQuery = getQueryFor(DATABASE_TABLES.SEGMENTS, 'update');
+        const updateSegmentResult : any = await executeQuery(updateSegmentQuery, [segmentToUpdate.body, segmentToUpdate.id]);
+
+        if (updateSegmentResult.rowsAffected === 0) {
+            await executeQuery('ROLLBACK; END TRANSACTION;');
+            return false;
+        }
+    }
+
+    await executeQuery('COMMIT;');
+    return true;
 }
 
 const insertNoteSegment = async (segment : INoteSegment, noteId : number) : Promise<number> => {
@@ -120,19 +172,12 @@ const insertNoteSegment = async (segment : INoteSegment, noteId : number) : Prom
     if (segment.places) result = await insertPlaces(segment.places, DATABASE_TABLES.SEGMENTS, insertId);
     if (result && segment.attachments) result = await insertAttachments(segment.attachments, DATABASE_TABLES.SEGMENTS, insertId);
 
-    if (!result) {
-        await deleteEntry(DATABASE_TABLES.SEGMENTS, insertId);
-        return 0;
-    }
-
-    return insertId;
+    return !result ? 0 : insertId;
 }
 
 export const insertAttachments = async (
     attachments : Array<IMedia | IFile>, assetType : string, assetId : number
 ) : Promise<boolean> => {
-    let insertedIds : Array<number> = [];
-
     for (let i = 0; i < attachments.length; i++) {
         const attachment = attachments[i];
 
@@ -145,12 +190,7 @@ export const insertAttachments = async (
             attachment.url || null
         ]);
 
-        if (response.rowsAffected === 0) {
-            removeInsertedData(DATABASE_TABLES.ATTACHMENTS, insertedIds);
-            return false;
-        }
-
-        insertedIds.push(response.insertId);
+        if (response.rowsAffected === 0) return false;
     }
 
     return true;
@@ -172,9 +212,6 @@ export const getAttachmentsFor = async (assetType : string, assetId : number) : 
 export const insertPlaces = async (
     places : Array<IAddress>, assetType : string, assetId : number
 ) : Promise<boolean> => {
-    let insertedAddressIds : Array<number> = [];
-    let insertedPlaceIds : Array<number> = [];
-
     for (let i = 0; i < places.length; i++) {
         const address = places[i];
 
@@ -191,10 +228,7 @@ export const insertPlaces = async (
             address.coordination.long
         ]);
 
-        if (addressResponse.rowsAffected === 0) {
-            removeInsertedData(DATABASE_TABLES.ADDRESS, insertedAddressIds);
-            return false;
-        }
+        if (addressResponse.rowsAffected === 0) return false;
 
         const placeQuery = getQueryFor(DATABASE_TABLES.PLACES, 'insert');
         const placeResponse : any = await executeQuery(placeQuery, [
@@ -203,13 +237,7 @@ export const insertPlaces = async (
             assetType
         ]);
 
-        if (placeResponse.rowsAffected === 0) {
-            removeInsertedData(DATABASE_TABLES.PLACES, insertedPlaceIds);
-            return false;
-        }
-
-        insertedAddressIds.push(addressResponse.insertId);
-        insertedPlaceIds.push(placeResponse.insertId);
+        if (placeResponse.rowsAffected === 0) return false;
     }
 
     return true;

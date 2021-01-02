@@ -15,6 +15,7 @@ import { baseFontSize, Typography } from "../../../shared/typography";
 import { ACTION_TYPES } from "../../../shared/enums";
 
 import { setNoteDetailItem } from "../redux/actions";
+import { resetAttachmentRemovalStatus } from '../../attachments/redux/actions';
 import {sharedStyles} from "../../../shared/styles";
 
 const mapStateToProps = (state : any) => ({
@@ -22,13 +23,15 @@ const mapStateToProps = (state : any) => ({
 });
 
 const mapActionsToProps = {
-    setNoteDetailItem
+    setNoteDetailItem,
+    resetAttachmentRemovalStatus
 };
 
 const NoteRow = (props : INoteRow) => {
     const [showPopover, setShowPopover] = React.useState(false);
 
     const viewNoteDetails = (note : INote) => {
+        props.resetAttachmentRemovalStatus();
         props.setNoteDetailItem(note);
         props.navigation.navigate('Note Details - Personal');
     }

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { executeRaw, getData, insertNote, updateNote } from '../../../providers/databaseReader';
+import { deleteEntry, executeRaw, insertNote, updateNote } from '../../../providers/databaseReader';
 import { removeFileOnLocalStorage } from '../../../helpers/Assistant';
 import INote from '../../../models/INote';
 import INoteSegment from '../../../models/INoteSegment';
@@ -28,7 +28,7 @@ export const getLocalNotesFromDb = () : Promise<any> => {
 }
 
 export const updateLocalNoteToDb = (note : INote, removedSegmentIndexes : Array<number>) : Promise<boolean> => {
-    note.segments = removeSegmentIfNecessary(_.cloneDeep(note.segments), removedSegmentIndexes);
+    note.segments = removeSegmentIfNecessary(note.segments, removedSegmentIndexes);
     return updateNote(DATABASE_TABLES.NOTES, note);
 }
 
@@ -39,8 +39,16 @@ const removeSegmentIfNecessary = (segments : Array<INoteSegment>, removedSegment
     removedSegments.forEach((segment : INoteSegment) => {
         if (segment.attachments && segment.attachments.length > 0)
             segment.attachments.forEach((attachment : IMedia | IFile) => {
-                if (attachment.name) removeFileOnLocalStorage(attachment.name, attachment.type)
+                if (attachment.name) removeFileOnLocalStorage(attachment.name, attachment.type);
+
+                if (segment.id !== 0 && attachment.url)
+                    deleteEntry(DATABASE_TABLES.ATTACHMENTS, attachment.id)
+                        .then(response => console.log('Removed attachment #' + attachment.id));
             });
+
+        if (segment.id !== 0)
+            deleteEntry(DATABASE_TABLES.SEGMENTS, segment.id)
+                .then(result => console.log('Removed segment #' + segment.id));
     });
 
     return segments;

@@ -11,14 +11,16 @@ export interface IActiveNotes {
     authStatus : boolean,
     getNotes : any,
     getLocalNotes : any,
-    setNoteTypeToCreate : any
+    setNoteTypeToCreate : any,
+    resetAttachmentRemovalStatus : any
 }
 
 export interface INoteRow {
     settings : any,
     item : INote,
     navigation : any,
-    setNoteDetailItem : any
+    setNoteDetailItem : any,
+    resetAttachmentRemovalStatus : any
 }
 
 export interface INoteDetail {
@@ -27,6 +29,8 @@ export interface INoteDetail {
     settings? : any,
     item : INote,
     isPersonal : boolean,
+    saveNote : any,
+    updateNote : any,
     saveLocalNote : any,
     updateLocalNote : any
 }

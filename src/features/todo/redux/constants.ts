@@ -11,7 +11,8 @@ export interface ITodos {
     authStatus : boolean,
     settings : any,
     setTodoTypeToCreate : any,
-    getAllLocalTodos : any
+    getAllLocalTodos : any,
+    resetAttachmentRemovalStatus : any
 }
 
 export interface ITodoCard {
@@ -19,7 +20,8 @@ export interface ITodoCard {
     key : string | number,
     settings : any,
     item : ITodo,
-    setTodoDetailItem : any
+    setTodoDetailItem : any,
+    resetAttachmentRemovalStatus : any
 }
 
 export interface ITodoDetail {

@@ -10,6 +10,7 @@ import NoteSegmentCard from './NoteSegmentCard';
 import Popover from 'react-native-popover-view/dist/Popover';
 import PopoverMenu from '../../../customs/PopoverMenu';
 import { ACTION_TYPES, ACTIONS } from '../../../shared/enums';
+import * as noteConstants from '../redux/constants';
 import { INoteDetail } from '../redux/constants';
 import { IFile, IMedia } from '../../../models/others';
 import IAddress from '../../../models/IAddress';
@@ -29,17 +30,21 @@ import {
     faUsers
 } from '@fortawesome/free-solid-svg-icons';
 import { EMPTY_STRING } from '../../../helpers/Constants';
-import { EMPTY_NOTE, EMPTY_SEGMENT } from '../../../models/INote';
+import INote, { EMPTY_NOTE, EMPTY_SEGMENT } from '../../../models/INote';
 import ActionButtons from '../../../customs/ActionButtons';
 import ScreenCover from '../../../customs/ScreenCover';
 
 import { saveLocalNote, updateLocalNote } from '../redux/actions';
+import { isObjectContentChanged, removeFileOnLocalStorage } from '../../../helpers/Assistant';
+import md5 from 'md5';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,
     isPersonal : state.noteReducer.isPersonal,
     authStatus : state.appReducer.authStatus,
-    item : state.noteReducer.noteItem
+    item : state.noteReducer.noteItem,
+    saveNote : state.noteReducer.saveNote,
+    updateNote : state.noteReducer.updateNote
 });
 
 const mapActionsToProps = {
@@ -49,7 +54,8 @@ const mapActionsToProps = {
 
 const NoteDetail = (props : INoteDetail) => {
     const [action, setAction] = React.useState(ACTIONS.NONE);
-    const [item, setItem] = React.useState(_.cloneDeep(EMPTY_NOTE));
+    const [item, setItem] = React.useState(_.cloneDeep(EMPTY_NOTE) as INote);
+    const [itemBackup, setItemBackup] = React.useState(_.cloneDeep(EMPTY_NOTE) as INote);
     const [segmentIndexesToRemove, setSegmentIndexesToRemove] = React.useState(new Array<number>());
     const [screenCover, setScreenCover] = React.useState({ message : EMPTY_STRING, visible : false });
 
@@ -72,8 +78,47 @@ const NoteDetail = (props : INoteDetail) => {
 
     React.useEffect(() => {
         setItem(props.item || _.cloneDeep(EMPTY_NOTE));
+        setItemBackup(props.item || _.cloneDeep(EMPTY_NOTE));
         setPersonal((props.item && props.item.isPersonal) || !props.authStatus || props.isPersonal);
-    }, [props]);
+    }, [props.item, props.isPersonal]);
+
+    React.useEffect(() => {
+        setScreenCover({ message : EMPTY_STRING, visible : false });
+
+        if (action !== ACTIONS.NONE && props.saveNote.action !== noteConstants.SAVE_LOCAL_NOTE)
+            Alert.alert(
+                props.saveNote.action === noteConstants.SAVE_LOCAL_NOTE_SUCCESS ? 'Success!' : 'Failed!',
+                props.saveNote.action === noteConstants.SAVE_LOCAL_NOTE_SUCCESS ? 'Your Note has has been saved.' : 'An issue happened while saving Note. Please try again.',
+                [{
+                    text: 'OK',
+                    onPress : () => {
+                        if (props.saveNote.action === noteConstants.SAVE_LOCAL_NOTE_FAILED) return;
+                        setAction(ACTIONS.NONE);
+                        props.navigation.goBack();
+                    }
+                }],
+                { cancelable: false }
+            );
+    }, [props.saveNote]);
+
+    React.useEffect(() => {
+        setScreenCover({ message : EMPTY_STRING, visible : false });
+
+        if (action !== ACTIONS.NONE && props.updateNote.action !== noteConstants.UPDATE_LOCAL_NOTE)
+            Alert.alert(
+                props.updateNote.action === noteConstants.UPDATE_LOCAL_NOTE_SUCCESS ? 'Success!' : 'Failed!',
+                props.updateNote.action === noteConstants.UPDATE_LOCAL_NOTE_SUCCESS ? 'Your Note has has been updated.' : 'An issue happened while updating Note. Please try again.',
+                [{
+                    text: 'OK',
+                    onPress : () => {
+                        if (props.updateNote.action === noteConstants.UPDATE_LOCAL_NOTE_FAILED) return;
+                        setAction(ACTIONS.NONE);
+                        props.navigation.goBack();
+                    }
+                }],
+                { cancelable: false }
+            );
+    }, [props.updateNote]);
 
     const openPreference = () => {
         setShowMenuPopover(false);
@@ -87,7 +132,10 @@ const NoteDetail = (props : INoteDetail) => {
 
     const addSegment = () => {
         setShowMenuPopover(false);
-        const emptySegment = item.segments.filter((segment : INoteSegment) => segment.body.length === 0);
+
+        const clone = _.cloneDeep(item);
+        const emptySegment = clone.segments.filter((segment, i) => !segmentIndexesToRemove.includes(i))
+                                           .filter((segment : INoteSegment) => segment.body.length === 0);
 
         if (emptySegment.length !== 0) {
             Alert.alert(
@@ -109,21 +157,12 @@ const NoteDetail = (props : INoteDetail) => {
     const removeSegment = (segmentIndex : number) => {
         Alert.alert(
             'Remove segment.',
-            'Are you sure to remove this segment? This can\'t be undone.',
+            'Are you sure to remove this segment?',
             [{ text: 'NO', onPress: () => { } },
                 {
                     text : 'YES', onPress : () => {
-                        if (item.segments.length === 1) return;
-
                         let segmentIndexes = _.cloneDeep(segmentIndexesToRemove);
                         segmentIndexes.push(segmentIndex);
-
-                        if (segmentIndexes.length === item.segments.length) {
-                            let segments = _.cloneDeep(item.segments);
-                            segments.push(_.cloneDeep(EMPTY_SEGMENT));
-                            setItem({ ...item, segments });
-                        }
-
                         setSegmentIndexesToRemove(segmentIndexes);
                     }
                 }
@@ -131,6 +170,17 @@ const NoteDetail = (props : INoteDetail) => {
             { cancelable: false }
         );
     }
+
+    React.useEffect(() => {
+        const clone = _.cloneDeep(item);
+        clone.segments = clone.segments.filter((segment, i) => !segmentIndexesToRemove.includes(i));
+
+        if (clone.segments.length === 0) {
+            let segments = _.cloneDeep(item.segments);
+            segments.push(_.cloneDeep(EMPTY_SEGMENT));
+            setItem({ ...item, segments });
+        }
+    }, [segmentIndexesToRemove])
 
     const undoSegmentRemoval = () => {
         setShowMenuPopover(false);
@@ -157,7 +207,6 @@ const NoteDetail = (props : INoteDetail) => {
         if (field === 'places' && Array.isArray(data)) segment.places = data as Array<IAddress>;
         if (field === 'places' && !Array.isArray(data)) {
             if (!segment.places) segment.places = new Array<IAddress>();
-
             segment.places.push(data as IAddress);
         }
 
@@ -166,26 +215,38 @@ const NoteDetail = (props : INoteDetail) => {
         setItem({ ...item, segments });
     }
 
-    const confirmAndGoBack = () =>
-        Alert.alert(
-            "Cancel Note",
-            "Your Note has not been saved. All details you have entered will be lost.\n\nAre you sure?",
-            [
-                {
-                    text: "No, back to my Note.",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                },
-                {
-                    text: 'Yes, I\'m sure.',
-                    onPress: () => props.navigation.goBack()
-                }
-            ],
-            { cancelable: false }
-        );
+    const confirmAndGoBack = () => {
+        const clone = _.cloneDeep(item);
+        clone.segments = clone.segments.filter((segment, i) => !segmentIndexesToRemove.includes(i));
+
+        if (isObjectContentChanged(clone, itemBackup))
+            Alert.alert(
+                "Cancel Note",
+                "Your Note has not been saved. All details you have entered will be lost.\n\nAre you sure?",
+                [
+                    {
+                        text: "No, back to my Note.",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                    },
+                    {
+                        text: 'Yes, I\'m sure.',
+                        onPress: () => {
+                            removeAttachmentsIfAny();
+                            props.navigation.goBack();
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
+        else
+            props.navigation.goBack();
+    }
 
     const createOrUpdateNote = () => {
-        if (item.segments.length === 1 && item.segments[0].body.length === 0) {
+        const clone = _.cloneDeep(item);
+        clone.segments = clone.segments.filter((segment, i) => !segmentIndexesToRemove.includes(i));
+        if (clone.segments.length === 1 && clone.segments[0].body.length === 0) {
             alert('Note has no content to save.');
             return;
         }
@@ -200,6 +261,15 @@ const NoteDetail = (props : INoteDetail) => {
             props.updateLocalNote(item, segmentIndexesToRemove);
             setAction(ACTIONS.UPDATE);
         }
+    }
+
+    const removeAttachmentsIfAny = () => {
+        item.segments.forEach((segment : INoteSegment) => {
+            if (segment.attachments?.length !== 0)
+                segment.attachments?.forEach(attachment => {
+                    if (attachment.name) removeFileOnLocalStorage(attachment.name, attachment.type);
+                });
+        });
     }
 
     return (
@@ -223,16 +293,28 @@ const NoteDetail = (props : INoteDetail) => {
                 </View>
 
                 {
-                    item.segments
-                        .filter((segment : INoteSegment, i : number) => !segmentIndexesToRemove.includes(i))
-                        .map((segment : INoteSegment, i : number) =>
-                            <NoteSegmentCard key={ i }
-                                segmentIndex={ i }
-                                segment={ segment }
-                                removeSegment={ removeSegment }
-                                updateNoteSegment={ updateNoteSegment }
-                            />
-                        )
+                    item.segments.map((segment : INoteSegment, i : number) => {
+                        if (!segmentIndexesToRemove.includes(i))
+                            return (
+                                <NoteSegmentCard key={ i }
+                                             segmentIndex={ i }
+                                             segment={ segment }
+                                             removeSegment={ removeSegment }
+                                             updateNoteSegment={ updateNoteSegment }
+                                />
+                            );
+                    })
+
+                    // item.segments
+                    //     .filter((segment : INoteSegment, i : number) => !segmentIndexesToRemove.includes(i))
+                    //     .map((segment : INoteSegment, i : number) =>
+                    //         <NoteSegmentCard key={ i }
+                    //             segmentIndex={ i }
+                    //             segment={ segment }
+                    //             removeSegment={ removeSegment }
+                    //             updateNoteSegment={ updateNoteSegment }
+                    //         />
+                    //     )
                 }
             </ScrollView>
 

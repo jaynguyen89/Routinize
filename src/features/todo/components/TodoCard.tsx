@@ -19,13 +19,15 @@ import { ACTION_TYPES, DATETIME_FORMATS, MEDIA_TYPES } from '../../../shared/enu
 import { setTodoDetailItem } from '../redux/actions';
 import { getTimeElapse } from '../../../helpers/Helpers';
 import RNFS from 'react-native-fs';
+import { resetAttachmentRemovalStatus } from '../../attachments/redux/actions';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
 });
 
 const mapActionsToProps = {
-    setTodoDetailItem
+    setTodoDetailItem,
+    resetAttachmentRemovalStatus
 };
 
 const TodoCard = (props : ITodoCard) => {
@@ -33,6 +35,7 @@ const TodoCard = (props : ITodoCard) => {
 
     const viewTodoDetails = (todo : ITodo) => {
         props.setTodoDetailItem(todo);
+        props.resetAttachmentRemovalStatus();
         props.navigation.navigate('Todo Details - Personal');
     }
 

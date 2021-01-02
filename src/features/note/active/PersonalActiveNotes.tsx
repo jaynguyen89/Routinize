@@ -22,6 +22,7 @@ import CustomError from '../../../customs/CustomError';
 import Message from '../../../customs/Message';
 
 import { getLocalNotes } from '../redux/actions';
+import { resetAttachmentRemovalStatus } from '../../attachments/redux/actions';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,
@@ -31,7 +32,8 @@ const mapStateToProps = (state : any) => ({
 
 const mapActionsToProps = {
     setNoteTypeToCreate,
-    getLocalNotes
+    getLocalNotes,
+    resetAttachmentRemovalStatus
 }
 
 const PersonalActiveNotes = (props : IActiveNotes) => {
@@ -63,6 +65,7 @@ const PersonalActiveNotes = (props : IActiveNotes) => {
 
     const gotoNewNote = () => {
         setShowPopover(false);
+        props.resetAttachmentRemovalStatus();
         props.setNoteTypeToCreate(true);
         props.navigation.navigate('New Note - Personal');
     }

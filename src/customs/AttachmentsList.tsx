@@ -20,63 +20,80 @@ const mapStateToProps = (state: any) => ({
     settings: state.settingsReducer.appSettings.settings
 });
 
-const mapActionsToProps = {};
-
 const AttachmentsList = (props: IAttachmentsList) => {
+    const [shouldShowRemovalStatusOnSegment, setShouldShowRemovalStatusOnSegment] = React.useState(false);
+
+    React.useEffect(() => {
+        if (props.segmentIndex == undefined || (props.removal.segmentIndex === props.segmentIndex))
+            setShouldShowRemovalStatusOnSegment(true);
+        else
+            setShouldShowRemovalStatusOnSegment(false);
+    }, [props.removal]);
+    
+    const removeAttachment = (item : any) => {
+        if (props.segmentIndex)
+            props.actions.removeAttachment(item.id, props.segmentIndex);
+        else
+            props.actions.removeAttachment(item.id);
+    }
+
     return (
         <>
             <View style={{ margin : 0, flexDirection : 'row' }}>
                 <FlatList data={ props.attachments } keyExtractor={ (item : IMedia | IFile) => item.name || generateRandomString() as string } horizontal={ true }
                     renderItem={ ({ item }) =>
-                        <View style={{ margin : 5 }}>
-                            <TouchableRipple style={ styles.imageWrapper } rippleColor={ props.settings.theme.btnPrimary.backgroundColor } onPress={ () => props.actions.viewAttachment(item.id) }>
-                                <View style={{ margin : 0 }}>
-                                    {
-                                        (
-                                            item.name && (item.type === MEDIA_TYPES.PHOTO || item.type === MEDIA_TYPES.VIDEO) &&
-                                            <Image source={{
-                                                        uri : 'file://' + RNFS.ExternalDirectoryPath + (item.type === MEDIA_TYPES.PHOTO ? '/images/' : '/videos/') + item.name
-                                                   }}
-                                                   style={ styles.imageThumb }
-                                            />
-                                        ) || (
-                                            (item.name &&
-                                              <Image source={ require('../../assets/file_attachment.png') } style={{ width : BASE_HEIGHT * 3, height : BASE_HEIGHT * 4, resizeMode : 'stretch' }} />
-                                            ) ||
-                                            <Image source={ require('../../assets/url_attachment.png') } style={{ width : BASE_HEIGHT * 3, height : BASE_HEIGHT * 4, resizeMode : 'stretch' }} />
-                                        )
-                                    }
-
-                                    <Text style={[ styles.fileType, Typography.regular, { fontWeight : 'bold' } ]}>
+                        (
+                            !(props.removal.id > 0 && props.removal.progress === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS && props.removal.id === item.id) &&
+                            <View style={{ margin : 5 }}>
+                                <TouchableRipple style={ styles.imageWrapper } rippleColor={ props.settings.theme.btnPrimary.backgroundColor } onPress={ () => props.actions.viewAttachment(item.id) }>
+                                    <View style={{ margin : 0 }}>
                                         {
                                             (
-                                                item.name && item.name.split('.')[1]
+                                                item.name && (item.type === MEDIA_TYPES.PHOTO || item.type === MEDIA_TYPES.VIDEO) &&
+                                                <Image source={{
+                                                            uri : 'file://' + RNFS.ExternalDirectoryPath + (item.type === MEDIA_TYPES.PHOTO ? '/images/' : '/videos/') + item.name
+                                                       }}
+                                                       style={ styles.imageThumb }
+                                                />
                                             ) || (
-                                                (item.type <= 2 && MEDIA_TYPES[item.type]) || FILE_TYPES[item.type]
+                                                (item.name &&
+                                                  <Image source={ require('../../assets/file_attachment.png') } style={{ width : BASE_HEIGHT * 3, height : BASE_HEIGHT * 4, resizeMode : 'stretch' }} />
+                                                ) ||
+                                                <Image source={ require('../../assets/url_attachment.png') } style={{ width : BASE_HEIGHT * 3, height : BASE_HEIGHT * 4, resizeMode : 'stretch' }} />
                                             )
                                         }
-                                    </Text>
-                                </View>
-                            </TouchableRipple>
 
-                            <TouchableRipple style={ styles.iconTouchable } rippleColor={ sharedStyles.btnDanger.backgroundColor } onPress={ () => props.actions.removeAttachment(item.id) }>
-                                <FontAwesomeIcon icon={ faTimes } size={ baseFontSize * 1.8 }
-                                                 style={ styles.iconThumb } color={ sharedStyles.btnDanger.backgroundColor } />
-                            </TouchableRipple>
+                                        <Text style={[ styles.fileType, Typography.regular, { fontWeight : 'bold' } ]}>
+                                            {
+                                                (
+                                                    item.name && item.name.split('.')[1]
+                                                ) || (
+                                                    (item.type <= 2 && MEDIA_TYPES[item.type]) || FILE_TYPES[item.type]
+                                                )
+                                            }
+                                        </Text>
+                                    </View>
+                                </TouchableRipple>
 
-                            {
-                                item.id !== 0 && item.id === props.removal.id &&
-                                <ActivityIndicator color={ props.settings.theme.backgroundPrimary.color }
-                                                   size={ baseFontSize * 2 }
-                                                   style={ styles.actionMarkerIcon }
-                                />
-                            }
-                        </View>
+                                <TouchableRipple style={ styles.iconTouchable } rippleColor={ sharedStyles.btnDanger.backgroundColor } onPress={ () => removeAttachment(item) }>
+                                    <FontAwesomeIcon icon={ faTimes } size={ baseFontSize * 1.8 }
+                                                     style={ styles.iconThumb } color={ sharedStyles.btnDanger.backgroundColor } />
+                                </TouchableRipple>
+
+                                {
+                                    item.id !== 0 && item.id === props.removal.id &&
+                                    <ActivityIndicator color={ props.settings.theme.backgroundPrimary.color }
+                                                       size={ baseFontSize * 2 }
+                                                       style={ styles.actionMarkerIcon }
+                                    />
+                                }
+                            </View>
+                        ) || <></>
                     } />
             </View>
 
             {
-                props.removal.progress === attachmentConstants.REMOVE_LOCAL_ATTACHMENT &&
+                shouldShowRemovalStatusOnSegment && props.removal.progress === attachmentConstants.REMOVE_LOCAL_ATTACHMENT &&
                 <Text style={[
                     {
                         textAlign: 'center',
@@ -90,7 +107,7 @@ const AttachmentsList = (props: IAttachmentsList) => {
             }
 
             {
-                props.removal.progress === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_FAILED &&
+                shouldShowRemovalStatusOnSegment && props.removal.progress === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_FAILED &&
                 <Text style={[
                     {
                         textAlign: 'center',
@@ -103,7 +120,7 @@ const AttachmentsList = (props: IAttachmentsList) => {
             }
 
             {
-                props.removal.progress === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS &&
+                shouldShowRemovalStatusOnSegment && props.removal.progress === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS &&
                 <Text style={[
                     {
                         textAlign: 'center',
@@ -116,6 +133,5 @@ const AttachmentsList = (props: IAttachmentsList) => {
 };
 
 export default connect(
-    mapStateToProps,
-    mapActionsToProps
+    mapStateToProps
 )(AttachmentsList);

@@ -17,6 +17,7 @@ import { baseFontSize } from '../../../shared/typography';
 import { ACTION_TYPES } from '../../../shared/enums';
 
 import { setTodoTypeToCreate, getAllLocalTodos } from '../redux/actions';
+import { resetAttachmentRemovalStatus } from '../../attachments/redux/actions';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,
@@ -26,7 +27,8 @@ const mapStateToProps = (state : any) => ({
 
 const mapActionsToProps = {
     setTodoTypeToCreate,
-    getAllLocalTodos
+    getAllLocalTodos,
+    resetAttachmentRemovalStatus
 }
 
 const PersonalActiveTodos = (props : ITodos) => {
@@ -50,6 +52,7 @@ const PersonalActiveTodos = (props : ITodos) => {
 
     const gotoNewTodo = () => {
         setShowPopover(false);
+        props.resetAttachmentRemovalStatus();
         props.setTodoTypeToCreate(true);
         props.navigation.navigate('New Todo - Personal');
     }

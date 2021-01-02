@@ -15,14 +15,10 @@ import * as ImagePicker from 'react-native-image-picker';
 import DocumentPicker from 'react-native-document-picker';
 import md5 from 'md5';
 import RNFS from 'react-native-fs';
-import { EMPTY_STRING, SPACE_MONO } from '../../../helpers/Constants';
+import { EMPTY_STRING } from '../../../helpers/Constants';
 import * as attachmentConstants from '../../attachments/redux/constants';
 import { IRemovalStatus } from '../../attachments/redux/constants';
-import { sharedStyles } from '../../../shared/styles';
-import { Text } from 'react-native-elements';
-import { Typography } from '../../../shared/typography';
 import { removeLocalAttachment } from '../../attachments/redux/actions';
-import { ActivityIndicator } from 'react-native-paper';
 import { getAttachmentFolder } from '../../../helpers/Helpers';
 import moment from 'moment';
 import { EMPTY_SEGMENT } from '../../../models/INote';
@@ -40,14 +36,14 @@ const mapActionsToProps = {
 const NoteSegmentCard = (props : INoteSegmentCard) => {
     const [showPopover, setShowPopover] = React.useState(false);
     const [segment, setSegment] = React.useState(_.cloneDeep(EMPTY_SEGMENT));
-    const [attachmentRemovalStatus, setAttachmentRemovalStatus] = React.useState({ id : -1, progress : EMPTY_STRING } as IRemovalStatus);
+    const [attachmentRemovalStatus, setAttachmentRemovalStatus] = React.useState({ id : -1, progress : EMPTY_STRING, segmentIndex : -1 } as IRemovalStatus);
 
     React.useEffect(() => {
         setSegment(props.segment);
     }, [props.segment]);
 
     React.useEffect(() => {
-        setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : props.atmRemoval.action } as IRemovalStatus);
+        setAttachmentRemovalStatus({ id : props.atmRemoval.removedId, progress : props.atmRemoval.action, segmentIndex : props.atmRemoval.segmentIndex } as IRemovalStatus);
 
         if (props.atmRemoval.action === attachmentConstants.REMOVE_LOCAL_ATTACHMENT_SUCCESS) {
             const removedAttachment = segment.attachments?.filter(attachment => attachment.id === props.atmRemoval.removedId)[0];
@@ -195,11 +191,12 @@ const NoteSegmentCard = (props : INoteSegmentCard) => {
                     segment && segment.attachments &&
                     <View style={ styles.attachmentWrapper }>
                         <AttachmentsList attachments={ segment.attachments }
-                                       actions={{
-                                           viewAttachment : () => console.log('view'),
-                                           removeAttachment : props.removeLocalAttachment
-                                       }}
-                                       removal={ attachmentRemovalStatus }
+                                         actions={{
+                                             viewAttachment : () => console.log('view'),
+                                             removeAttachment : props.removeLocalAttachment
+                                         }}
+                                         removal={ attachmentRemovalStatus }
+                                         segmentIndex={ props.segmentIndex }
                         />
                     </View>
                 }
