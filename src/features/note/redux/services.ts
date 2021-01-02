@@ -1,10 +1,17 @@
 import _ from 'lodash';
-import { deleteEntry, executeRaw, insertNote, updateNote } from '../../../providers/databaseReader';
+import {
+    deleteEntry,
+    executeRaw,
+    insertNote,
+    updateDoneOrEmphasizedFor,
+    updateNote
+} from '../../../providers/databaseReader';
 import { removeFileOnLocalStorage } from '../../../helpers/Assistant';
 import INote from '../../../models/INote';
 import INoteSegment from '../../../models/INoteSegment';
 import { IFile, IMedia } from '../../../models/others';
 import { DATABASE_TABLES } from '../../../shared/enums';
+import { is } from 'immer/dist/utils/common';
 
 export const saveLocalNoteToDb = (note : INote, removedSegmentIndexes : Array<number>) : Promise<number> => {
     note.segments = removeSegmentIfNecessary(_.cloneDeep(note.segments), removedSegmentIndexes);
@@ -52,4 +59,8 @@ const removeSegmentIfNecessary = (segments : Array<INoteSegment>, removedSegment
     });
 
     return segments;
+}
+
+export const updateLocalNoteEmphasized = (itemId : number, isEmphasized : boolean) : Promise<boolean> => {
+    return updateDoneOrEmphasizedFor(itemId, DATABASE_TABLES.NOTES, 'emphasized', isEmphasized);
 }

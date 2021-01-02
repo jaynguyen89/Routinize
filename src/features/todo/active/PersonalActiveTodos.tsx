@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { Alert, ScrollView, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import TodoCard from '../components/TodoCard';
 import PopoverMenu from '../../../customs/PopoverMenu';
@@ -15,20 +15,23 @@ import { sharedStyles } from '../../../shared/styles';
 import { faEllipsisV, faPlusCircle, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { baseFontSize } from '../../../shared/typography';
 import { ACTION_TYPES } from '../../../shared/enums';
+import * as todoConstants from '../redux/constants';
 
-import { setTodoTypeToCreate, getAllLocalTodos } from '../redux/actions';
+import { setTodoTypeToCreate, getAllLocalTodos, markLocalTodoAsDoneOrImportant } from '../redux/actions';
 import { resetAttachmentRemovalStatus } from '../../attachments/redux/actions';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,
     authStatus : state.appReducer.authStatus,
-    todoRetrieval : state.todoReducer.itemList
+    todoRetrieval : state.todoReducer.itemList,
+    setDoneOrImportant : state.todoReducer.setDoneOrImportant
 });
 
 const mapActionsToProps = {
     setTodoTypeToCreate,
     getAllLocalTodos,
-    resetAttachmentRemovalStatus
+    resetAttachmentRemovalStatus,
+    markLocalTodoAsDoneOrImportant
 }
 
 const PersonalActiveTodos = (props : ITodos) => {
@@ -50,6 +53,28 @@ const PersonalActiveTodos = (props : ITodos) => {
         props.navigation.addListener('focus', () => props.getAllLocalTodos());
     }, [props.navigation]);
 
+    React.useEffect(() => {
+        if (props.setDoneOrImportant.action === todoConstants.MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_FAILED)
+            alert('Failed! An issue happened while updating Todo. Please try again.');
+
+        if (props.setDoneOrImportant.action === todoConstants.MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_SUCCESS) {
+            const result = props.setDoneOrImportant.result;
+
+            if (!result.result)
+                alert('Failed! An issue happened while updating Todo. Please try again.');
+            else
+                Alert.alert(
+                    "Success!",
+                    "Your Todo has been updated.",
+                    [{
+                        text: 'OK',
+                        onPress: () => props.getAllLocalTodos()
+                    }],
+                    { cancelable: false }
+                );
+        }
+    }, [props.setDoneOrImportant]);
+
     const gotoNewTodo = () => {
         setShowPopover(false);
         props.resetAttachmentRemovalStatus();
@@ -66,6 +91,11 @@ const PersonalActiveTodos = (props : ITodos) => {
             setTodos(props.todoRetrieval.items as unknown as Array<ITodo>);
     }, [props.todoRetrieval]);
 
+    const setDoneOrImportant = (itemId : number, field : string, isEmphasized : boolean) => {
+        setShowPopover(false);
+        props.markLocalTodoAsDoneOrImportant(itemId, field, isEmphasized);
+    }
+
     return (
         <>
             {
@@ -80,7 +110,14 @@ const PersonalActiveTodos = (props : ITodos) => {
             <ScrollView style={ sharedStyles.scroller }>
                 {
                     props.todoRetrieval.retrievingSuccess &&
-                    todos.map((item: ITodo) => <TodoCard item={ item } key={ item.id } navigation={ props.navigation } />)
+                    todos.map((item: ITodo) =>
+                        <TodoCard
+                            item={ item }
+                            key={ item.id }
+                            navigation={ props.navigation }
+                            setDoneOrImportant={ setDoneOrImportant }
+                        />
+                    )
                 }
             </ScrollView>
 

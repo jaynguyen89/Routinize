@@ -32,11 +32,11 @@ export const createLocalTodo = (todo : ITodo) => {
     }
 }
 
-export const updateLocalTodo = (todo : ITodo) => {
+export const updateLocalTodo = (todo : ITodo, dtFormat : string) => {
     return (dispatch : any) => {
         dispatch({ type : todoConstants.UPDATE_TODO_LOCAL });
 
-        todoServices.updateLocalTodo(todo)
+        todoServices.updateLocalTodo(todo, dtFormat)
             .then(response => dispatch({
                 type : todoConstants.UPDATE_TODO_SUCCESS,
                 payload : response
@@ -75,6 +75,34 @@ export const getLocalTodoAttachments = (itemId : number) => {
             }))
             .catch(error => dispatch({
                 type : todoConstants.GET_LOCAL_TODO_ATTACHMENTS_FAILED,
+                error
+            }));
+    }
+}
+
+export const markLocalTodoAsDoneOrImportant = (itemId : number, field : string, isEmphasized : boolean) => {
+    return (dispatch : any) => {
+        todoServices.setDoneOrEmphasizedForLocalTodo(itemId, field, isEmphasized)
+            .then(response => dispatch({
+                type : todoConstants.MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_SUCCESS,
+                payload : { itemId, field, result : response }
+            }))
+            .catch(error => dispatch({
+                type : todoConstants.MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_FAILED,
+                error
+            }));
+    }
+}
+
+export const markLocalTodoAsDoneWithDate = (itemId : number, date : string) => {
+    return (dispatch : any) => {
+        todoServices.setDoneWithDate(itemId, date)
+            .then(response => dispatch({
+                type : todoConstants.MARK_LOCAL_TODO_AS_DONE_WITH_DATE_SUCCESS,
+                payload : { itemId, result : response }
+            }))
+            .catch(error => dispatch({
+                type : todoConstants.MARK_LOCAL_TODO_AS_DONE_WITH_DATE_FAILED,
                 error
             }));
     }

@@ -11,7 +11,7 @@ import { EMPTY_STRING } from '../helpers/Constants';
 import INoteSegment from '../models/INoteSegment';
 
 //SQLite.enablePromise(false);
-const DB_TIMESTAMP_FORMAT : string = DATETIME_FORMATS.COMPACT_H_DMY;
+export const DB_TIMESTAMP_FORMAT : string = DATETIME_FORMATS.COMPACT_H_DMY;
 
 const connection = {
     database : SQLite.openDatabase({
@@ -54,7 +54,7 @@ export const insertTodo = async (table : DATABASE_TABLES, data : ITodo) : Promis
     return insertId;
 };
 
-export const updateTodo = async (table : DATABASE_TABLES, data : ITodo) : Promise<number> => {
+export const updateTodo = async (table : DATABASE_TABLES, data : ITodo, dtFormat : string) : Promise<number> => {
     await executeQuery('BEGIN TRANSACTION;');
 
     const query = getQueryFor(table, 'update');
@@ -63,8 +63,7 @@ export const updateTodo = async (table : DATABASE_TABLES, data : ITodo) : Promis
         data.title,
         data.description,
         data.details,
-        moment(data.dueDate).format(DB_TIMESTAMP_FORMAT),
-        (data.doneDate && moment(data.doneDate).format(DB_TIMESTAMP_FORMAT)) || EMPTY_STRING,
+        moment(data.dueDate, dtFormat).format(DB_TIMESTAMP_FORMAT),
         data.id
     ]);
 
@@ -243,6 +242,25 @@ export const insertPlaces = async (
     return true;
 }
 
+export const updateDoneOrEmphasizedFor = async (
+    itemId : number, table : DATABASE_TABLES, field : string, isEmphasized : boolean
+) : Promise<boolean> => {
+    const query = `UPDATE ${ table } SET "${ field }" = ? WHERE "id" = ?;`;
+    const response : any = await executeQuery(
+        query,
+        [field === 'emphasized' ? (isEmphasized ? 0 : 1) : moment().format(DB_TIMESTAMP_FORMAT), itemId]
+    );
+
+    return response.rowsAffected !== 0;
+}
+
+export const updateTodoAsDoneWithDate = async (itemId : number, date : string) : Promise<boolean> => {
+    const query = `UPDATE ${ DATABASE_TABLES.TODOS } SET "doneDate" = ? WHERE "id" = ?;`;
+    const response : any = await executeQuery(query, [date, itemId]);
+
+    return response.rowsAffected !== 0;
+}
+
 export const deleteEntry = async (table : DATABASE_TABLES, id : number) : Promise<boolean> => {
     const query = `DELETE FROM "${ table }" WHERE "id" = ${ id };`;
     const result : any = await executeQuery(query);
@@ -349,7 +367,7 @@ const getQueryFor = (table : DATABASE_TABLES, task = 'insert') : string => {
             break;
         case DATABASE_TABLES.TODOS:
             query = task === 'insert' ? 'INSERT INTO "todos" ("emphasized", "title", "description", "details", "createdOn", "dueDate") VALUES (?, ?, ?, ?, ?, ?);'
-                                      : 'UPDATE "todos" SET "emphasized" = ?, "title" = ?, "description" = ?, "details" = ?, "dueDate" = ?, "doneDate" = ? WHERE "id" = ?;';
+                                      : 'UPDATE "todos" SET "emphasized" = ?, "title" = ?, "description" = ?, "details" = ?, "dueDate" = ? WHERE "id" = ?;';
             break;
         case DATABASE_TABLES.PLACES:
             query = task === 'insert' ? 'INSERT INTO "places" ("addressId", "assetId", "assetType") VALUES (?, ?, ?);'

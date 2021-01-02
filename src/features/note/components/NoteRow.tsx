@@ -36,6 +36,11 @@ const NoteRow = (props : INoteRow) => {
         props.navigation.navigate('Note Details - Personal');
     }
 
+    const toggleNoteHighlighting = () => {
+        setShowPopover(false);
+        props.toggleHighlight(props.item.id, props.item.emphasized);
+    }
+
     return (
         <>
             <View style={ sharedStyles.scroller }>
@@ -60,7 +65,7 @@ const NoteRow = (props : INoteRow) => {
                         <View style={[ styles.infoSummary ]}>
                             { /* props.item.assignees.length is replaced by number */ }
                             <Text style={[ (1 && { flex : 2 }) || { flex : 2, textAlign : 'right' }, Typography.small ]}>
-                                { `${ props.item.author?.firstName } ${ props.item.author?.lastName }` }
+                                { (props.item.author && `${ props.item.author.firstName } ${ props.item.author.lastName }`) || 'Personal' }
                             </Text>
 
                             <Text style={[ { flex : 3 }, Typography.small ]}>{ props.item.createdOn }</Text>
@@ -80,8 +85,9 @@ const NoteRow = (props : INoteRow) => {
             <Popover isVisible={ showPopover } onRequestClose={ () => setShowPopover(false) }>
                 <PopoverContent
                     actions={[
-                        { name : 'Highlight', icon : 'pen', type : ACTION_TYPES.NORMAL, callback : () => console.log('Mark Done') },
-                        { name : 'Archive', icon : 'trash-can', type : ACTION_TYPES.CAUTIOUS, callback : () => console.log('Important') },
+                        props.item.emphasized ? { name : 'Un-highlight', icon : 'pen', type : ACTION_TYPES.NORMAL, callback : () => toggleNoteHighlighting() }
+                                              : { name : 'Highlight', icon : 'pen', type : ACTION_TYPES.NORMAL, callback : () => toggleNoteHighlighting() },
+                        { name : 'Archive', icon : 'trash-can', type : ACTION_TYPES.CAUTIOUS, callback : () => console.log('Archive') },
                         { name : 'Delete', icon : 'delete-forever', type : ACTION_TYPES.DANGEROUS, callback : () => console.log('Delete') }
                     ]}
                 />

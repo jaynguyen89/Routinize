@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { ScrollView, TouchableOpacity, View, Text } from "react-native";
+import { Alert, ScrollView, TouchableOpacity, View } from 'react-native';
 import NoteRow from "../components/NoteRow";
 import { Divider } from "react-native-elements";
 import INote from "../../../models/INote";
@@ -11,7 +11,7 @@ import { sharedStyles } from "../../../shared/styles";
 import { ACTION_TYPES } from "../../../shared/enums";
 import * as noteConstants from '../redux/constants';
 
-import { setNoteTypeToCreate } from '../redux/actions';
+import { setNoteTypeToCreate, setLocalNoteEmphasized } from '../redux/actions';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEllipsisV, faPlusCircle, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 import { baseFontSize } from "../../../shared/typography";
@@ -27,13 +27,15 @@ import { resetAttachmentRemovalStatus } from '../../attachments/redux/actions';
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,
     authStatus : state.appReducer.authStatus,
-    getNotes : state.noteReducer.getNotes
+    getNotes : state.noteReducer.getNotes,
+    highlightNote : state.noteReducer.highlightNote
 });
 
 const mapActionsToProps = {
     setNoteTypeToCreate,
     getLocalNotes,
-    resetAttachmentRemovalStatus
+    resetAttachmentRemovalStatus,
+    setLocalNoteEmphasized
 }
 
 const PersonalActiveNotes = (props : IActiveNotes) => {
@@ -63,12 +65,30 @@ const PersonalActiveNotes = (props : IActiveNotes) => {
             setItems(props.getNotes.items);
     }, [props.getNotes]);
 
+    React.useEffect(() => {
+        if (props.highlightNote.action === noteConstants.HIGHLIGHT_LOCAL_NOTE_FAILED)
+            alert('Failed! An issue happened while updating Note. Please try again.');
+
+        if (props.highlightNote.action === noteConstants.HIGHLIGHT_LOCAL_NOTE_SUCCESS)
+            Alert.alert(
+                "Success!",
+                'Your Note has been updated.',
+                [{
+                    text: 'OK',
+                    onPress: () => props.getLocalNotes()
+                }],
+                { cancelable: false }
+            );
+    }, [props.highlightNote]);
+
     const gotoNewNote = () => {
         setShowPopover(false);
         props.resetAttachmentRemovalStatus();
         props.setNoteTypeToCreate(true);
         props.navigation.navigate('New Note - Personal');
     }
+
+    const toggleNoteHighlighting = (itemId : number, isEmphasized : boolean) => props.setLocalNoteEmphasized(itemId, isEmphasized);
 
     return (
         <>
@@ -82,8 +102,8 @@ const PersonalActiveNotes = (props : IActiveNotes) => {
                         {
                             items.map((item: INote) => {
                                 return (
-                                    <View key={item.id}>
-                                        <NoteRow item={item} navigation={props.navigation} />
+                                    <View key={ item.id }>
+                                        <NoteRow item={ item } navigation={ props.navigation } toggleHighlight={ toggleNoteHighlighting } />
                                         <Divider style={{ backgroundColor: props.settings.theme.btnDisabled.color }} />
                                     </View>
                                 );

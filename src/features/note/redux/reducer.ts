@@ -1,21 +1,26 @@
 import * as noteConstants from './constants';
 import produce from "immer";
 import INote, { refineLocalNotes } from '../../../models/INote';
+import { EMPTY_STRING } from '../../../helpers/Constants';
 
 interface INoteStore {
     isPersonal : boolean,
     noteItem : INote | null,
     getNotes : {
-        action : string | null,
+        action : string,
         items : Array<INote> | object
     },
     updateNote : {
-        action : string | null,
+        action : string,
         result : boolean | object
     },
     saveNote : {
-        action : string | null,
+        action : string,
         newNoteId : number | object
+    },
+    highlightNote : {
+        action : string,
+        result : boolean | object | null
     }
 }
 
@@ -23,18 +28,23 @@ const initialState : INoteStore = {
     isPersonal : true,
     noteItem : null,
     getNotes : {
-        action : null,
+        action : EMPTY_STRING,
         items : new Array<INote>()
     },
     updateNote : {
-        action : null,
+        action : EMPTY_STRING,
         result : false
     },
     saveNote : {
-        action : null,
+        action : EMPTY_STRING,
         newNoteId : 0
+    },
+    highlightNote : {
+        action : EMPTY_STRING,
+        result : null
     }
 }
+
 
 const reducer = produce((state, action) => {
     switch (action.type) {
@@ -72,14 +82,28 @@ const reducer = produce((state, action) => {
         case noteConstants.GET_ALL_LOCAL_NOTES:
             state.getNotes.action = noteConstants.GET_ALL_LOCAL_NOTES;
             state.getNotes.items = new Array<INote>();
+            state.highlightNote.action = EMPTY_STRING;
+            state.highlightNote.result = null;
             return;
         case noteConstants.GET_ALL_LOCAL_NOTES_SUCCESS:
             state.getNotes.action = noteConstants.GET_ALL_LOCAL_NOTES_SUCCESS;
             state.getNotes.items = refineLocalNotes(action.payload);
+            state.highlightNote.action = EMPTY_STRING;
+            state.highlightNote.result = null;
             return;
         case noteConstants.GET_ALL_LOCAL_NOTES_FAILED:
             state.getNotes.action = noteConstants.GET_ALL_LOCAL_NOTES_FAILED;
-        state.getNotes.items = action.error;
+            state.getNotes.items = action.error;
+            state.highlightNote.action = EMPTY_STRING;
+            state.highlightNote.result = null;
+            return;
+        case noteConstants.HIGHLIGHT_LOCAL_NOTE_SUCCESS:
+            state.highlightNote.action = noteConstants.HIGHLIGHT_LOCAL_NOTE_SUCCESS;
+            state.highlightNote.result = action.payload;
+            return;
+        case noteConstants.HIGHLIGHT_LOCAL_NOTE_FAILED:
+            state.highlightNote.action = noteConstants.HIGHLIGHT_LOCAL_NOTE_FAILED;
+            state.highlightNote.result = action.error;
             return;
         default:
             return;

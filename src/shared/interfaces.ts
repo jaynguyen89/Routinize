@@ -84,3 +84,14 @@ export interface IUrlAttacher {
     settings? : any,
     getUrl : any
 }
+
+export interface IFlatDTPicker {
+    settings? : any,
+    title : string,
+    values : {
+        minDate : Date,
+        maxDate : Date,
+        default : Date
+    },
+    callback : any
+}
