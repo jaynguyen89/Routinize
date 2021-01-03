@@ -41,7 +41,7 @@ export interface IAttachmentsList {
     attachments : Array<IMedia | IFile>
     actions : {
         viewAttachment : any,
-        removeAttachment : any
+        removeAttachment : (attachmentId : number, segmentIndex? : number) => void
     },
     removal : IRemovalStatus,
     segmentIndex? : number
@@ -52,7 +52,7 @@ export interface ITextArea {
     buttonsVertical? : boolean,
     placeHolder : string,
     initialContent : string,
-    getContent : any,
+    getContent : (content : string) => void,
     actions? : Array<{ callback : any, type : ACTION_TYPES }>
 }
 
@@ -71,7 +71,10 @@ export interface IEditor {
 export interface IRteDialog {
     settings? : any,
     type : string,
-    actions : { done : any, cancel : any }
+    actions : {
+        done : (url : string, type : string) => void,
+        cancel : () => void
+    }
 }
 
 export interface IMessage {
@@ -82,7 +85,7 @@ export interface IMessage {
 
 export interface IUrlAttacher {
     settings? : any,
-    getUrl : any
+    getUrl : (url : any) => void
 }
 
 export interface IFlatDTPicker {
@@ -93,5 +96,5 @@ export interface IFlatDTPicker {
         maxDate : Date,
         default : Date
     },
-    callback : any
+    callback : (date : string) => void
 }

@@ -261,6 +261,41 @@ export const updateTodoAsDoneWithDate = async (itemId : number, date : string) :
     return response.rowsAffected !== 0;
 }
 
+export const deleteNote = async (data : INote) : Promise<boolean> => {
+    data.segments.forEach((segment : INoteSegment) => {
+        if (segment.attachments)
+            segment.attachments.forEach(async (attachment : IMedia | IFile) =>
+                await deleteEntry(DATABASE_TABLES.ATTACHMENTS, attachment.id)
+            );
+
+        if (segment.places)
+            segment.places.forEach(async (place : IAddress) => {
+                const dbPlace : any = await getEntry(DATABASE_TABLES.PLACES, place.id);
+
+                await deleteEntry(DATABASE_TABLES.PLACES, place.id);
+                await deleteEntry(DATABASE_TABLES.ADDRESS, dbPlace.addressId);
+            });
+    });
+
+    return await deleteEntry(DATABASE_TABLES.NOTES, data.id);
+}
+
+export const deleteTodo = async (data : ITodo) : Promise<boolean> => {
+    if (data.attachments)
+        for (const attachment of data.attachments)
+            await deleteEntry(DATABASE_TABLES.ATTACHMENTS, attachment.id);
+
+    if (data.places)
+        for (const place of data.places) {
+            const dbPlace : any = await getEntry(DATABASE_TABLES.PLACES, place.id);
+
+            await deleteEntry(DATABASE_TABLES.PLACES, place.id);
+            await deleteEntry(DATABASE_TABLES.ADDRESS, dbPlace.addressId);
+        }
+
+    return await deleteEntry(DATABASE_TABLES.TODOS, data.id);
+}
+
 export const deleteEntry = async (table : DATABASE_TABLES, id : number) : Promise<boolean> => {
     const query = `DELETE FROM "${ table }" WHERE "id" = ${ id };`;
     const result : any = await executeQuery(query);
@@ -348,10 +383,6 @@ const executeQuery = (query : string, params : Array<any> = []) =>
             );
         });
     });
-
-const removeInsertedData = (table : DATABASE_TABLES, insertedIds : Array<number>) => {
-    insertedIds.forEach(async (id : number) => await deleteEntry(table, id));
-}
 
 const getQueryFor = (table : DATABASE_TABLES, task = 'insert') : string => {
     let query = EMPTY_STRING;

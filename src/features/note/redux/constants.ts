@@ -1,56 +1,3 @@
-import INote from "../../../models/INote";
-import INoteSegment from "../../../models/INoteSegment";
-import { IFile, IMedia } from '../../../models/others';
-import IAddress from '../../../models/IAddress';
-
-export interface IActiveNotes {
-    settings : any,
-    items : INote,
-    navigation : any,
-    authStatus : boolean,
-    getNotes : any,
-    getLocalNotes : any,
-    setNoteTypeToCreate : any,
-    resetAttachmentRemovalStatus : any,
-    setLocalNoteEmphasized : any,
-    highlightNote : any
-}
-
-export interface INoteRow {
-    settings : any,
-    item : INote,
-    navigation : any,
-    setNoteDetailItem : any,
-    resetAttachmentRemovalStatus : any,
-    toggleHighlight : any
-}
-
-export interface INoteDetail {
-    navigation : any,
-    authStatus : boolean,
-    settings? : any,
-    item : INote,
-    isPersonal : boolean,
-    saveNote : any,
-    updateNote : any,
-    saveLocalNote : any,
-    updateLocalNote : any
-}
-
-export interface INoteSharing {
-    settings? : any
-}
-
-export interface INoteSegmentCard {
-    settings? : any,
-    segmentIndex : number,
-    segment : INoteSegment,
-    removeSegment : any,
-    removeLocalAttachment : any,
-    atmRemoval : any,
-    updateNoteSegment : (segmentIndex : number, field : string, data : string | IMedia | IFile | IAddress | null | Array<IMedia | IFile | IAddress>) => void
-}
-
 export const GOTO_NEW_NOTE_PERSONAL = 'GOTO_NEW_NOTE_PERSONAL';
 export type T_GOTO_NEW_NOTE_PERSONAL = typeof GOTO_NEW_NOTE_PERSONAL;
 
@@ -89,3 +36,9 @@ export type T_HIGHLIGHT_LOCAL_NOTE_SUCCESS = typeof HIGHLIGHT_LOCAL_NOTE_SUCCESS
 
 export const HIGHLIGHT_LOCAL_NOTE_FAILED = 'HIGHLIGHT_LOCAL_NOTE_FAILED';
 export type T_HIGHLIGHT_LOCAL_NOTE_FAILED = typeof HIGHLIGHT_LOCAL_NOTE_FAILED;
+
+export const DELETE_LOCAL_NOTE_SUCCESS = 'DELETE_LOCAL_NOTE_SUCCESS';
+export type T_DELETE_LOCAL_NOTE_SUCCESS = typeof DELETE_LOCAL_NOTE_SUCCESS;
+
+export const DELETE_LOCAL_NOTE_FAILED = 'DELETE_LOCAL_NOTE_FAILED';
+export type T_DELETE_LOCAL_NOTE_FAILED = typeof DELETE_LOCAL_NOTE_FAILED;

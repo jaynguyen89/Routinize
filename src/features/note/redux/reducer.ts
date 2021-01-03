@@ -21,6 +21,10 @@ interface INoteStore {
     highlightNote : {
         action : string,
         result : boolean | object | null
+    },
+    deleteNote : {
+        action : string,
+        result : boolean | null
     }
 }
 
@@ -40,6 +44,10 @@ const initialState : INoteStore = {
         newNoteId : 0
     },
     highlightNote : {
+        action : EMPTY_STRING,
+        result : null
+    },
+    deleteNote : {
         action : EMPTY_STRING,
         result : null
     }
@@ -82,20 +90,32 @@ const reducer = produce((state, action) => {
         case noteConstants.GET_ALL_LOCAL_NOTES:
             state.getNotes.action = noteConstants.GET_ALL_LOCAL_NOTES;
             state.getNotes.items = new Array<INote>();
+
             state.highlightNote.action = EMPTY_STRING;
             state.highlightNote.result = null;
+
+            state.deleteNote.action = EMPTY_STRING;
+            state.deleteNote.result = null;
             return;
         case noteConstants.GET_ALL_LOCAL_NOTES_SUCCESS:
             state.getNotes.action = noteConstants.GET_ALL_LOCAL_NOTES_SUCCESS;
             state.getNotes.items = refineLocalNotes(action.payload);
+
             state.highlightNote.action = EMPTY_STRING;
             state.highlightNote.result = null;
+
+            state.deleteNote.action = EMPTY_STRING;
+            state.deleteNote.result = null;
             return;
         case noteConstants.GET_ALL_LOCAL_NOTES_FAILED:
             state.getNotes.action = noteConstants.GET_ALL_LOCAL_NOTES_FAILED;
             state.getNotes.items = action.error;
+
             state.highlightNote.action = EMPTY_STRING;
             state.highlightNote.result = null;
+
+            state.deleteNote.action = EMPTY_STRING;
+            state.deleteNote.result = null;
             return;
         case noteConstants.HIGHLIGHT_LOCAL_NOTE_SUCCESS:
             state.highlightNote.action = noteConstants.HIGHLIGHT_LOCAL_NOTE_SUCCESS;
@@ -104,6 +124,14 @@ const reducer = produce((state, action) => {
         case noteConstants.HIGHLIGHT_LOCAL_NOTE_FAILED:
             state.highlightNote.action = noteConstants.HIGHLIGHT_LOCAL_NOTE_FAILED;
             state.highlightNote.result = action.error;
+            return;
+        case noteConstants.DELETE_LOCAL_NOTE_SUCCESS:
+            state.deleteNote.action = noteConstants.DELETE_LOCAL_NOTE_SUCCESS;
+            state.deleteNote.result = action.payload;
+            return;
+        case noteConstants.DELETE_LOCAL_NOTE_FAILED:
+            state.deleteNote.action = noteConstants.DELETE_LOCAL_NOTE_FAILED;
+            state.deleteNote.result = action.error;
             return;
         default:
             return;

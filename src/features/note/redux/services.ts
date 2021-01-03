@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import {
-    deleteEntry,
+    deleteEntry, deleteNote,
     executeRaw,
     insertNote,
     updateDoneOrEmphasizedFor,
@@ -63,4 +63,8 @@ const removeSegmentIfNecessary = (segments : Array<INoteSegment>, removedSegment
 
 export const updateLocalNoteEmphasized = (itemId : number, isEmphasized : boolean) : Promise<boolean> => {
     return updateDoneOrEmphasizedFor(itemId, DATABASE_TABLES.NOTES, 'emphasized', isEmphasized);
+}
+
+export const removeLocalNoteFromDb = (item : INote) : Promise<boolean> => {
+    return deleteNote(item);
 }

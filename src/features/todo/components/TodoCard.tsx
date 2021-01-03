@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { View, ViewStyle } from 'react-native';
+import { Alert, View, ViewStyle } from 'react-native';
 import { Card, Paragraph, Text } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Popover from 'react-native-popover-view/dist/Popover';
@@ -21,6 +21,8 @@ import { getTimeElapse } from '../../../helpers/Helpers';
 import RNFS from 'react-native-fs';
 import { resetAttachmentRemovalStatus } from '../../attachments/redux/actions';
 import { sharedStyles } from '../../../shared/styles';
+import { IFile, IMedia } from '../../../models/others';
+import { removeFileOnLocalStorage } from '../../../helpers/Assistant';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -46,6 +48,36 @@ const TodoCard = (props : ITodoCard) => {
         props.setTodoDetailItem(todo);
         props.resetAttachmentRemovalStatus();
         props.navigation.navigate('Todo Details - Personal');
+    }
+
+    const confirmDeleteTodo = () => {
+        setShowPopover(false);
+
+        Alert.alert(
+            "Delete Todo",
+            "Your Todo will be lost forever. Are you sure?",
+            [
+                {
+                    text: "KEEP",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                {
+                    text: 'DELETE',
+                    onPress: () => deleteTodo()
+                }
+            ],
+            { cancelable: false }
+        );
+    }
+
+    const deleteTodo = () => {
+        if (props.item.attachments)
+            props.item.attachments.forEach((attachment : IMedia | IFile) => {
+                if (attachment.name) removeFileOnLocalStorage(attachment.name, attachment.type);
+            });
+
+        props.deleteTodo(props.item);
     }
 
     return (
@@ -173,7 +205,7 @@ const TodoCard = (props : ITodoCard) => {
                         props.item.emphasized ? { name : 'Un-mark Important', icon : 'weather-sunny', type : ACTION_TYPES.NORMAL, callback : () => props.setDoneOrImportant(props.item.id, 'emphasized', props.item.emphasized) }
                                               : { name : 'Mark Important', icon : 'weather-sunny', type : ACTION_TYPES.NORMAL, callback : () => props.setDoneOrImportant(props.item.id, 'emphasized', props.item.emphasized) },
                         { name : 'Archive', icon : 'trash-can', type : ACTION_TYPES.CAUTIOUS, callback : () => console.log('Archive') },
-                        { name : 'Delete', icon : 'delete', type : ACTION_TYPES.DANGEROUS, callback : () => console.log('Delete') }
+                        { name : 'Delete', icon : 'delete', type : ACTION_TYPES.DANGEROUS, callback : () => confirmDeleteTodo() }
                     ]}
                 />
             </Popover>

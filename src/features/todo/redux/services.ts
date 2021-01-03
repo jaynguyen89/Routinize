@@ -1,5 +1,6 @@
 import ITodo from '../../../models/ITodo';
 import {
+    deleteTodo,
     getAttachmentsFor,
     getData,
     insertTodo,
@@ -30,4 +31,8 @@ export const setDoneOrEmphasizedForLocalTodo = (itemId : number, field : string,
 
 export const setDoneWithDate = (itemId : number, date: string) : Promise<boolean> => {
     return updateTodoAsDoneWithDate(itemId, date);
+}
+
+export const removeLocalTodoFromDb = (item : ITodo) : Promise<boolean> => {
+    return deleteTodo(item);
 }

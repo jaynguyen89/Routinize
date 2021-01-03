@@ -1,51 +1,3 @@
-import ITodo from "../../../models/ITodo";
-
-export interface ITodos {
-    navigation : any,
-    todoRetrieval : {
-        isRetrieving : false,
-        retrievingSuccess : false,
-        items : null
-    },
-    items : Array<ITodo> | null,
-    authStatus : boolean,
-    settings : any,
-    setTodoTypeToCreate : any,
-    getAllLocalTodos : any,
-    resetAttachmentRemovalStatus : any,
-    markLocalTodoAsDoneOrImportant : any,
-    setDoneOrImportant : any
-}
-
-export interface ITodoCard {
-    navigation : any,
-    key : string | number,
-    settings : any,
-    item : ITodo,
-    setTodoDetailItem : any,
-    resetAttachmentRemovalStatus : any,
-    setDoneOrImportant : any
-}
-
-export interface ITodoDetail {
-    navigation : any,
-    authStatus : boolean,
-    settings? : any,
-    item : ITodo,
-    newItem : any,
-    updateItem : any,
-    getAttachments : any,
-    isPersonal : boolean,
-    createLocalTodo : any,
-    updateLocalTodo : any,
-    getLocalTodoAttachments : any,
-    removeLocalAttachment : any,
-    atmSelection : any,
-    atmRemoval : any,
-    markLocalTodoAsDoneWithDate : any,
-    setDoneWithDate : any
-}
-
 export const GOTO_NEW_TODO_PERSONAL = 'GOTO_NEW_TODO_PERSONAL';
 export type T_GOTO_NEW_TODO_PERSONAL = typeof GOTO_NEW_TODO_PERSONAL;
 
@@ -99,3 +51,9 @@ export type T_MARK_LOCAL_TODO_AS_DONE_WITH_DATE_SUCCESS = typeof MARK_LOCAL_TODO
 
 export const MARK_LOCAL_TODO_AS_DONE_WITH_DATE_FAILED = 'MARK_LOCAL_TODO_AS_DONE_WITH_DATE_FAILED';
 export type T_MARK_LOCAL_TODO_AS_DONE_WITH_DATE_FAILED = typeof MARK_LOCAL_TODO_AS_DONE_WITH_DATE_FAILED;
+
+export const DELETE_LOCAL_TODO_SUCCESS = 'DELETE_LOCAL_TODO_SUCCESS';
+export type T_DELETE_LOCAL_TODO_SUCCESS = typeof DELETE_LOCAL_TODO_SUCCESS;
+
+export const DELETE_LOCAL_TODO_FAILED = 'DELETE_LOCAL_TODO_FAILED';
+export type T_DELETE_LOCAL_TODO_FAILED = typeof DELETE_LOCAL_TODO_FAILED;

@@ -11,7 +11,7 @@ import Popover from 'react-native-popover-view/dist/Popover';
 import PopoverMenu from '../../../customs/PopoverMenu';
 import { ACTION_TYPES, ACTIONS } from '../../../shared/enums';
 import * as noteConstants from '../redux/constants';
-import { INoteDetail } from '../redux/constants';
+import { INoteDetail } from '../redux/interfaces';
 import { IFile, IMedia } from '../../../models/others';
 import IAddress from '../../../models/IAddress';
 import { IDynamicButton } from '../../../shared/interfaces';
@@ -225,12 +225,12 @@ const NoteDetail = (props : INoteDetail) => {
                 "Your Note has not been saved. All details you have entered will be lost.\n\nAre you sure?",
                 [
                     {
-                        text: "No, back to my Note.",
+                        text: "STAY",
                         onPress: () => console.log("Cancel Pressed"),
                         style: "cancel"
                     },
                     {
-                        text: 'Yes, I\'m sure.',
+                        text: 'LEAVE',
                         onPress: () => {
                             removeAttachmentsIfAny();
                             props.navigation.goBack();

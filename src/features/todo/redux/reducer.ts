@@ -41,6 +41,10 @@ interface ITodoStore {
             itemId : number,
             result : boolean
         } | object | null
+    },
+    deleteTodo : {
+        action : string,
+        result : boolean | null
     }
 }
 
@@ -72,6 +76,10 @@ const initialState : ITodoStore = {
         result : null
     },
     setDoneWithDate : {
+        action : EMPTY_STRING,
+        result : null
+    },
+    deleteTodo : {
         action : EMPTY_STRING,
         result : null
     }
@@ -107,25 +115,37 @@ const reducer = produce((state, action) => {
             state.itemList.isRetrieving = true;
             state.itemList.retrievingSuccess = false;
             state.itemList.items = null;
+
             state.setDoneOrImportant.action = EMPTY_STRING;
             state.setDoneOrImportant.error = null;
             state.setDoneOrImportant.result = null;
+
+            state.deleteTodo.action = EMPTY_STRING;
+            state.deleteTodo.result = null;
             return;
         case todoConstants.GET_ALL_TODOS_LOCAL_SUCCESS:
             state.itemList.isRetrieving = false;
             state.itemList.retrievingSuccess = true;
             state.itemList.items = refineLocalTodos(action.payload);
+
             state.setDoneOrImportant.action = EMPTY_STRING;
             state.setDoneOrImportant.error = null;
             state.setDoneOrImportant.result = null;
+
+            state.deleteTodo.action = EMPTY_STRING;
+            state.deleteTodo.result = null;
             return;
         case todoConstants.GET_ALL_TODOS_LOCAL_FAILED:
             state.itemList.isRetrieving = false;
             state.itemList.retrievingSuccess = false;
             state.itemList.items = action.error;
+
             state.setDoneOrImportant.action = EMPTY_STRING;
             state.setDoneOrImportant.error = null;
             state.setDoneOrImportant.result = null;
+
+            state.deleteTodo.action = EMPTY_STRING;
+            state.deleteTodo.result = null;
             return;
         case todoConstants.UPDATE_TODO_LOCAL:
             state.updateItem.isUpdating = true;
@@ -178,6 +198,14 @@ const reducer = produce((state, action) => {
         case todoConstants.MARK_LOCAL_TODO_AS_DONE_WITH_DATE_FAILED:
             state.setDoneWithDate.action = todoConstants.MARK_LOCAL_TODO_AS_DONE_WITH_DATE_FAILED;
             state.setDoneWithDate.result = action.error;
+            return;
+        case todoConstants.DELETE_LOCAL_TODO_SUCCESS:
+            state.deleteTodo.action = todoConstants.DELETE_LOCAL_TODO_SUCCESS;
+            state.deleteTodo.result = action.payload;
+            return;
+        case todoConstants.DELETE_LOCAL_TODO_FAILED:
+            state.deleteTodo.action = todoConstants.DELETE_LOCAL_TODO_FAILED;
+            state.deleteTodo.result = action.error;
             return;
         default:
             return;

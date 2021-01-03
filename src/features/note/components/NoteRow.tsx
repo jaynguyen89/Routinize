@@ -1,12 +1,12 @@
 import React from "react";
 import {connect} from "react-redux";
 
-import { Text, View, ViewStyle } from "react-native";
+import { Alert, Text, View, ViewStyle } from 'react-native';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { TouchableRipple } from "react-native-paper";
 import PopoverContent from "../../../customs/PopoverContent";
 import Popover from "react-native-popover-view/dist/Popover";
-import { INoteRow } from "../redux/constants";
+import { INoteRow } from "../redux/interfaces";
 import INote from "../../../models/INote";
 
 import styles from "../styles";
@@ -17,6 +17,9 @@ import { ACTION_TYPES } from "../../../shared/enums";
 import { setNoteDetailItem } from "../redux/actions";
 import { resetAttachmentRemovalStatus } from '../../attachments/redux/actions';
 import {sharedStyles} from "../../../shared/styles";
+import INoteSegment from '../../../models/INoteSegment';
+import { IFile, IMedia } from '../../../models/others';
+import { removeFileOnLocalStorage } from '../../../helpers/Assistant';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -39,6 +42,38 @@ const NoteRow = (props : INoteRow) => {
     const toggleNoteHighlighting = () => {
         setShowPopover(false);
         props.toggleHighlight(props.item.id, props.item.emphasized);
+    }
+
+    const confirmDeleteNote = () => {
+        setShowPopover(false);
+
+        Alert.alert(
+            "Delete Note",
+            "Your Note will be lost forever. Are you sure?",
+            [
+                {
+                    text: "KEEP",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                {
+                    text: 'DELETE',
+                    onPress: () => deleteNote()
+                }
+            ],
+            { cancelable: false }
+        );
+    }
+
+    const deleteNote = () => {
+        props.item.segments.forEach((segment : INoteSegment) => {
+            if (segment.attachments)
+                segment.attachments.forEach((attachment : IMedia | IFile) => {
+                    if (attachment.name) removeFileOnLocalStorage(attachment.name, attachment.type);
+                });
+        });
+
+        props.deleteNote(props.item);
     }
 
     return (
@@ -88,7 +123,7 @@ const NoteRow = (props : INoteRow) => {
                         props.item.emphasized ? { name : 'Un-highlight', icon : 'pen', type : ACTION_TYPES.NORMAL, callback : () => toggleNoteHighlighting() }
                                               : { name : 'Highlight', icon : 'pen', type : ACTION_TYPES.NORMAL, callback : () => toggleNoteHighlighting() },
                         { name : 'Archive', icon : 'trash-can', type : ACTION_TYPES.CAUTIOUS, callback : () => console.log('Archive') },
-                        { name : 'Delete', icon : 'delete-forever', type : ACTION_TYPES.DANGEROUS, callback : () => console.log('Delete') }
+                        { name : 'Delete', icon : 'delete-forever', type : ACTION_TYPES.DANGEROUS, callback : () => confirmDeleteNote() }
                     ]}
                 />
             </Popover>

@@ -81,3 +81,17 @@ export const setLocalNoteEmphasized = (itemId : number, isEmphasized : boolean) 
             }));
     }
 }
+
+export const deleteLocalNote = (item : INote) => {
+    return (dispatch : any) => {
+        noteServices.removeLocalNoteFromDb(item)
+            .then(response => dispatch({
+                type : noteConstants.DELETE_LOCAL_NOTE_SUCCESS,
+                payload : response
+            }))
+            .catch(error => dispatch({
+                type : noteConstants.DELETE_LOCAL_NOTE_FAILED,
+                error
+            }));
+    }
+}

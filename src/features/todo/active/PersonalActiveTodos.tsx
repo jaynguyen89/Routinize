@@ -8,7 +8,7 @@ import PopoverMenu from '../../../customs/PopoverMenu';
 import Popover from 'react-native-popover-view/dist/Popover';
 import Loading from '../../../customs/Loading';
 import CustomError from '../../../customs/CustomError';
-import { ITodos } from '../redux/constants';
+import { ITodos } from '../redux/interfaces';
 import ITodo from '../../../models/ITodo';
 
 import { sharedStyles } from '../../../shared/styles';
@@ -17,7 +17,7 @@ import { baseFontSize } from '../../../shared/typography';
 import { ACTION_TYPES } from '../../../shared/enums';
 import * as todoConstants from '../redux/constants';
 
-import { setTodoTypeToCreate, getAllLocalTodos, markLocalTodoAsDoneOrImportant } from '../redux/actions';
+import { setTodoTypeToCreate, getAllLocalTodos, markLocalTodoAsDoneOrImportant, deleteLocalTodo } from '../redux/actions';
 import { resetAttachmentRemovalStatus } from '../../attachments/redux/actions';
 
 const mapStateToProps = (state : any) => ({
@@ -31,7 +31,8 @@ const mapActionsToProps = {
     setTodoTypeToCreate,
     getAllLocalTodos,
     resetAttachmentRemovalStatus,
-    markLocalTodoAsDoneOrImportant
+    markLocalTodoAsDoneOrImportant,
+    deleteLocalTodo
 }
 
 const PersonalActiveTodos = (props : ITodos) => {
@@ -58,9 +59,9 @@ const PersonalActiveTodos = (props : ITodos) => {
             alert('Failed! An issue happened while updating Todo. Please try again.');
 
         if (props.setDoneOrImportant.action === todoConstants.MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_SUCCESS) {
-            const result = props.setDoneOrImportant.result;
+            const result = props.setDoneOrImportant.result?.result;
 
-            if (!result.result)
+            if (!result)
                 alert('Failed! An issue happened while updating Todo. Please try again.');
             else
                 Alert.alert(
@@ -74,6 +75,27 @@ const PersonalActiveTodos = (props : ITodos) => {
                 );
         }
     }, [props.setDoneOrImportant]);
+
+    React.useEffect(() => {
+        if (props.deleteTodo.action === todoConstants.DELETE_LOCAL_TODO_FAILED)
+            alert('Failed! An issue happened while deleting Todo. Please try again.');
+
+        if (props.deleteTodo.action === todoConstants.DELETE_LOCAL_TODO_SUCCESS) {
+            const result = props.deleteTodo.result;
+
+            if (!result) alert('Failed! An issue happened while deleting Todo. Please try again.');
+            else
+                Alert.alert(
+                    "Success!",
+                    "Your Todo has been deleted.",
+                    [{
+                        text: 'OK',
+                        onPress: () => props.getAllLocalTodos()
+                    }],
+                    { cancelable: false }
+                );
+        }
+    }, [props.deleteTodo]);
 
     const gotoNewTodo = () => {
         setShowPopover(false);
@@ -96,6 +118,8 @@ const PersonalActiveTodos = (props : ITodos) => {
         props.markLocalTodoAsDoneOrImportant(itemId, field, isEmphasized);
     }
 
+    const deleteTodo = (item : ITodo) => props.deleteLocalTodo(item);
+
     return (
         <>
             {
@@ -116,6 +140,7 @@ const PersonalActiveTodos = (props : ITodos) => {
                             key={ item.id }
                             navigation={ props.navigation }
                             setDoneOrImportant={ setDoneOrImportant }
+                            deleteTodo={ deleteTodo }
                         />
                     )
                 }

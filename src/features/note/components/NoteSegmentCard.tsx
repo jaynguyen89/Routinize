@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { View } from 'react-native';
-import { INoteSegmentCard } from '../redux/constants';
+import { INoteSegmentCard } from '../redux/interfaces';
 
 import styles from '../styles';
 import AttachmentsList from '../../../customs/AttachmentsList';

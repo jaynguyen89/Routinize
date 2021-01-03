@@ -21,7 +21,7 @@ import {
     MEDIA_TYPES,
     MOMENT_FORMATS
 } from '../../../shared/enums';
-import { ITodoDetail } from '../redux/constants';
+import { ITodoDetail } from '../redux/interfaces';
 import ITodo, { EMPTY_TODO } from '../../../models/ITodo';
 import * as attachmentConstants from '../../attachments/redux/constants';
 import { IRemovalStatus } from '../../attachments/redux/constants';
@@ -357,12 +357,12 @@ const TodoDetail = (props : ITodoDetail) => {
                 "Your Todo has not been saved. All details you have entered will be lost.\n\nAre you sure?",
                 [
                     {
-                        text: "No, back to my Todo.",
+                        text: "STAY",
                         onPress: () => console.log("Cancel Pressed"),
                         style: "cancel"
                     },
                     {
-                        text: 'Yes, I\'m sure.',
+                        text: 'LEAVE',
                         onPress: () => props.navigation.goBack()
                     }
                 ],
@@ -386,7 +386,7 @@ const TodoDetail = (props : ITodoDetail) => {
         }
         else {
             setScreenCover({ message : 'Updating changes', visible : true });
-            props.updateLocalTodo(item);
+            props.updateLocalTodo(item, props.settings.dateTimeFormat);
             setAction(ACTIONS.UPDATE);
         }
     }

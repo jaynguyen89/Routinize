@@ -107,3 +107,17 @@ export const markLocalTodoAsDoneWithDate = (itemId : number, date : string) => {
             }));
     }
 }
+
+export const deleteLocalTodo = (item : ITodo) => {
+    return (dispatch : any) => {
+        todoServices.removeLocalTodoFromDb(item)
+            .then(response => dispatch({
+                type : todoConstants.DELETE_LOCAL_TODO_SUCCESS,
+                payload : response
+            }))
+            .catch(error => dispatch({
+                type : todoConstants.DELETE_LOCAL_TODO_FAILED,
+                error
+            }));
+    }
+}

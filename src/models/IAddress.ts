@@ -1,5 +1,5 @@
 interface IAddress {
-    id : string | number,
+    id : number,
     name : string | null,
     building : string | null,
     street : string | null,

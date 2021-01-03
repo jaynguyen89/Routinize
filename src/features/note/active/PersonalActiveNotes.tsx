@@ -5,7 +5,7 @@ import { Alert, ScrollView, TouchableOpacity, View } from 'react-native';
 import NoteRow from "../components/NoteRow";
 import { Divider } from "react-native-elements";
 import INote from "../../../models/INote";
-import { IActiveNotes } from "../redux/constants";
+import { IActiveNotes } from "../redux/interfaces";
 
 import { sharedStyles } from "../../../shared/styles";
 import { ACTION_TYPES } from "../../../shared/enums";
@@ -21,21 +21,23 @@ import Loading from '../../../customs/Loading';
 import CustomError from '../../../customs/CustomError';
 import Message from '../../../customs/Message';
 
-import { getLocalNotes } from '../redux/actions';
+import { getLocalNotes, deleteLocalNote } from '../redux/actions';
 import { resetAttachmentRemovalStatus } from '../../attachments/redux/actions';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,
     authStatus : state.appReducer.authStatus,
     getNotes : state.noteReducer.getNotes,
-    highlightNote : state.noteReducer.highlightNote
+    highlightNote : state.noteReducer.highlightNote,
+    deleteNote : state.noteReducer.deleteNote
 });
 
 const mapActionsToProps = {
     setNoteTypeToCreate,
     getLocalNotes,
     resetAttachmentRemovalStatus,
-    setLocalNoteEmphasized
+    setLocalNoteEmphasized,
+    deleteLocalNote
 }
 
 const PersonalActiveNotes = (props : IActiveNotes) => {
@@ -62,24 +64,52 @@ const PersonalActiveNotes = (props : IActiveNotes) => {
 
     React.useEffect(() => {
         if (props.getNotes.action === noteConstants.GET_ALL_LOCAL_NOTES_SUCCESS)
-            setItems(props.getNotes.items);
+            setItems(props.getNotes.items as Array<INote>);
     }, [props.getNotes]);
 
     React.useEffect(() => {
         if (props.highlightNote.action === noteConstants.HIGHLIGHT_LOCAL_NOTE_FAILED)
             alert('Failed! An issue happened while updating Note. Please try again.');
 
-        if (props.highlightNote.action === noteConstants.HIGHLIGHT_LOCAL_NOTE_SUCCESS)
-            Alert.alert(
-                "Success!",
-                'Your Note has been updated.',
-                [{
-                    text: 'OK',
-                    onPress: () => props.getLocalNotes()
-                }],
-                { cancelable: false }
-            );
+        if (props.highlightNote.action === noteConstants.HIGHLIGHT_LOCAL_NOTE_SUCCESS) {
+            const result = props.highlightNote.result;
+
+            if (typeof result === 'object' || !result)
+                alert('Failed! An issue happened while updating Note. Please try again.');
+            else
+                Alert.alert(
+                    "Success!",
+                    'Your Note has been updated.',
+                    [{
+                        text: 'OK',
+                        onPress: () => props.getLocalNotes()
+                    }],
+                    { cancelable: false }
+                );
+        }
     }, [props.highlightNote]);
+
+    React.useEffect(() => {
+        if (props.deleteNote.action === noteConstants.DELETE_LOCAL_NOTE_FAILED)
+            alert('Failed! An issue happened while deleting note. Please try again.');
+
+        if (props.deleteNote.action === noteConstants.DELETE_LOCAL_NOTE_SUCCESS) {
+            const result = props.deleteNote.result;
+
+            if (!result)
+                alert('Failed! An issue happened while deleting Note. Please try again.');
+            else
+                Alert.alert(
+                    "Success!",
+                    'Your Note has been deleted.',
+                    [{
+                        text: 'OK',
+                        onPress: () => props.getLocalNotes()
+                    }],
+                    { cancelable: false }
+                );
+        }
+    }, [props.deleteNote]);
 
     const gotoNewNote = () => {
         setShowPopover(false);
@@ -89,6 +119,7 @@ const PersonalActiveNotes = (props : IActiveNotes) => {
     }
 
     const toggleNoteHighlighting = (itemId : number, isEmphasized : boolean) => props.setLocalNoteEmphasized(itemId, isEmphasized);
+    const deleteNote = (item : INote) => props.deleteLocalNote(item);
 
     return (
         <>
@@ -103,7 +134,13 @@ const PersonalActiveNotes = (props : IActiveNotes) => {
                             items.map((item: INote) => {
                                 return (
                                     <View key={ item.id }>
-                                        <NoteRow item={ item } navigation={ props.navigation } toggleHighlight={ toggleNoteHighlighting } />
+                                        <NoteRow
+                                            item={ item }
+                                            navigation={ props.navigation }
+                                            toggleHighlight={ toggleNoteHighlighting }
+                                            deleteNote={ deleteNote }
+                                        />
+
                                         <Divider style={{ backgroundColor: props.settings.theme.btnDisabled.color }} />
                                     </View>
                                 );
