@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text, View } from "react-native";
 
-const PersonalStatistics = () => {
+const PersonalRecycleBin = () => {
     return (
         <View style={{flex:1}}>
-            <Text>Personal Statistics</Text>
+            <Text>PersonalArchivedNotes</Text>
         </View>
     );
 }
 
-export default PersonalStatistics;
+export default PersonalRecycleBin;

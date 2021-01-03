@@ -12,13 +12,11 @@ import { getAuthData } from '../src/auth/redux/actions';
 import AppDrawer from "../src/menu/AppDrawer";
 import HomeSummaryTab from "../src/menu/navigators/home/HomeSummaryTab";
 import AccountStack from '../src/menu/navigators/account/AccountStack';
-import HomeStatisticsTab from "../src/menu/navigators/home/HomeStatisticsTab";
+import HomeUpcomingTaskTab from "../src/menu/navigators/home/HomeUpcomingTaskTab";
 import ActiveTodoTab from "../src/menu/navigators/todo/ActiveTodoTab";
 import ActiveNoteTab from "../src/menu/navigators/note/ActiveNoteTab";
 import DoneTodoTab from "../src/menu/navigators/todo/DoneTodoTab";
-import ImportantTodoTab from "../src/menu/navigators/todo/ImportantTodoTab";
-import HighlightedNoteTab from "../src/menu/navigators/note/HighlightedNoteTab";
-import ArchivedNoteTab from "../src/menu/navigators/note/ArchivedNoteTab";
+import RecycleBinTab from "../src/menu/navigators/recycle_bin/RecycleBinTab";
 import RandomIdeasStack from "../src/menu/navigators/note/RandomIdeasStack";
 import TeamStack from "../src/menu/navigators/collaboration/TeamStack";
 import CollaboratorStack from "../src/menu/navigators/collaboration/CollaboratorStack";
@@ -63,21 +61,19 @@ const App: () => React.ReactNode = () => {
         <Provider store={ store }>
             <NavigationContainer>
                 <Drawer.Navigator drawerContent={props => <AppDrawer { ...props } />}>
+                    <Drawer.Screen name='UpcomingTasks' component={ HomeUpcomingTaskTab } />
                     <Drawer.Screen name='Summary' component={ HomeSummaryTab } />
-                    <Drawer.Screen name='Statistics' component={ HomeStatisticsTab } />
 
                     <Drawer.Screen name='ActiveTodos' component={ ActiveTodoTab } />
-                    <Drawer.Screen name='ImportantTodos' component={ ImportantTodoTab } />
                     <Drawer.Screen name='DoneTodos' component={ DoneTodoTab } />
 
                     <Drawer.Screen name='ActiveNotes' component={ ActiveNoteTab } />
-                    <Drawer.Screen name='HighlightedNotes' component={ HighlightedNoteTab } />
-                    <Drawer.Screen name='ArchivedNotes' component={ ArchivedNoteTab } />
                     <Drawer.Screen name='RandomIdeas' component={ RandomIdeasStack } />
 
                     <Drawer.Screen name='Teams' component={ TeamStack } />
                     <Drawer.Screen name='Collaborators' component={ CollaboratorStack } />
                     <Drawer.Screen name='Invitations' component={ InvitationStack } />
+                    <Drawer.Screen name='RecycleBin' component={ RecycleBinTab } />
 
                     <Drawer.Screen name='Settings' component={ SettingsStack } />
                     <Drawer.Screen name='Personalization' component={ PersonalizationStack } />

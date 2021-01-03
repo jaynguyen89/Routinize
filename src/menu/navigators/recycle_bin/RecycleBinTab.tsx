@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import PersonalHighlightedNotesStack from "./PersonalHighlightedNotesStack";
-import SharedHighlightedNotesStack from "./SharedHighlightedNotesStack";
 
 import { BASE_HEIGHT, baseFontSize } from "../../../shared/typography";
 import { faUserFriends, faUsers, faUserTie, faUser } from "@fortawesome/free-solid-svg-icons";
+import PersonalRecycleBinStack from "./PersonalRecycleBinStack";
+import SharedRecycleBinStack from "./SharedRecycleBinStack";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -15,7 +15,7 @@ const mapStateToProps = (state: any) => ({
     settings : state.settingsReducer.appSettings.settings
 });
 
-const HighlightedNoteTab = (props : any) => {
+const RecycleBinTab = (props : any) => {
     return (
         props.settings &&
         <BottomTab.Navigator
@@ -41,8 +41,8 @@ const HighlightedNoteTab = (props : any) => {
                 }
             }}
         >
-            <BottomTab.Screen name='Personal' component={ PersonalHighlightedNotesStack } options={{ tabBarBadge : 1 }} />
-            <BottomTab.Screen name='Shared' component={ SharedHighlightedNotesStack } />
+            <BottomTab.Screen name='Personal' component={ PersonalRecycleBinStack } options={{ tabBarBadge : 1 }} />
+            <BottomTab.Screen name='Shared' component={ SharedRecycleBinStack } />
         </BottomTab.Navigator>
         || <></>
     );
@@ -50,4 +50,4 @@ const HighlightedNoteTab = (props : any) => {
 
 export default connect(
     mapStateToProps
-)(HighlightedNoteTab);
+)(RecycleBinTab);

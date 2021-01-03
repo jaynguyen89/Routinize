@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import PersonalUpcomingTasks from "../../../features/home/upcoming_tasks/PersonalUpcomingTasks";
 import { IAppDrawer } from "../../../shared/interfaces";
-import SharedImportantTodos from "../../../features/todo/important/SharedImportantTodos";
 
 import { Typography } from "../../../shared/typography";
 const Stack = createStackNavigator();
@@ -12,10 +12,10 @@ const mapStateToProps = (state: any) => ({
     settings : state.settingsReducer.appSettings.settings
 });
 
-const SharedImportantTodosStack = (props : IAppDrawer) => {
+const PersonalUpcomingTaskStack = (props : IAppDrawer) => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name='Important Todos - Shared' component={ SharedImportantTodos }
+            <Stack.Screen name='Personal Upcoming Tasks' component={ PersonalUpcomingTasks }
                           options={{
                               headerTitleStyle : Typography.thirdHeader,
                               headerTintColor : props.settings.theme.textFill.color,
@@ -29,4 +29,4 @@ const SharedImportantTodosStack = (props : IAppDrawer) => {
 
 export default connect(
     mapStateToProps
-)(SharedImportantTodosStack);
+)(PersonalUpcomingTaskStack);

@@ -8,7 +8,7 @@ import { IAppDrawer } from "../../shared/interfaces";
 
 import styles from "../styles";
 import { baseFontSize, Typography } from "../../shared/typography";
-import { faHandsHelping, faObjectGroup, faShareAlt } from "@fortawesome/free-solid-svg-icons";
+import { faArchive, faHandsHelping, faObjectGroup, faShareAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 const mapStateToProps = (state : any) => ({
@@ -47,6 +47,16 @@ const Collaboration = (props: IAppDrawer) => {
                         <>
                             <FontAwesomeIcon icon={ faShareAlt } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
                             <Text style={[ styles.rowText, Typography.regular ]}>Invitations</Text>
+                        </>
+                    </TouchableRipple>
+                </View>
+
+                <View style={{ margin:0, paddingTop:0 }}>
+                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border, styles.archivedRow ]}
+                                     onPress={ () => props.navigation.navigate('RecycleBin', { screen : 'Recycle Bin - Personal'}) }>
+                        <>
+                            <FontAwesomeIcon icon={ faArchive } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
+                            <Text style={[ styles.rowText, Typography.regular ]}>Recycle Bin</Text>
                         </>
                     </TouchableRipple>
                 </View>

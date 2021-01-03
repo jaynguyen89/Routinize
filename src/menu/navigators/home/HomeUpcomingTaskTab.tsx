@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+import PersonalUpcomingTaskStack from "./PersonalUpcomingTaskStack";
+import SharedUpcomingTaskStack from "./SharedUpcomingTaskStack";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 import { BASE_HEIGHT, baseFontSize } from "../../../shared/typography";
 import { faUserFriends, faUsers, faUserTie, faUser } from "@fortawesome/free-solid-svg-icons";
-import PersonalArchivedNotesStack from "./PersonalArchivedNotesStack";
-import SharedArchivedNotesStack from "./SharedArchivedNotesStack";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -15,7 +15,7 @@ const mapStateToProps = (state: any) => ({
     settings : state.settingsReducer.appSettings.settings
 });
 
-const ArchivedNoteTab = (props : any) => {
+const HomeUpcomingTaskTab = (props : any) => {
     return (
         props.settings &&
         <BottomTab.Navigator
@@ -41,8 +41,8 @@ const ArchivedNoteTab = (props : any) => {
                 }
             }}
         >
-            <BottomTab.Screen name='Personal' component={ PersonalArchivedNotesStack } options={{ tabBarBadge : 1 }} />
-            <BottomTab.Screen name='Shared' component={ SharedArchivedNotesStack } />
+            <BottomTab.Screen name='Personal' component={ PersonalUpcomingTaskStack } options={{ tabBarBadge : 1 }} />
+            <BottomTab.Screen name='Shared' component={ SharedUpcomingTaskStack } />
         </BottomTab.Navigator>
         || <></>
     );
@@ -50,4 +50,4 @@ const ArchivedNoteTab = (props : any) => {
 
 export default connect(
     mapStateToProps
-)(ArchivedNoteTab);
+)(HomeUpcomingTaskTab);

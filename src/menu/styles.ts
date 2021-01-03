@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
-import { BASE_HEIGHT, baseFontSize } from "../shared/typography";
-import themes from "../shared/themes";
+import { BASE_HEIGHT } from "../shared/typography";
+import { sharedStyles } from '../shared/styles';
 
 const styles = StyleSheet.create({
     drawerContainer: {
@@ -34,6 +34,13 @@ const styles = StyleSheet.create({
     },
     rowText : {
         flex : 9
+    },
+    archivedRow : {
+        backgroundColor : sharedStyles.btnWarning.color,
+        borderColor : sharedStyles.btnWarning.backgroundColor,
+        borderTopWidth : 2,
+        borderBottomWidth : 2,
+        marginVertical : 2
     }
 });
 

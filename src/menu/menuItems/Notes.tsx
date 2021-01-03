@@ -8,7 +8,7 @@ import { IAppDrawer } from "../../shared/interfaces";
 
 import styles from "../styles";
 import { baseFontSize, Typography } from "../../shared/typography";
-import { faArchive, faAward, faLightbulb, faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
+import { faLightbulb, faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -25,27 +25,7 @@ const Notes = (props: IAppDrawer) => {
                                      onPress={ () => props.navigation.navigate('ActiveNotes', { screen : 'Active Notes - Personal'}) }>
                         <>
                             <FontAwesomeIcon icon={ faQuoteLeft } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                            <Text style={[ styles.rowText, Typography.regular ]}>Active</Text>
-                        </>
-                    </TouchableRipple>
-                </View>
-
-                <View style={{ margin:0, padding:0 }}>
-                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
-                                     onPress={ () => props.navigation.navigate('HighlightedNotes', { screen : 'Highlighted Notes - Personal'}) }>
-                        <>
-                            <FontAwesomeIcon icon={ faAward } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                            <Text style={[ styles.rowText, Typography.regular ]}>Highlighted</Text>
-                        </>
-                    </TouchableRipple>
-                </View>
-
-                <View style={{ margin:0, padding:0 }}>
-                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
-                                     onPress={ () => props.navigation.navigate('ArchivedNotes', { screen : 'Archived Notes - Personal'}) }>
-                        <>
-                            <FontAwesomeIcon icon={ faArchive } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                            <Text style={[ styles.rowText, Typography.regular ]}>Archived</Text>
+                            <Text style={[ styles.rowText, Typography.regular ]}>All Notes</Text>
                         </>
                     </TouchableRipple>
                 </View>

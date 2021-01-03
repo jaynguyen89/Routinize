@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import SharedHighlightedNotes from "../../../features/note/highlighted/SharedHighlightedNotes";
+import PersonalRecycleBin from "../../../features/recycle_bin/PersonalRecycleBin";
 import NoteDetail from "../../../features/note/components/NoteDetail";
 import { IAppDrawer } from "../../../shared/interfaces";
 
@@ -13,10 +13,10 @@ const mapStateToProps = (state: any) => ({
     settings : state.settingsReducer.appSettings.settings
 });
 
-const SharedHighlightedNotesStack = (props : IAppDrawer) => {
+const PersonalRecycleBinStack = (props : IAppDrawer) => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name='Important Notes - Shared' component={ SharedHighlightedNotes }
+            <Stack.Screen name='Recycle Bin - Personal' component={ PersonalRecycleBin }
                           options={{
                               headerTitleStyle : Typography.thirdHeader,
                               headerTintColor : props.settings.theme.textFill.color,
@@ -33,19 +33,10 @@ const SharedHighlightedNotesStack = (props : IAppDrawer) => {
                                   backgroundColor : props.settings.theme.backgroundPrimary.backgroundColor
                               }
                           }} />
-
-            <Stack.Screen name='New Note - Personal' component={ NoteDetail }
-                          options={{
-                              headerTitleStyle : Typography.thirdHeader,
-                              headerTintColor : props.settings.theme.textFill.color,
-                              headerStyle : {
-                                  backgroundColor : props.settings.theme.backgroundPrimary.backgroundColor
-                              }
-                          }} />
         </Stack.Navigator>
     );
 }
 
 export default connect(
     mapStateToProps
-)(SharedHighlightedNotesStack);
+)(PersonalRecycleBinStack);

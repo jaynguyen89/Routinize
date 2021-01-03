@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from "react-native";
 
-const SharedStatistics = () => {
+const SharedUpcomingTasks = () => {
     return (
         <View style={{flex:1}}>
             <Text>Shared Statistics</Text>
@@ -9,4 +9,4 @@ const SharedStatistics = () => {
     );
 }
 
-export default SharedStatistics;
+export default SharedUpcomingTasks;

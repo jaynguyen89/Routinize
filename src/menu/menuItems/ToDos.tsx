@@ -8,7 +8,7 @@ import { IAppDrawer } from "../../shared/interfaces";
 
 import styles from "../styles";
 import { baseFontSize, Typography } from "../../shared/typography";
-import { faBomb, faCheck, faSun } from "@fortawesome/free-solid-svg-icons";
+import { faBomb, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings
@@ -25,17 +25,7 @@ const ToDos = (props: IAppDrawer) => {
                                      onPress={ () => props.navigation.navigate('ActiveTodos', { screen : 'Active Todos - Personal'}) }>
                         <>
                             <FontAwesomeIcon icon={ faBomb } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                            <Text style={[ styles.rowText, Typography.regular ]}>Active</Text>
-                        </>
-                    </TouchableRipple>
-                </View>
-
-                <View style={{ margin:0, padding:0 }}>
-                    <TouchableRipple style={[ styles.rowItem, props.settings.theme.btnDisabled, props.settings.theme.border ]}
-                                     onPress={ () => props.navigation.navigate('ImportantTodos', { screen : 'Important Todos - Personal'}) }>
-                        <>
-                            <FontAwesomeIcon icon={ faSun } size={ baseFontSize * 1.7 } style={ styles.rowIcon } />
-                            <Text style={[ styles.rowText, Typography.regular ]}>Important</Text>
+                            <Text style={[ styles.rowText, Typography.regular ]}>Active Tasks</Text>
                         </>
                     </TouchableRipple>
                 </View>
