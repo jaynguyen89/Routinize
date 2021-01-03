@@ -90,6 +90,7 @@ const TodoDetail = (props : ITodoDetail) => {
         if (props.item) {
             props.getLocalTodoAttachments(props.item.id);
 
+
             setDate((
                 props.item &&
                 moment(
@@ -127,7 +128,7 @@ const TodoDetail = (props : ITodoDetail) => {
     }, [props.newItem]);
 
     React.useEffect(() => {
-        if (!props.getAttachments.isRetrieving && props.getAttachments.retrievingSuccess) {
+        if (props.getAttachments.action === todoConstants.GET_LOCAL_TODO_ATTACHMENTS_SUCCESS) {
             setItem({ ...props.item, attachments: props.getAttachments.attachments });
             setItemBackup({ ...props.item, attachments : props.getAttachments.attachments });
         }
@@ -426,9 +427,9 @@ const TodoDetail = (props : ITodoDetail) => {
                         { name : 'URL', icon : faLink, type : ACTION_TYPES.NORMAL, callback : () => setShowUrlPopover(true) }
                     ]} />
 
-                    { props.getAttachments.isRetrieving && <Loading message='Finding attachments.' /> }
+                    { props.getAttachments.action === todoConstants.GET_LOCAL_TODO_ATTACHMENTS && <Loading message='Finding attachments.' /> }
                     {
-                        !props.getAttachments.isRetrieving && !props.getAttachments.retrievingSuccess && props.getAttachments.attachments &&
+                        props.getAttachments.action === todoConstants.GET_LOCAL_TODO_ATTACHMENTS_FAILED && props.getAttachments.attachments &&
                         <View style={ sharedStyles.inputWrapper }>
                           <Text style={[ Typography.small, { textAlign : 'center', color : sharedStyles.btnDanger.backgroundColor } ]}>
                             An issue happened while looking for the attachments. Please refresh the screen to retry.

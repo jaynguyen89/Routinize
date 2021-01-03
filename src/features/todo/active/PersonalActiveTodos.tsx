@@ -12,19 +12,21 @@ import { ITodos } from '../redux/interfaces';
 import ITodo from '../../../models/ITodo';
 
 import { sharedStyles } from '../../../shared/styles';
-import { faEllipsisV, faPlusCircle, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faGlobe, faPlusCircle, faSun, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { baseFontSize } from '../../../shared/typography';
 import { ACTION_TYPES } from '../../../shared/enums';
 import * as todoConstants from '../redux/constants';
 
 import { setTodoTypeToCreate, getAllLocalTodos, markLocalTodoAsDoneOrImportant, deleteLocalTodo } from '../redux/actions';
 import { resetAttachmentRemovalStatus } from '../../attachments/redux/actions';
+import Message from '../../../customs/Message';
 
 const mapStateToProps = (state : any) => ({
     settings : state.settingsReducer.appSettings.settings,
     authStatus : state.appReducer.authStatus,
     todoRetrieval : state.todoReducer.itemList,
-    setDoneOrImportant : state.todoReducer.setDoneOrImportant
+    setDoneOrImportant : state.todoReducer.setDoneOrImportant,
+    deleteTodo : state.todoReducer.deleteTodo
 });
 
 const mapActionsToProps = {
@@ -37,6 +39,7 @@ const mapActionsToProps = {
 
 const PersonalActiveTodos = (props : ITodos) => {
     const [todos, setTodos] = React.useState(Array<ITodo>());
+    const [shouldShowOnlyImportantItems, setShouldShowOnlyImportantItems] = React.useState(false);
 
     const [showPopover, setShowPopover] = React.useState(false);
     const stackButton = React.useRef('stackButton');
@@ -53,6 +56,15 @@ const PersonalActiveTodos = (props : ITodos) => {
 
         props.navigation.addListener('focus', () => props.getAllLocalTodos());
     }, [props.navigation]);
+
+    React.useEffect(() => {
+        props.getAllLocalTodos();
+    }, []);
+
+    React.useEffect(() => {
+        if (props.todoRetrieval.action === todoConstants.GET_ALL_TODOS_LOCAL_SUCCESS)
+            setTodos(props.todoRetrieval.items as unknown as Array<ITodo>);
+    }, [props.todoRetrieval]);
 
     React.useEffect(() => {
         if (props.setDoneOrImportant.action === todoConstants.MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_FAILED)
@@ -104,15 +116,6 @@ const PersonalActiveTodos = (props : ITodos) => {
         props.navigation.navigate('New Todo - Personal');
     }
 
-    React.useEffect(() => {
-        props.getAllLocalTodos();
-    }, []);
-
-    React.useEffect(() => {
-        if (!props.todoRetrieval.isRetrieving && props.todoRetrieval.retrievingSuccess)
-            setTodos(props.todoRetrieval.items as unknown as Array<ITodo>);
-    }, [props.todoRetrieval]);
-
     const setDoneOrImportant = (itemId : number, field : string, isEmphasized : boolean) => {
         setShowPopover(false);
         props.markLocalTodoAsDoneOrImportant(itemId, field, isEmphasized);
@@ -124,36 +127,50 @@ const PersonalActiveTodos = (props : ITodos) => {
         <>
             {
                 (
-                    props.todoRetrieval.isRetrieving && <Loading message='Loading Todos.' />
+                    props.todoRetrieval.action === todoConstants.GET_ALL_TODOS_LOCAL && <Loading message='Loading Todos.' />
                 ) || (
-                    !props.todoRetrieval.isRetrieving && !props.todoRetrieval.retrievingSuccess &&
-                    <CustomError />
+                    props.todoRetrieval.action === todoConstants.GET_ALL_TODOS_LOCAL_FAILED && <CustomError />
                 )
             }
 
-            <ScrollView style={ sharedStyles.scroller }>
-                {
-                    props.todoRetrieval.retrievingSuccess &&
-                    todos.map((item: ITodo) =>
-                        <TodoCard
-                            item={ item }
-                            key={ item.id }
-                            navigation={ props.navigation }
-                            setDoneOrImportant={ setDoneOrImportant }
-                            deleteTodo={ deleteTodo }
-                        />
-                    )
-                }
-            </ScrollView>
+            {
+                (
+                    props.todoRetrieval.action === todoConstants.GET_ALL_TODOS_LOCAL_SUCCESS && todos.length > 0 &&
+                    <ScrollView style={ sharedStyles.scroller }>
+                        {
+                            todos.filter((todo : ITodo) =>
+                                todo.deletedOn === null && todo.doneDate === null &&
+                                (!shouldShowOnlyImportantItems || todo.emphasized === shouldShowOnlyImportantItems)
+                            )
+                                 .map((item: ITodo) =>
+                                    <TodoCard
+                                        item={ item }
+                                        key={ item.id }
+                                        navigation={ props.navigation }
+                                        setDoneOrImportant={ setDoneOrImportant }
+                                        deleteTodo={ deleteTodo }
+                                    />
+                            )
+                        }
+                    </ScrollView>
+                ) ||
+                <Message mainMessage='You have no Todo item.' otherMessage='Start adding your first Todo item by tapping the icon on top-right corner.' />
+            }
 
             <Popover isVisible={ showPopover } onRequestClose={ () => setShowPopover(false) }
                      from={ stackButton } arrowStyle={{ backgroundColor : 'transparent' }}>
                 <PopoverMenu actions={(
                     props.authStatus && [
                         { name : 'Add New Todo', icon : faPlusCircle, type : ACTION_TYPES.NORMAL, callback : () => gotoNewTodo() },
+                        (
+                            shouldShowOnlyImportantItems && { name : 'All Todos', icon : faGlobe, type : ACTION_TYPES.NORMAL, callback : () => setShouldShowOnlyImportantItems(false) }
+                        ) || { name : 'Important Todos', icon : faSun, type : ACTION_TYPES.NORMAL, callback : () => setShouldShowOnlyImportantItems(true) },
                         { name : 'Sync Data', icon : faSyncAlt, type : ACTION_TYPES.NORMAL, callback : () => console.log('Sync') }
                     ]) || [
-                        { name : 'Add New Todo', icon : faPlusCircle, type : ACTION_TYPES.NORMAL, callback : () => gotoNewTodo() }
+                        { name : 'Add New Todo', icon : faPlusCircle, type : ACTION_TYPES.NORMAL, callback : () => gotoNewTodo() },
+                        (
+                            shouldShowOnlyImportantItems && { name : 'All Todos', icon : faGlobe, type : ACTION_TYPES.NORMAL, callback : () => setShouldShowOnlyImportantItems(false) }
+                        ) || { name : 'Important Todos', icon : faSun, type : ACTION_TYPES.NORMAL, callback : () => setShouldShowOnlyImportantItems(true) }
                     ]} />
             </Popover>
         </>

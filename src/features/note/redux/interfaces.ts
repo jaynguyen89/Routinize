@@ -2,9 +2,10 @@ import INote from '../../../models/INote';
 import INoteSegment from '../../../models/INoteSegment';
 import { IFile, IMedia } from '../../../models/others';
 import IAddress from '../../../models/IAddress';
+import { ISettingData } from '../../../shared/interfaces';
 
 export interface IActiveNotes {
-    settings : any,
+    settings : ISettingData,
     items : INote,
     navigation : any,
     authStatus : boolean,
@@ -28,7 +29,7 @@ export interface IActiveNotes {
 }
 
 export interface INoteRow {
-    settings : any,
+    settings : ISettingData,
     item : INote,
     navigation : any,
     setNoteDetailItem : (item : INote) => void,
@@ -40,7 +41,7 @@ export interface INoteRow {
 export interface INoteDetail {
     navigation : any,
     authStatus : boolean,
-    settings? : any,
+    settings : ISettingData,
     item : INote,
     isPersonal : boolean,
     saveNote : {
@@ -56,7 +57,7 @@ export interface INoteDetail {
 }
 
 export interface INoteSegmentCard {
-    settings? : any,
+    settings : ISettingData,
     segmentIndex : number,
     segment : INoteSegment,
     atmRemoval : {

@@ -13,7 +13,7 @@ import * as noteConstants from '../redux/constants';
 
 import { setNoteTypeToCreate, setLocalNoteEmphasized } from '../redux/actions';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faEllipsisV, faPlusCircle, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV, faGlobe, faPlusCircle, faSun, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { baseFontSize } from "../../../shared/typography";
 import PopoverMenu from "../../../customs/PopoverMenu";
 import Popover from "react-native-popover-view/dist/Popover";
@@ -42,6 +42,8 @@ const mapActionsToProps = {
 
 const PersonalActiveNotes = (props : IActiveNotes) => {
     const [items, setItems] = React.useState(new Array<INote>());
+    const [shouldShowOnlyHighlightedItems, setShouldShowOnlyHighlightedItems] = React.useState(false);
+
     const [showPopover, setShowPopover] = React.useState(false);
     const stackButton = React.useRef('stackButton');
 
@@ -131,8 +133,11 @@ const PersonalActiveNotes = (props : IActiveNotes) => {
                     props.getNotes.action === noteConstants.GET_ALL_LOCAL_NOTES_SUCCESS && items.length > 0 &&
                     <ScrollView style={sharedStyles.scroller}>
                         {
-                            items.map((item: INote) => {
-                                return (
+                            items.filter((item : INote) =>
+                                item.deletedOn === null && (
+                                    !shouldShowOnlyHighlightedItems || item.emphasized === shouldShowOnlyHighlightedItems
+                            ))
+                                 .map((item: INote) =>
                                     <View key={ item.id }>
                                         <NoteRow
                                             item={ item }
@@ -143,12 +148,11 @@ const PersonalActiveNotes = (props : IActiveNotes) => {
 
                                         <Divider style={{ backgroundColor: props.settings.theme.btnDisabled.color }} />
                                     </View>
-                                );
-                            })
+                            )
                         }
                     </ScrollView>
                 ) ||
-                <Message mainMessage='You have no Notes.' otherMessage='Start adding your first Note by tapping on the top-right corner icon.' />
+                <Message mainMessage='You have no Note.' otherMessage='Start adding your first Note by tapping the icon on top-right corner.' />
             }
 
             <Popover isVisible={ showPopover } onRequestClose={ () => setShowPopover(false) }
@@ -156,9 +160,15 @@ const PersonalActiveNotes = (props : IActiveNotes) => {
                 <PopoverMenu actions={(
                     props.authStatus && [
                         { name : 'Add New Note', icon : faPlusCircle, type : ACTION_TYPES.NORMAL, callback : () => gotoNewNote() },
+                        (
+                            shouldShowOnlyHighlightedItems && { name : 'All Todos', icon : faGlobe, type : ACTION_TYPES.NORMAL, callback : () => setShouldShowOnlyHighlightedItems(false) }
+                        ) || { name : 'Important Todos', icon : faSun, type : ACTION_TYPES.NORMAL, callback : () => setShouldShowOnlyHighlightedItems(true) },
                         { name : 'Sync Data', icon : faSyncAlt, type : ACTION_TYPES.NORMAL, callback : () => console.log('Sync') }
                     ]) || [
-                    { name : 'Add New Note', icon : faPlusCircle, type : ACTION_TYPES.NORMAL, callback : () => gotoNewNote() }
+                    { name : 'Add New Note', icon : faPlusCircle, type : ACTION_TYPES.NORMAL, callback : () => gotoNewNote() },
+                    (
+                        shouldShowOnlyHighlightedItems && { name : 'All Todos', icon : faGlobe, type : ACTION_TYPES.NORMAL, callback : () => setShouldShowOnlyHighlightedItems(false) }
+                    ) || { name : 'Important Todos', icon : faSun, type : ACTION_TYPES.NORMAL, callback : () => setShouldShowOnlyHighlightedItems(true) }
                 ]} />
             </Popover>
         </>

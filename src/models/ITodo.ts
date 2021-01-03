@@ -14,7 +14,8 @@ interface ITodo extends IThing {
     attachments : Array<IMedia | IFile> | null,
     related : Array<IRelationship> | null,
     doneDate : string | null,
-    doneBy : ICollaborator | null
+    doneBy : ICollaborator | null,
+    deletedOn : string | null
 }
 
 export default ITodo;
@@ -34,7 +35,8 @@ export const EMPTY_TODO : ITodo = {
     attachments : null,
     related : null,
     doneDate : null,
-    doneBy : null
+    doneBy : null,
+    deletedOn : null
 }
 
 export const refineLocalTodos = (things : any) : Array<ITodo> => {

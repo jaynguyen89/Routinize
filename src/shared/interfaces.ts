@@ -3,13 +3,57 @@ import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { IFile, IMedia } from '../models/others';
 import { IRemovalStatus } from '../features/attachments/redux/constants';
 
+export interface ISettingData {
+    collabUnlocked : boolean,
+    dateTimeFormat : string,
+    isPremium : boolean,
+    notesUnlocked : boolean,
+    premiumUntil : boolean,
+    shouldHideAds : boolean,
+    theme : {
+        btnPrimary : {
+            backgroundColor : string,
+            color : string,
+            borderColor : string
+        },
+        btnDisabled : {
+            backgroundColor : string,
+            color : string,
+            borderColor : string
+        },
+        backgroundPrimary : {
+            backgroundColor : string,
+            color : string
+        },
+        backgroundSecondary : {
+            backgroundColor : string,
+            color : string
+        },
+        shadow : string,
+        textFill : { color : string },
+        invert : { backgroundColor : string },
+        danger : {
+            backgroundColor : string,
+            color : string
+        },
+        black : { color : string },
+        border : {
+            borderColor : string,
+            borderWidth : number
+        }
+    },
+    todoUnlocked : boolean,
+    unitSystem : number,
+    unlockedUntil : string | null
+}
+
 export interface IAppDrawer {
     navigation : any,
-    settings : any
+    settings : ISettingData
 }
 
 export interface IButtonGroup {
-    settings? : any,
+    settings : ISettingData,
     vertical? : boolean,
     actions : Array<IDynamicButton>
 }
@@ -22,12 +66,12 @@ export interface IDynamicButton {
 }
 
 export interface IPopoverContent {
-    settings? : any,
+    settings : ISettingData,
     actions : Array<IDynamicButton>
 }
 
 export interface IDTPicker {
-    settings : any,
+    settings : ISettingData,
     date : string | null,
     time : string | null,
     actions : {
@@ -37,11 +81,11 @@ export interface IDTPicker {
 }
 
 export interface IAttachmentsList {
-    settings? : any,
+    settings : ISettingData,
     attachments : Array<IMedia | IFile>
     actions : {
         viewAttachment : any,
-        removeAttachment : (attachmentId : number, segmentIndex? : number) => void
+        removeAttachment : any
     },
     removal : IRemovalStatus,
     segmentIndex? : number
@@ -58,7 +102,7 @@ export interface ITextArea {
 
 export interface IEditor {
     id? : number,
-    settings? : any,
+    settings : ISettingData,
     initialContent : string,
     updateContent : any,
     placeHolder : string,
@@ -69,7 +113,7 @@ export interface IEditor {
 }
 
 export interface IRteDialog {
-    settings? : any,
+    settings : ISettingData,
     type : string,
     actions : {
         done : (url : string, type : string) => void,
@@ -78,18 +122,18 @@ export interface IRteDialog {
 }
 
 export interface IMessage {
-    settings? : any,
+    settings : ISettingData,
     mainMessage : string,
     otherMessage : string
 }
 
 export interface IUrlAttacher {
-    settings? : any,
+    settings : ISettingData,
     getUrl : (url : any) => void
 }
 
 export interface IFlatDTPicker {
-    settings? : any,
+    settings : ISettingData,
     title : string,
     values : {
         minDate : Date,

@@ -1,14 +1,14 @@
 import ITodo from '../../../models/ITodo';
 import { IFile, IMedia } from '../../../models/others';
+import { ISettingData } from '../../../shared/interfaces';
 
 export interface ITodos {
     navigation : any,
     items : Array<ITodo> | null,
     authStatus : boolean,
-    settings : any,
+    settings : ISettingData,
     todoRetrieval : {
-        isRetrieving : false,
-        retrievingSuccess : false,
+        action : string,
         items : null
     },
     deleteTodo : {
@@ -36,7 +36,7 @@ export interface ITodos {
 export interface ITodoCard {
     navigation : any,
     key : string | number,
-    settings : any,
+    settings : ISettingData,
     item : ITodo,
     setTodoDetailItem : (item : ITodo) => void,
     resetAttachmentRemovalStatus : () => void,
@@ -47,10 +47,9 @@ export interface ITodoCard {
 export interface ITodoDetail {
     navigation : any,
     authStatus : boolean,
-    settings? : any,
+    settings : ISettingData,
     item : ITodo,
     newItem : {
-        //isAdding : boolean,
         addingSuccess : boolean,
         itemId : number
     },
@@ -59,8 +58,7 @@ export interface ITodoDetail {
         updateResult : number | object
     },
     getAttachments : {
-        isRetrieving : boolean,
-        retrievingSuccess : boolean,
+        action : string,
         attachments : Array<IMedia | IFile> | null
     },
     atmRemoval : {

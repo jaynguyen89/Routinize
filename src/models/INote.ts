@@ -7,7 +7,8 @@ import IAddress, { ICoordination } from './IAddress';
 import { MEDIA_TYPES } from '../shared/enums';
 
 interface INote extends IThing {
-    segments : Array<INoteSegment>
+    segments : Array<INoteSegment>,
+    deletedOn : string | null
 }
 
 export default INote;
@@ -26,7 +27,8 @@ export const EMPTY_NOTE : INote = {
     emphasized : false,
     title : null,
     segments : new Array<INoteSegment>(_.cloneDeep(EMPTY_SEGMENT)),
-    createdOn : EMPTY_STRING
+    createdOn : EMPTY_STRING,
+    deletedOn : null
 }
 
 export const refineLocalNotes = (things : any) : Array<INote> => {

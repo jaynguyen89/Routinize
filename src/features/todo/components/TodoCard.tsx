@@ -7,7 +7,7 @@ import { Card, Paragraph, Text } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Popover from 'react-native-popover-view/dist/Popover';
 import PopoverContent from '../../../customs/PopoverContent';
-import { ITodoCard } from '../redux/constants';
+import { ITodoCard } from '../redux/interfaces';
 import ITodo from '../../../models/ITodo';
 
 import styles from '../styles';

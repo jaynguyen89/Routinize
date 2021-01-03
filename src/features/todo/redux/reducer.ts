@@ -3,18 +3,21 @@ import produce from "immer";
 import ITodo, { refineLocalTodos } from '../../../models/ITodo';
 import { IFile, IMedia, refineLocalAttachments } from '../../../models/others';
 import { EMPTY_STRING } from '../../../helpers/Constants';
+import {
+    GET_LOCAL_TODO_ATTACHMENTS,
+    GET_LOCAL_TODO_ATTACHMENTS_FAILED,
+    GET_LOCAL_TODO_ATTACHMENTS_SUCCESS
+} from './constants';
 
 interface ITodoStore {
     isPersonal : boolean,
     todoItem : ITodo | null,
     newItem : {
-        //isAdding : boolean,
         addingSuccess : boolean,
         itemId : number
     },
     itemList : {
-        isRetrieving : boolean,
-        retrievingSuccess : boolean,
+        action : string,
         items : Array<ITodo> | null
     },
     updateItem : {
@@ -22,8 +25,7 @@ interface ITodoStore {
         updateResult : number | object
     },
     getAttachments : {
-        isRetrieving : boolean,
-        retrievingSuccess : boolean,
+        action : string,
         attachments : Array<IMedia | IFile> | null
     },
     setDoneOrImportant : {
@@ -52,13 +54,11 @@ const initialState : ITodoStore = {
     isPersonal : true,
     todoItem : null,
     newItem : {
-        //isAdding : false,
         addingSuccess : false,
         itemId : 0
     },
     itemList : {
-        isRetrieving : false,
-        retrievingSuccess : false,
+        action : EMPTY_STRING,
         items : null
     },
     updateItem : {
@@ -66,8 +66,7 @@ const initialState : ITodoStore = {
         updateResult : -99
     },
     getAttachments : {
-        isRetrieving : false,
-        retrievingSuccess : false,
+        action : EMPTY_STRING,
         attachments : null
     },
     setDoneOrImportant : {
@@ -90,30 +89,29 @@ const reducer = produce((state, action) => {
         case todoConstants.GOTO_NEW_TODO_PERSONAL:
             state.isPersonal = action.payload;
             state.todoItem = null;
-            state.getAttachments.isRetrieving = false;
-            state.getAttachments.retrievingSuccess = false;
+
+            state.getAttachments.action = EMPTY_STRING;
             state.getAttachments.attachments = null;
+
             state.setDoneWithDate.action = EMPTY_STRING;
             state.setDoneWithDate.result = null;
             return;
         case todoConstants.SET_TODO_DETAIL_ITEM:
             state.todoItem = action.payload;
+
             state.setDoneWithDate.action = EMPTY_STRING;
             state.setDoneWithDate.result = null;
             return;
         case todoConstants.CREATE_TODO_SUCCESS:
-            //state.newItem.isAdding = false;
             state.newItem.addingSuccess = true;
             state.newItem.item = action.payload;
             return;
         case todoConstants.CREATE_TODO_FAILED:
-            //state.newItem.isAdding = false;
             state.newItem.addingSuccess = false;
             state.newItem.item = null;
             return;
         case todoConstants.GET_ALL_TODOS_LOCAL:
-            state.itemList.isRetrieving = true;
-            state.itemList.retrievingSuccess = false;
+            state.itemList.action = todoConstants.GET_ALL_TODOS_LOCAL;
             state.itemList.items = null;
 
             state.setDoneOrImportant.action = EMPTY_STRING;
@@ -124,8 +122,7 @@ const reducer = produce((state, action) => {
             state.deleteTodo.result = null;
             return;
         case todoConstants.GET_ALL_TODOS_LOCAL_SUCCESS:
-            state.itemList.isRetrieving = false;
-            state.itemList.retrievingSuccess = true;
+            state.itemList.action = todoConstants.GET_ALL_TODOS_LOCAL_SUCCESS;
             state.itemList.items = refineLocalTodos(action.payload);
 
             state.setDoneOrImportant.action = EMPTY_STRING;
@@ -136,8 +133,7 @@ const reducer = produce((state, action) => {
             state.deleteTodo.result = null;
             return;
         case todoConstants.GET_ALL_TODOS_LOCAL_FAILED:
-            state.itemList.isRetrieving = false;
-            state.itemList.retrievingSuccess = false;
+            state.itemList.action = todoConstants.GET_ALL_TODOS_LOCAL_FAILED;
             state.itemList.items = action.error;
 
             state.setDoneOrImportant.action = EMPTY_STRING;
@@ -160,18 +156,15 @@ const reducer = produce((state, action) => {
             state.updateItem.updateResult = action.error;
             return;
         case todoConstants.GET_LOCAL_TODO_ATTACHMENTS:
-            state.getAttachments.isRetrieving = true;
-            state.getAttachments.retrievingSuccess = false;
+            state.getAttachments.action = GET_LOCAL_TODO_ATTACHMENTS;
             state.getAttachments.attachments = null;
             return;
         case todoConstants.GET_LOCAL_TODO_ATTACHMENTS_SUCCESS:
-            state.getAttachments.isRetrieving = false;
-            state.getAttachments.retrievingSuccess = true;
+            state.getAttachments.action = GET_LOCAL_TODO_ATTACHMENTS_SUCCESS;
             state.getAttachments.attachments = refineLocalAttachments(action.payload);
             return;
         case todoConstants.GET_LOCAL_TODO_ATTACHMENTS_FAILED:
-            state.getAttachments.isRetrieving = false;
-            state.getAttachments.retrievingSuccess = false;
+            state.getAttachments.action = GET_LOCAL_TODO_ATTACHMENTS_FAILED;
             state.getAttachments.attachments = action.error;
             return;
         case todoConstants.MARK_LOCAL_TODO_AS_DONE_OR_EMPHASIZED_SUCCESS:
