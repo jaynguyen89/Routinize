@@ -5,35 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ec84dc4e-cb97-40bc-803b-02313ebaa727" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/features/recycle_bin/redux/actions.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/recycle_bin/redux/constants.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/recycle_bin/redux/interfaces.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/recycle_bin/redux/reducer.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/recycle_bin/redux/services.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/recycle_bin/styles.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/root/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/root/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/home/statistics/PersonalStatistics.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/home/upcoming_tasks/PersonalUpcomingTasks.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/home/statistics/SharedStatistics.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/home/upcoming_tasks/SharedUpcomingTasks.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/note/archived/PersonalArchivedNotes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recycle_bin/PersonalRecycleBin.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/note/archived/SharedArchivedNotes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recycle_bin/SharedRecycleBin.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/menuItems/Collaboration.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/menuItems/Collaboration.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/menuItems/MyFocus.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/menuItems/MyFocus.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/menuItems/Notes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/menuItems/Notes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/menuItems/ToDos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/menuItems/ToDos.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/navigators/home/HomeStatisticsTab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/navigators/home/HomeUpcomingTaskTab.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/navigators/home/PersonalStatisticsStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/navigators/home/PersonalUpcomingTaskStack.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/navigators/home/SharedStatisticsStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/navigators/home/SharedUpcomingTaskStack.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/navigators/note/ArchivedNoteTab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/navigators/recycle_bin/RecycleBinTab.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/navigators/note/HighlightedNoteTab.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/navigators/note/PersonalArchivedNotesStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/navigators/recycle_bin/PersonalRecycleBinStack.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/navigators/note/PersonalHighlightedNotesStack.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/navigators/note/SharedArchivedNotesStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/navigators/recycle_bin/SharedRecycleBinStack.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/navigators/note/SharedHighlightedNotesStack.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/navigators/todo/ImportantTodoTab.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/navigators/todo/PersonalImportantTodosStack.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/navigators/todo/SharedImportantTodosStack.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menu/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
