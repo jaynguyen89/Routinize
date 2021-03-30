@@ -97,6 +97,7 @@ CREATE TABLE "todos" (
     "dueDate" TEXT DEFAULT NULL,
     "doneDate" TEXT DEFAULT NULL,
     "doneById" INTEGER DEFAULT NULL,
+    "deletedOn" TEXT DEFAULT NULL,
     PRIMARY KEY("id" AUTOINCREMENT),
     FOREIGN KEY ("userId") REFERENCES "users"("id"),
     FOREIGN KEY ("doneById") REFERENCES "users"("id")
@@ -109,6 +110,7 @@ CREATE TABLE "notes" (
     "emphasized" INTEGER NOT NULL DEFAULT 0,
     "title" TEXT DEFAULT NULL,
     "createdOn" TEXT DEFAULT NULL,
+    "deletedOn" TEXT DEFAULT NULL,
     PRIMARY KEY("id" AUTOINCREMENT),
     FOREIGN KEY ("userId") REFERENCES "users"("id")
 );

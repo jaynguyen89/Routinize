@@ -31,6 +31,15 @@ CREATE TABLE "auth" (
     "timeStamp" TEXT NOT NULL
 );
 
+INSERT INTO "auth" (
+    "email", "sessionId", "authToken", "timeStamp"
+) VALUES (
+             'jay.nguyen@jaydeveloper.com',
+             'BAF1B67D5CE84C18E506C4C89259B2694083A9E7DF0BD29E7D15045B14EE6259',
+             '9C3FAE9D6520BA41AAFC3D7422D89DC838945DFCAB7C3665E76E000C6292D63A2BE4A9171D4994FA5C847CC3B586EDF81F76CF89DF891AAA9464474870B694A0',
+             '1607069809'
+         );
+
 CREATE TABLE "addresses" (
     "id" INTEGER NOT NULL UNIQUE,
     "addressName" TEXT DEFAULT NULL,
@@ -45,6 +54,10 @@ CREATE TABLE "addresses" (
     PRIMARY KEY ("id" AUTOINCREMENT)
 );
 
+INSERT INTO "addresses" (
+    "addressName", "building", "street", "suburb", "postcode", "state", "country", "latitude", "longitude"
+) VALUES ('Home', null, '1/15 Haven Close', 'Sunshine West', '3020', 'VIC', 'Australia', '-37.7931211', '144.8049022');
+
 CREATE TABLE "user" (
     "username" TEXT NOT NULL,
     "avatar" TEXT DEFAULT NULL,
@@ -58,22 +71,9 @@ CREATE TABLE "user" (
     FOREIGN KEY ("addressId") REFERENCES "addresses"("id")
 );
 
-INSERT INTO "auth" (
-    "email", "sessionId", "authToken", "timeStamp"
-) VALUES (
-             'jay.nguyen@jaydeveloper.com',
-             'BAF1B67D5CE84C18E506C4C89259B2694083A9E7DF0BD29E7D15045B14EE6259',
-             '9C3FAE9D6520BA41AAFC3D7422D89DC838945DFCAB7C3665E76E000C6292D63A2BE4A9171D4994FA5C847CC3B586EDF81F76CF89DF891AAA9464474870B694A0',
-             '1607069809'
-         );
-
 INSERT INTO "user" (
     "username", "avatar", "uniqueId", "firstName", "lastName", "shortName", "gender", "phoneNumber"
 ) VALUES ('jay.nguyen', null, '', 'Jay', 'Nguyen', null, 1, '0422 357 488');
-
-INSERT INTO "addresses" (
-    "addressName", "building", "street", "suburb", "postcode", "state", "country", "latitude", "longitude"
-) VALUES ('Home', null, '1/15 Haven Close', 'Sunshine West', '3020', 'VIC', 'Australia', '-37.7931211', '144.8049022');
 
 CREATE TABLE "todos" (
      "id" INTEGER NOT NULL UNIQUE,
