@@ -14,6 +14,10 @@ target 'routinize' do
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
+  pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app'
+
+  pod 'RNFBFirestore', :path => '../node_modules/@react-native-firebase/firestore'
+
   target 'routinizeTests' do
     inherit! :complete
     # Pods for testing

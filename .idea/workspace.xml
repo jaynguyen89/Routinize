@@ -5,8 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ec84dc4e-cb97-40bc-803b-02313ebaa727" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/android/app/google-services.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/assets/routinizeDb.db" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/assets/routinizeDb.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/routinize/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/com/routinize/MainApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/account/components/AccountInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/account/components/AccountInfo.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,7 +53,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.TypeScript" />
-    <property name="ts.external.directory.path" value="D:\Workspace\JSX\routinize\node_modules\typescript\lib" />
+    <property name="ts.external.directory.path" value="D:\Workspace\Routinize\routinize\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -87,6 +96,9 @@
       <workItem from="1609649806738" duration="14546000" />
       <workItem from="1609677932815" duration="6696000" />
       <workItem from="1609685282239" duration="2928000" />
+      <workItem from="1616754670224" duration="2432000" />
+      <workItem from="1616986775881" duration="6061000" />
+      <workItem from="1617068622282" duration="4706000" />
     </task>
     <servers />
   </component>

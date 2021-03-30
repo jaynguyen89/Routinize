@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "780281825639",
+    "project_id": "routinizeclient",
+    "storage_bucket": "routinizeclient.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780281825639:android:941d511f2b58b2bc67c7c2",
+        "android_client_info": {
+          "package_name": "com.routinize"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "780281825639-dkff4ctu2gqaeau5qiqm3narppe687d4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCm6eg37EU8lqu_YFs0t_W_KpwropTHocg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "780281825639-dkff4ctu2gqaeau5qiqm3narppe687d4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
